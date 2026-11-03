@@ -11,6 +11,7 @@
 
 ## Project rules
 - All homepage copy lives in `src/content/site.ts`; sections render from it so text can be edited without touching layout.
+- Base projects and their demo links live in `public.base_projects`, edited at `/admin`; only rows with `is_published` reach the public site.
 - Brand colors/fonts are tokens in `src/styles.css` (`--aru-*`); components use semantic classes only.
 - Admin access = row in `public.user_roles` with role `admin`; public signup is disabled, admins are created in Cloud → Users.
 - Analytics are first-party and anonymous (`analytics_events`: no cookies, IP or user id); tracked clicks use `data-track="label"`.

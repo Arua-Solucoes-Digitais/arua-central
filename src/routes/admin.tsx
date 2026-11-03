@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/site/Shapes";
+import { BaseProjectsEditor } from "@/components/admin/BaseProjectsEditor";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
@@ -25,9 +26,13 @@ export const Route = createFileRoute("/admin")({
 
 function AdminPage() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
+  const [recovering, setRecovering] = useState(false);
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
+    const { data } = supabase.auth.onAuthStateChange((e, s) => {
+      if (e === "PASSWORD_RECOVERY") setRecovering(true);
+      setSession(s);
+    });
     return () => data.subscription.unsubscribe();
   }, []);
 
@@ -40,15 +45,84 @@ function AdminPage() {
         </div>
       </header>
       <main className="mx-auto max-w-5xl px-4 py-10">
-        {session === undefined ? <p>Carregando...</p> : session ? <Dashboard userId={session.user.id} /> : <Login />}
+        {session === undefined ? (
+          <p>Carregando...</p>
+        ) : recovering && session ? (
+          <NewPassword onDone={() => setRecovering(false)} />
+        ) : session ? (
+          <Dashboard userId={session.user.id} />
+        ) : (
+          <Login />
+        )}
       </main>
     </div>
+  );
+}
+
+function NewPassword({ onDone }: { onDone: () => void }) {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const password = String(new FormData(e.currentTarget).get("password"));
+    if (password.length < 10) return setError("Use pelo menos 10 caracteres.");
+    setLoading(true);
+    setError("");
+    const { error } = await supabase.auth.updateUser({ password });
+    setLoading(false);
+    if (error) return setError("Não foi possível alterar a senha. Peça um novo link e tente de novo.");
+    onDone();
+  }
+  return (
+    <form onSubmit={onSubmit} noValidate className="mx-auto grid max-w-sm gap-4 rounded-2xl border border-border bg-card p-8 shadow-soft">
+      <h1 className="text-2xl font-bold text-primary">Criar nova senha</h1>
+      <div className="grid gap-1.5">
+        <Label htmlFor="password">Nova senha</Label>
+        <Input id="password" name="password" type="password" autoComplete="new-password" required />
+      </div>
+      {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
+      <Button type="submit" disabled={loading}>{loading ? "Salvando..." : "Salvar senha"}</Button>
+    </form>
+  );
+}
+
+function ForgotPassword({ onBack }: { onBack: () => void }) {
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    // A resposta é sempre a mesma, para não revelar quais e-mails têm conta.
+    await supabase.auth.resetPasswordForEmail(String(new FormData(e.currentTarget).get("email")), {
+      redirectTo: `${window.location.origin}/admin`,
+    });
+    setLoading(false);
+    setSent(true);
+  }
+  return (
+    <form onSubmit={onSubmit} className="mx-auto grid max-w-sm gap-4 rounded-2xl border border-border bg-card p-8 shadow-soft">
+      <h1 className="text-2xl font-bold text-primary">Recuperar acesso</h1>
+      {sent ? (
+        <p role="status">Se este e-mail tiver acesso, você receberá um link para criar uma nova senha.</p>
+      ) : (
+        <>
+          <div className="grid gap-1.5">
+            <Label htmlFor="email">E-mail</Label>
+            <Input id="email" name="email" type="email" autoComplete="email" required />
+          </div>
+          <Button type="submit" disabled={loading}>{loading ? "Enviando..." : "Enviar link"}</Button>
+        </>
+      )}
+      <Button type="button" variant="outline" onClick={onBack}>Voltar para entrar</Button>
+    </form>
   );
 }
 
 function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [forgot, setForgot] = useState(false);
+  if (forgot) return <ForgotPassword onBack={() => setForgot(false)} />;
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
@@ -74,6 +148,7 @@ function Login() {
       </div>
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
       <Button type="submit" disabled={loading}>{loading ? "Entrando..." : "Entrar"}</Button>
+      <Button type="button" variant="link" onClick={() => setForgot(true)}>Esqueci minha senha</Button>
     </form>
   );
 }
@@ -116,8 +191,10 @@ function Dashboard({ userId }: { userId: string }) {
 
   return (
     <div className="space-y-10">
+      <h1 className="text-3xl font-bold text-primary">Área restrita</h1>
+      <BaseProjectsEditor />
       <section aria-labelledby="stats-title">
-        <h1 id="stats-title" className="mb-4 text-2xl font-bold text-primary">Visitas (últimos 30 dias)</h1>
+        <h2 id="stats-title" className="mb-4 text-2xl font-bold text-primary">Visitas (últimos 30 dias)</h2>
         {stats && (
           <div className="grid gap-4 sm:grid-cols-3">
             <Stat label="Visitas" value={stats.views} />

@@ -1,12 +1,8 @@
 import { Link } from "@tanstack/react-router";
+import { Menu } from "lucide-react";
 import { Logo } from "./Shapes";
-
-const nav = [
-  { href: "#servicos", label: "Serviços" },
-  { href: "#produtos", label: "Produtos" },
-  { href: "#como-trabalhamos", label: "Como trabalhamos" },
-  { href: "#contato", label: "Contato" },
-];
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { navigation } from "@/content/site";
 
 export function SiteHeader() {
   return (
@@ -16,16 +12,33 @@ export function SiteHeader() {
       </a>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link to="/" aria-label="Aruá — início"><Logo /></Link>
-        <nav aria-label="Principal" className="hidden gap-6 text-sm font-medium md:flex">
-          {nav.map((n) => (
-            <a key={n.href} href={n.href} data-track={`menu-${n.label}`} className="text-muted-foreground transition-colors hover:text-primary">
-              {n.label}
-            </a>
-          ))}
-        </nav>
-        <a href="#contato" data-track="menu-cta" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
-          Fale conosco
-        </a>
+        <div className="flex items-center gap-2">
+          <a href="/#contato" data-track="menu-cta" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
+            Fale conosco
+          </a>
+          <Sheet>
+            <SheetTrigger aria-label={navigation.menuLabel} data-track="menu-abrir" className="rounded-md p-2 text-primary transition-colors hover:bg-secondary">
+              <Menu aria-hidden="true" className="h-6 w-6" />
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72">
+              <SheetTitle className="px-4 pt-4 text-primary">{navigation.title}</SheetTitle>
+              <nav aria-label="Principal" className="flex flex-col px-2">
+                {navigation.items.map((n) => (
+                  <SheetClose asChild key={n.href}>
+                    <a href={n.href} data-track={`menu-${n.label}`} className="rounded-md px-2 py-3 font-medium text-primary transition-colors hover:bg-secondary">
+                      {n.label}
+                    </a>
+                  </SheetClose>
+                ))}
+                <SheetClose asChild>
+                  <Link to="/admin" data-track="menu-area-restrita" className="mt-4 border-t border-border px-2 py-3 text-sm text-muted-foreground transition-colors hover:bg-secondary">
+                    {navigation.restricted}
+                  </Link>
+                </SheetClose>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );

@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { hero, services, products, process, contact, brand, values } from "@/content/site";
+import { hero, services, baseProjects, process, contact, values } from "@/content/site";
+import { fetchPublishedBaseProjects } from "@/lib/base-projects";
 import { LogoSymbol, SoftWaves, Swoosh } from "@/components/site/Shapes";
-import { ShieldCheck, Rocket, Handshake, Gem } from "lucide-react";
+import { ShieldCheck, Rocket, Handshake, Gem, ExternalLink } from "lucide-react";
 
 const icons = { shield: ShieldCheck, rocket: Rocket, handshake: Handshake, gem: Gem } as const;
 import { SiteHeader, SiteFooter } from "@/components/site/SiteHeader";
 import { ContactForm } from "@/components/site/ContactForm";
 
 export const Route = createFileRoute("/")({
+  loader: () => fetchPublishedBaseProjects(),
   head: () => ({
     meta: [
       { title: "Aruá — Inovação com harmonia, soluções com propósito" },
@@ -32,6 +34,7 @@ function SectionTitle({ id, title, intro }: { id: string; title: string; intro: 
 }
 
 function Index() {
+  const projects = Route.useLoaderData();
   return (
     <>
       <SiteHeader />
@@ -60,7 +63,7 @@ function Index() {
         </section>
 
         {/* VALORES */}
-        <section aria-labelledby="valores-title" className="bg-primary py-16 text-primary-foreground">
+        <section id="sobre" aria-labelledby="valores-title" className="bg-primary py-16 text-primary-foreground">
           <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 lg:grid-cols-[1fr_1.4fr]">
             <div>
               <h2 id="valores-title" className="text-3xl font-normal leading-tight sm:text-4xl">
@@ -99,21 +102,30 @@ function Index() {
           </div>
         </section>
 
-        {/* PRODUTOS */}
-        <section id="produtos" aria-labelledby="produtos-title" className="py-20">
+        {/* PROJETOS */}
+        <section id="projetos" aria-labelledby="projetos-title" className="py-20">
           <div className="mx-auto max-w-6xl px-4">
-            <SectionTitle id="produtos-title" title={products.title} intro={products.intro} />
-            <ul className="grid gap-6 md:grid-cols-2">
-              {products.items.map((p, i) => (
-                <li key={i} className="flex gap-5 rounded-2xl border border-border p-6">
-                  <span aria-hidden="true" className="h-12 w-12 shrink-0 rounded-full border-4 border-highlight" />
-                  <div>
-                    <h3 className="text-lg font-semibold text-primary">{p.title}</h3>
-                    <p className="mt-2 text-muted-foreground">{p.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <SectionTitle id="projetos-title" title={baseProjects.title} intro={baseProjects.intro} />
+            {projects.length === 0 ? (
+              <p className="text-muted-foreground">{baseProjects.empty}</p>
+            ) : (
+              <ul className="grid gap-6 md:grid-cols-2">
+                {projects.map((p) => (
+                  <li key={p.id} className="flex gap-5 rounded-2xl border border-border p-6">
+                    <span aria-hidden="true" className="h-12 w-12 shrink-0 rounded-full border-4 border-highlight" />
+                    <div>
+                      <h3 className="text-lg font-semibold text-primary">{p.title}</h3>
+                      <p className="mt-2 text-muted-foreground">{p.description}</p>
+                      <a href={p.demo_url} target="_blank" rel="noopener noreferrer" data-track={`demo-${p.title}`} className="mt-4 inline-flex items-center gap-2 font-semibold text-primary underline underline-offset-4">
+                        {baseProjects.demoCta}
+                        <ExternalLink aria-hidden="true" className="h-4 w-4" />
+                        <span className="sr-only">: {p.title} (abre em nova aba)</span>
+                      </a>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
 

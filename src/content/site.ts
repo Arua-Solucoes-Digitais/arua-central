@@ -4,6 +4,20 @@
 // Regra da marca: nada de números, clientes ou depoimentos inventados.
 // =====================================================================
 
+export const navigation = {
+  menuLabel: "Abrir menu",
+  title: "Menu",
+  items: [
+    { href: "/#conteudo", label: "Início" },
+    { href: "/#sobre", label: "Sobre a Aruá" },
+    { href: "/#servicos", label: "Serviços" },
+    { href: "/#projetos", label: "Projetos" },
+    { href: "/#como-trabalhamos", label: "Como trabalhamos" },
+    { href: "/#contato", label: "Contato" },
+  ],
+  restricted: "Área restrita",
+};
+
 export const brand = {
   name: "Aruá",
   slogan: "Inovação com harmonia, soluções com propósito.",
@@ -44,13 +58,12 @@ export const services: { title: string; intro: string; items: Item[] } = {
   ],
 };
 
-export const products: { title: string; intro: string; items: Item[] } = {
-  title: "Produtos",
-  intro: "Soluções prontas da Aruá. (A DEFINIR: substitua pelos produtos reais.)",
-  items: [
-    { title: "Produto 1 — A DEFINIR", description: "Descreva em uma frase para quem é e o que faz." },
-    { title: "Produto 2 — A DEFINIR", description: "Descreva em uma frase para quem é e o que faz." },
-  ],
+// Os projetos em si são cadastrados na Área restrita (/admin), não aqui.
+export const baseProjects = {
+  title: "Projetos",
+  intro: "Soluções-base da Aruá que você pode conhecer em funcionamento.",
+  demoCta: "Ver demonstração",
+  empty: "Em breve, novos projetos por aqui.",
 };
 
 export const process: { title: string; intro: string; steps: Item[] } = {
