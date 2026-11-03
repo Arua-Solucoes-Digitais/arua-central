@@ -1,7 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import type { Session } from "@supabase/supabase-js";
-import { supabase } from "@/integrations/supabase/client";
+import {
+  getCurrentUser,
+  getDashboard,
+  setMessageRead,
+  signIn,
+  signOut,
+} from "@/lib/api";
+import type { AdminMessage as Msg, VisitStats as Stats } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,115 +31,63 @@ export const Route = createFileRoute("/admin")({
 });
 
 function AdminPage() {
-  const [session, setSession] = useState<Session | null | undefined>(undefined);
-  const [recovering, setRecovering] = useState(false);
+  const [email, setEmail] = useState<string | null | undefined>(undefined);
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    const { data } = supabase.auth.onAuthStateChange((e, s) => {
-      if (e === "PASSWORD_RECOVERY") setRecovering(true);
-      setSession(s);
-    });
-    return () => data.subscription.unsubscribe();
+    getCurrentUser()
+      .then((user) => setEmail(user?.email ?? null))
+      .catch(() => setEmail(null));
   }, []);
+
+  async function leave() {
+    await signOut();
+    setEmail(null);
+  }
 
   return (
     <div className="min-h-screen bg-secondary">
       <header className="border-b border-border bg-background">
         <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
           <Link to="/" aria-label="Voltar ao site"><Logo /></Link>
-          {session && <Button variant="outline" onClick={() => supabase.auth.signOut()}>Sair</Button>}
+          {email && <Button variant="outline" onClick={() => void leave()}>Sair</Button>}
         </div>
       </header>
       <main className="mx-auto max-w-5xl px-4 py-10">
-        {session === undefined ? (
+        {email === undefined ? (
           <p>Carregando...</p>
-        ) : recovering && session ? (
-          <NewPassword onDone={() => setRecovering(false)} />
-        ) : session ? (
-          <Dashboard userId={session.user.id} />
+        ) : email ? (
+          <Dashboard onExpired={() => setEmail(null)} />
         ) : (
-          <Login />
+          <Login onDone={setEmail} />
         )}
       </main>
     </div>
   );
 }
 
-function NewPassword({ onDone }: { onDone: () => void }) {
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const password = String(new FormData(e.currentTarget).get("password"));
-    if (password.length < 10) return setError("Use pelo menos 10 caracteres.");
-    setLoading(true);
-    setError("");
-    const { error } = await supabase.auth.updateUser({ password });
-    setLoading(false);
-    if (error) return setError("Não foi possível alterar a senha. Peça um novo link e tente de novo.");
-    onDone();
-  }
-  return (
-    <form onSubmit={onSubmit} noValidate className="mx-auto grid max-w-sm gap-4 rounded-2xl border border-border bg-card p-8 shadow-soft">
-      <h1 className="text-2xl font-bold text-primary">Criar nova senha</h1>
-      <div className="grid gap-1.5">
-        <Label htmlFor="password">Nova senha</Label>
-        <Input id="password" name="password" type="password" autoComplete="new-password" required />
-      </div>
-      {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-      <Button type="submit" disabled={loading}>{loading ? "Salvando..." : "Salvar senha"}</Button>
-    </form>
-  );
-}
-
-function ForgotPassword({ onBack }: { onBack: () => void }) {
-  const [sent, setSent] = useState(false);
-  const [loading, setLoading] = useState(false);
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setLoading(true);
-    // A resposta é sempre a mesma, para não revelar quais e-mails têm conta.
-    await supabase.auth.resetPasswordForEmail(String(new FormData(e.currentTarget).get("email")), {
-      redirectTo: `${window.location.origin}/admin`,
-    });
-    setLoading(false);
-    setSent(true);
-  }
-  return (
-    <form onSubmit={onSubmit} className="mx-auto grid max-w-sm gap-4 rounded-2xl border border-border bg-card p-8 shadow-soft">
-      <h1 className="text-2xl font-bold text-primary">Recuperar acesso</h1>
-      {sent ? (
-        <p role="status">Se este e-mail tiver acesso, você receberá um link para criar uma nova senha.</p>
-      ) : (
-        <>
-          <div className="grid gap-1.5">
-            <Label htmlFor="email">E-mail</Label>
-            <Input id="email" name="email" type="email" autoComplete="email" required />
-          </div>
-          <Button type="submit" disabled={loading}>{loading ? "Enviando..." : "Enviar link"}</Button>
-        </>
-      )}
-      <Button type="button" variant="outline" onClick={onBack}>Voltar para entrar</Button>
-    </form>
-  );
-}
-
-function Login() {
+function Login({ onDone }: { onDone: (email: string) => void }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [forgot, setForgot] = useState(false);
-  if (forgot) return <ForgotPassword onBack={() => setForgot(false)} />;
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     setLoading(true);
     setError("");
-    const { error } = await supabase.auth.signInWithPassword({
-      email: String(fd.get("email")),
-      password: String(fd.get("password")),
-    });
-    setLoading(false);
-    if (error) setError("E-mail ou senha incorretos.");
+    try {
+      const result = await signIn({
+        data: { email: String(fd.get("email")), password: String(fd.get("password")) },
+      });
+      if (result.status === "ok") return onDone(result.email);
+      setError(
+        result.status === "locked"
+          ? "Muitas tentativas. Aguarde 15 minutos ou troque a senha pelo terminal."
+          : "E-mail ou senha incorretos.",
+      );
+    } catch {
+      setError("Não foi possível entrar. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <form onSubmit={onSubmit} className="mx-auto grid max-w-sm gap-4 rounded-2xl border border-border bg-card p-8 shadow-soft">
@@ -148,46 +102,57 @@ function Login() {
       </div>
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
       <Button type="submit" disabled={loading}>{loading ? "Entrando..." : "Entrar"}</Button>
-      <Button type="button" variant="link" onClick={() => setForgot(true)}>Esqueci minha senha</Button>
+      {forgot ? (
+        <p role="status" className="text-sm text-muted-foreground">
+          Para criar ou trocar a senha, rode <code>npm run admin</code> no terminal, dentro da pasta do projeto.
+        </p>
+      ) : (
+        <Button type="button" variant="link" onClick={() => setForgot(true)}>Esqueci minha senha</Button>
+      )}
     </form>
   );
 }
 
-type Msg = { id: string; name: string; email: string; phone: string | null; message: string; read: boolean; created_at: string };
-type Stats = { views: number; clicks: number; mobile: number; topClicks: [string, number][] };
-
-function Dashboard({ userId }: { userId: string }) {
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+function Dashboard({ onExpired }: { onExpired: () => void }) {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
+  const [state, setState] = useState<"loading" | "ready" | "error">("loading");
+  const [actionError, setActionError] = useState("");
 
   async function load() {
-    const { data: role } = await supabase.from("user_roles").select("role").eq("user_id", userId).eq("role", "admin").maybeSingle();
-    if (!role) return setIsAdmin(false);
-    setIsAdmin(true);
-    const { data } = await supabase.from("contact_messages").select("*").order("created_at", { ascending: false });
-    setMsgs((data as Msg[]) ?? []);
-    const since = new Date(Date.now() - 30 * 864e5).toISOString();
-    const { data: ev } = await supabase.from("analytics_events").select("event_type,label,device").gte("created_at", since).limit(1000);
-    const events = ev ?? [];
-    const counts: Record<string, number> = {};
-    events.filter((e) => e.event_type === "click").forEach((e) => (counts[e.label ?? "?"] = (counts[e.label ?? "?"] ?? 0) + 1));
-    setStats({
-      views: events.filter((e) => e.event_type === "pageview").length,
-      clicks: events.filter((e) => e.event_type === "click").length,
-      mobile: events.filter((e) => e.event_type === "pageview" && e.device === "mobile").length,
-      topClicks: Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 5),
-    });
+    try {
+      const data = await getDashboard();
+      setMsgs(data.messages);
+      setStats(data.stats);
+      setState("ready");
+    } catch {
+      // A causa mais comum é a sessão ter vencido; se não for, o aviso aparece aqui.
+      const user = await getCurrentUser().catch(() => undefined);
+      if (user === null) return onExpired();
+      setState("error");
+    }
   }
-  useEffect(() => { void load(); }, [userId]);
+  useEffect(() => { void load(); }, []);
 
   async function toggleRead(m: Msg) {
-    await supabase.from("contact_messages").update({ read: !m.read }).eq("id", m.id);
-    setMsgs((list) => list.map((x) => (x.id === m.id ? { ...x, read: !x.read } : x)));
+    setActionError("");
+    try {
+      await setMessageRead({ data: { id: m.id, read: !m.read } });
+      setMsgs((list) => list.map((x) => (x.id === m.id ? { ...x, read: !x.read } : x)));
+    } catch {
+      setActionError("Não foi possível alterar a mensagem. Tente novamente.");
+    }
   }
 
-  if (isAdmin === null) return <p>Carregando...</p>;
-  if (!isAdmin) return <p role="alert">Esta conta não tem permissão de administrador.</p>;
+  if (state === "loading") return <p>Carregando...</p>;
+  if (state === "error") {
+    return (
+      <div role="alert">
+        <p className="text-destructive">Não foi possível carregar a Área restrita.</p>
+        <Button variant="outline" size="sm" className="mt-2" onClick={() => void load()}>Tentar novamente</Button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-10">
@@ -212,6 +177,7 @@ function Dashboard({ userId }: { userId: string }) {
       </section>
       <section aria-labelledby="msgs-title">
         <h2 id="msgs-title" className="mb-4 text-2xl font-bold text-primary">Mensagens de contato ({msgs.length})</h2>
+        {actionError && <p role="alert" className="mb-4 text-sm text-destructive">{actionError}</p>}
         {msgs.length === 0 && <p className="text-muted-foreground">Nenhuma mensagem ainda.</p>}
         <ul className="space-y-4">
           {msgs.map((m) => (
@@ -222,7 +188,7 @@ function Dashboard({ userId }: { userId: string }) {
               </div>
               <p className="text-sm"><a className="text-accent underline" href={`mailto:${m.email}`}>{m.email}</a>{m.phone ? ` · ${m.phone}` : ""}</p>
               <p className="mt-3 whitespace-pre-wrap">{m.message}</p>
-              <Button variant="outline" size="sm" className="mt-3" onClick={() => toggleRead(m)}>
+              <Button variant="outline" size="sm" className="mt-3" onClick={() => void toggleRead(m)}>
                 {m.read ? "Marcar como não lida" : "Marcar como lida"}
               </Button>
             </li>

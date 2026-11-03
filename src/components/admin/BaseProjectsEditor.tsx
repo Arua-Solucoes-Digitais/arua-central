@@ -15,11 +15,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import type { Tables } from "@/integrations/supabase/types";
-import { supabase } from "@/integrations/supabase/client";
-import { baseProjectSchema } from "@/lib/base-projects";
+import {
+  createBaseProject,
+  deleteBaseProject,
+  listBaseProjects,
+  updateBaseProject,
+} from "@/lib/api";
+import { baseProjectSchema, type BaseProject as Project } from "@/lib/schemas";
 
-type Project = Tables<"base_projects">;
 type LoadState = "loading" | "ready" | "error";
 
 export function BaseProjectsEditor() {
@@ -30,14 +33,12 @@ export function BaseProjectsEditor() {
   const [actionError, setActionError] = useState("");
 
   const load = useCallback(async () => {
-    const { data, error } = await supabase
-      .from("base_projects")
-      .select("*")
-      .order("sort_order")
-      .order("created_at");
-    if (error) return setState("error");
-    setProjects(data);
-    setState("ready");
+    try {
+      setProjects(await listBaseProjects());
+      setState("ready");
+    } catch {
+      setState("error");
+    }
   }, []);
 
   useEffect(() => {
@@ -47,8 +48,11 @@ export function BaseProjectsEditor() {
   async function remove(project: Project) {
     setNotice("");
     setActionError("");
-    const { error } = await supabase.from("base_projects").delete().eq("id", project.id);
-    if (error) return setActionError("Não foi possível excluir. Tente novamente.");
+    try {
+      await deleteBaseProject({ data: { id: project.id } });
+    } catch {
+      return setActionError("Não foi possível excluir. Tente novamente.");
+    }
     setNotice(`"${project.title}" foi excluído.`);
     await load();
   }
@@ -56,11 +60,20 @@ export function BaseProjectsEditor() {
   async function togglePublished(project: Project) {
     setNotice("");
     setActionError("");
-    const { error } = await supabase
-      .from("base_projects")
-      .update({ is_published: !project.is_published })
-      .eq("id", project.id);
-    if (error) return setActionError("Não foi possível alterar a publicação. Tente novamente.");
+    try {
+      await updateBaseProject({
+        data: {
+          id: project.id,
+          title: project.title,
+          description: project.description,
+          demo_url: project.demo_url,
+          sort_order: project.sort_order,
+          is_published: !project.is_published,
+        },
+      });
+    } catch {
+      return setActionError("Não foi possível alterar a publicação. Tente novamente.");
+    }
     setNotice(
       project.is_published
         ? `"${project.title}" saiu do site.`
@@ -235,11 +248,14 @@ function ProjectForm({
     setErrors({});
     setFormError("");
     setSaving(true);
-    const { error } = project
-      ? await supabase.from("base_projects").update(parsed.data).eq("id", project.id)
-      : await supabase.from("base_projects").insert(parsed.data);
+    try {
+      if (project) await updateBaseProject({ data: { ...parsed.data, id: project.id } });
+      else await createBaseProject({ data: parsed.data });
+    } catch {
+      setSaving(false);
+      return setFormError("Não foi possível salvar. Confira os campos e tente novamente.");
+    }
     setSaving(false);
-    if (error) return setFormError("Não foi possível salvar. Confira os campos e tente novamente.");
     await onSaved(`"${parsed.data.title}" foi salvo.`);
   }
 

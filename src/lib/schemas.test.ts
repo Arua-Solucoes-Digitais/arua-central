@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { baseProjectSchema } from "./base-projects";
+import { baseProjectSchema } from "./schemas";
 
 const valid = {
   title: "Projeto",

@@ -1,20 +1,12 @@
 import { useState } from "react";
-import { z } from "zod";
 import { Link } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { contact } from "@/content/site";
-
-const schema = z.object({
-  name: z.string().trim().min(1, "Informe seu nome").max(100),
-  email: z.string().trim().email("E-mail inválido").max(255),
-  phone: z.string().trim().max(30).optional(),
-  message: z.string().trim().min(1, "Escreva sua mensagem").max(2000),
-  consent: z.boolean().refine((v) => v, "É preciso aceitar para enviar"),
-});
+import { sendContactMessage } from "@/lib/api";
+import { contactSchema } from "@/lib/schemas";
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
@@ -23,7 +15,7 @@ export function ContactForm() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const parsed = schema.safeParse({
+    const parsed = contactSchema.safeParse({
       name: fd.get("name"),
       email: fd.get("email"),
       phone: (fd.get("phone") as string) || undefined,
@@ -38,14 +30,11 @@ export function ContactForm() {
     }
     setErrors({});
     setStatus("sending");
-    const { error } = await supabase.from("contact_messages").insert({
-      name: parsed.data.name,
-      email: parsed.data.email,
-      phone: parsed.data.phone ?? null,
-      message: parsed.data.message,
-      consent: true,
-    });
-    if (error) return setStatus("error");
+    try {
+      await sendContactMessage({ data: parsed.data });
+    } catch {
+      return setStatus("error");
+    }
     setStatus("ok");
     (e.target as HTMLFormElement).reset();
   }

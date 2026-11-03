@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { hero, services, baseProjects, process, contact, values } from "@/content/site";
-import { fetchPublishedBaseProjects } from "@/lib/base-projects";
+import { fetchPublishedBaseProjects } from "@/lib/api";
 import { LogoSymbol, SoftWaves, Swoosh } from "@/components/site/Shapes";
 import { ShieldCheck, Rocket, Handshake, Gem, ExternalLink } from "lucide-react";
 
