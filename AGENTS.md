@@ -11,4 +11,4 @@
 - Admin access = row in `users`; there is no public signup, admins are created or reset in the terminal with `npm run admin`.
 - Analytics are first-party and anonymous (`analytics_events`: no cookies, IP or user id); tracked clicks use `data-track="label"`.
 - Static demo (GitHub Pages): `npm run build:demo` swaps `src/lib/api.ts` for `src/demo/api.ts` (sample data from `src/demo/snapshot.json`, no writes). Every new export in `src/lib/api.ts` needs a stand-in there; `src/demo/api.test.ts` enforces it. Never build the snapshot from `data/arua.db`.
-- Real site deploys to a VPS over SSH (`deploy/`, `.github/workflows/deploy.yml`); see `docs/DEPLOYMENT.md`. Production deploys need approval.
+- Real site deploys to a VPS over SSH (`deploy/`, `.github/workflows/deploy.yml`); see `docs/DEPLOYMENT.md`. Production deploys need the typed `PRODUCAO` confirmation and an actor in `PRODUCTION_APPROVERS`. The demo is published to Pages only by manual run with `PUBLICAR`.

@@ -1,7 +1,10 @@
 name: Deploy
 
 # Manual only. Publishes the real site (Node server + SQLite) to the VPS over SSH.
-# Setup and required secrets: docs/DEPLOYMENT.md. "production" waits for approval.
+# Setup and required secrets: docs/DEPLOYMENT.md.
+# Production gate: on a private repo on the free plan GitHub cannot require reviewers,
+# so production needs the typed confirmation below AND an actor listed in the
+# repository variable PRODUCTION_APPROVERS (comma-separated GitHub logins).
 
 on:
   workflow_dispatch:
@@ -16,6 +19,10 @@ on:
         type: choice
         options: [deploy, rollback]
         default: deploy
+      confirm:
+        description: "Production only: type PRODUCAO to confirm"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -25,8 +32,27 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  gate:
+    name: Production gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check confirmation and approver
+        env:
+          TARGET: ${{ inputs.target }}
+          CONFIRM: ${{ inputs.confirm }}
+          ACTOR: ${{ github.actor }}
+          APPROVERS: ${{ vars.PRODUCTION_APPROVERS }}
+        run: |
+          [ "$TARGET" = "production" ] || { echo "staging: no extra gate"; exit 0; }
+          [ "$CONFIRM" = "PRODUCAO" ] || { echo "::error::Produção exige digitar PRODUCAO no campo confirm."; exit 1; }
+          case ",${APPROVERS// /}," in
+            *",$ACTOR,"*) echo "approved by $ACTOR" ;;
+            *) echo "::error::$ACTOR não está em PRODUCTION_APPROVERS. Nada foi publicado."; exit 1 ;;
+          esac
+
   build:
     name: Build and validate
+    needs: gate
     if: inputs.action == 'deploy'
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -52,8 +78,8 @@ jobs:
 
   deploy:
     name: ${{ inputs.action }} → ${{ inputs.target }}
-    needs: build
-    if: always() && (needs.build.result == 'success' || inputs.action == 'rollback')
+    needs: [gate, build]
+    if: always() && needs.gate.result == 'success' && (needs.build.result == 'success' || inputs.action == 'rollback')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
