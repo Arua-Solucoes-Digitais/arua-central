@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { customApps, evolution, process } from "@/content/site";
 import { CheckList, Icon, PageShell, Section } from "@/components/site/Sections";
+import { withBase } from "@/lib/paths";
 
 export const Route = createFileRoute("/aplicacoes")({
   head: () => ({
@@ -84,9 +85,9 @@ function CustomAppsPage() {
           </div>
         </div>
         <a
-          href="/?assunto=orcamento#contato"
+          href={withBase("/?assunto=orcamento#contato")}
           data-track="aplicacoes-orcamento"
-          className="mt-10 inline-block rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+          className="tap mt-10 inline-block rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
         >
           {customApps.cta}
         </a>

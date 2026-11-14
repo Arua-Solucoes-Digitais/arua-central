@@ -6,6 +6,7 @@ import { hospedagensCopy as copy } from "@/content/hospedagens";
 import { getPropertyPage } from "@/lib/api";
 import type { MediaItem } from "@/lib/schemas";
 import { formatPrice, instagramUrl } from "@/lib/whatsapp";
+import { withBase } from "@/lib/paths";
 
 export const Route = createFileRoute("/hospedagens/$slug")({
   loader: async ({ params }) => {
@@ -339,7 +340,7 @@ function Vitrine() {
       </main>
 
       <footer className="border-t border-border px-4 py-6 text-center text-sm text-muted-foreground">
-        <a href="/projetos/arua-hospedagens" className="underline underline-offset-4">
+        <a href={withBase("/projetos/arua-hospedagens")} className="underline underline-offset-4">
           {copy.poweredBy}
         </a>
       </footer>

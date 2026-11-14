@@ -4,6 +4,7 @@ import { SiteFooter, SiteHeader } from "@/components/site/SiteHeader";
 import { baseProjects, environments, portfolio } from "@/content/site";
 import { LiveBadge, liveLink, TestimonialList } from "@/components/site/Sections";
 import { getProjectPage } from "@/lib/api";
+import { withBase } from "@/lib/paths";
 
 const copy = baseProjects.page;
 
@@ -47,7 +48,7 @@ function ProjectPage() {
           </p>
         )}
         <a
-          href="/portfolio"
+          href={withBase("/portfolio")}
           className="text-sm font-medium text-muted-foreground underline underline-offset-4"
         >
           {copy.back}
@@ -58,14 +59,14 @@ function ProjectPage() {
         </p>
         <h1 className="mt-4 text-4xl font-semibold text-primary sm:text-5xl">{project.title}</h1>
         <p className="mt-4 text-lg text-muted-foreground">{project.description}</p>
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           {live && (
             <a
               href={live.url}
               target="_blank"
               rel="noopener noreferrer"
               data-track={`ao-vivo-${project.slug}`}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              className="tap min-h-12 justify-center inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
               {baseProjects.liveCta}
               <ExternalLink aria-hidden="true" className="h-4 w-4" />
@@ -73,19 +74,19 @@ function ProjectPage() {
           )}
           {project.demo_url && (
             <a
-              href={project.demo_url}
+              href={withBase(project.demo_url)}
               {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               data-track={`demo-${project.slug}`}
-              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              className="tap min-h-12 justify-center inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
             >
               {baseProjects.demoCta}
               {isExternal && <ExternalLink aria-hidden="true" className="h-4 w-4" />}
             </a>
           )}
           <a
-            href="/#contato"
+            href={withBase("/#contato")}
             data-track={`contato-${project.slug}`}
-            className="rounded-full border border-primary px-6 py-3 font-semibold text-primary transition-colors hover:bg-secondary"
+            className="tap inline-flex min-h-12 items-center justify-center rounded-full border border-primary px-6 py-3 font-semibold text-primary transition-colors hover:bg-secondary"
           >
             {copy.contactCta}
           </a>

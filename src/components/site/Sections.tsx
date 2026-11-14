@@ -43,7 +43,10 @@ import type {
   PublicTestimonial,
 } from "@/lib/schemas";
 import { instagramUrl } from "@/lib/whatsapp";
+import { withBase } from "@/lib/paths";
+import { Reveal, RevealItem, RevealList } from "./Motion";
 import { SiteFooter, SiteHeader } from "./SiteHeader";
+import { SwipeItem, SwipeRow } from "./SwipeRow";
 
 export const icons = {
   code: Code2,
@@ -67,13 +70,13 @@ export function Icon({ name, className = "h-6 w-6" }: { name: string; className?
 
 export function SectionTitle({ id, title, intro }: { id: string; title: string; intro?: string }) {
   return (
-    <div className="mb-10 max-w-2xl">
+    <Reveal className="mb-8 max-w-2xl md:mb-10">
       <span aria-hidden="true" className="mb-4 block h-1 w-12 rounded-full bg-brand-gradient" />
       <h2 id={id} className="text-3xl font-bold text-primary sm:text-4xl">
         {title}
       </h2>
       {intro && <p className="mt-3 text-lg text-muted-foreground">{intro}</p>}
-    </div>
+    </Reveal>
   );
 }
 
@@ -91,15 +94,15 @@ export function PageShell({
     <>
       <SiteHeader />
       <main id="conteudo">
-        <section className="bg-primary py-14 text-primary-foreground md:py-20">
-          <div className="mx-auto max-w-6xl px-4">
+        <section className="bg-primary py-12 text-primary-foreground md:py-20">
+          <Reveal onMount className="mx-auto max-w-6xl px-4">
             <span
               aria-hidden="true"
               className="mb-4 block h-1 w-12 rounded-full bg-brand-gradient"
             />
             <h1 className="text-4xl font-semibold sm:text-5xl">{title}</h1>
             <p className="mt-4 max-w-2xl text-lg font-light opacity-85">{intro}</p>
-          </div>
+          </Reveal>
         </section>
         {children}
       </main>
@@ -125,7 +128,7 @@ export function Section({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className={`py-16 md:py-20 ${tone === "muted" ? "bg-secondary" : ""}`}
+      className={`py-14 md:py-20 ${tone === "muted" ? "bg-secondary" : ""}`}
     >
       <div className="mx-auto max-w-6xl px-4">
         <SectionTitle id={`${id}-title`} title={title} {...(intro ? { intro } : {})} />
@@ -139,14 +142,14 @@ export function CheckList({ items, columns = 2 }: { items: string[]; columns?: 1
   const grid =
     columns === 3 ? "sm:grid-cols-2 lg:grid-cols-3" : columns === 2 ? "sm:grid-cols-2" : "";
   return (
-    <ul className={`grid gap-3 ${grid}`}>
+    <RevealList className={`grid gap-3 ${grid}`}>
       {items.map((item) => (
-        <li key={item} className="flex gap-3 rounded-xl border border-border bg-card p-4">
+        <RevealItem key={item} className="flex gap-3 rounded-xl border border-border bg-card p-4">
           <Check aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
           <span>{item}</span>
-        </li>
+        </RevealItem>
       ))}
-    </ul>
+    </RevealList>
   );
 }
 
@@ -192,16 +195,23 @@ export function ProjectCard({
 }) {
   const live = liveLink(deployments, project.slug);
   return (
-    <li className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card">
+    <article className="flex w-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-soft transition-transform duration-300 md:hover:-translate-y-1">
       {project.image_id ? (
         <img
-          src={`/media/${project.image_id}`}
+          src={withBase(`/media/${project.image_id}`)}
           alt=""
           loading="lazy"
-          className="aspect-video w-full object-cover"
+          className="aspect-[2/1] w-full object-cover md:aspect-video"
         />
       ) : (
-        <div aria-hidden="true" className="aspect-video w-full bg-brand-gradient" />
+        <div
+          aria-hidden="true"
+          className="flex aspect-[2/1] w-full items-center justify-center bg-brand-gradient md:aspect-video"
+        >
+          <span className="font-display text-6xl font-bold text-primary-foreground/90">
+            {project.title.charAt(0)}
+          </span>
+        </div>
       )}
       <div className="flex flex-1 flex-col p-6">
         <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-muted-foreground">
@@ -238,7 +248,7 @@ export function ProjectCard({
           ) : (
             project.demo_url && (
               <a
-                href={project.demo_url}
+                href={withBase(project.demo_url)}
                 {...linkProps(project.demo_url)}
                 data-track={`demo-${project.slug}`}
                 className="inline-flex items-center gap-2 font-semibold text-primary underline underline-offset-4"
@@ -253,15 +263,15 @@ export function ProjectCard({
           )}
         </div>
       </div>
-    </li>
+    </article>
   );
 }
 
 export function TestimonialList({ items }: { items: PublicTestimonial[] }) {
   return (
-    <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <SwipeRow label="Depoimentos">
       {items.map((t) => (
-        <li key={t.id} className="flex flex-col rounded-2xl border border-border bg-card p-6">
+        <SwipeItem key={t.id} className="flex-col rounded-2xl border border-border bg-card p-6">
           <blockquote className="flex-1 text-lg leading-relaxed text-primary">
             “{t.quote}”
           </blockquote>
@@ -276,19 +286,19 @@ export function TestimonialList({ items }: { items: PublicTestimonial[] }) {
               {t.project_title}
             </Link>
           )}
-        </li>
+        </SwipeItem>
       ))}
-    </ul>
+    </SwipeRow>
   );
 }
 
 export function PlanCards({ compact = false }: { compact?: boolean }) {
   return (
-    <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <SwipeRow label={plans.title} desktop="md:grid-cols-2 lg:grid-cols-4">
       {plans.items.map((plan) => (
-        <li
+        <SwipeItem
           key={plan.id}
-          className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-soft"
+          className="flex-col rounded-2xl border border-border bg-card p-6 shadow-soft"
         >
           <h3 className="text-lg font-semibold text-primary">{plan.name}</h3>
           <p className="mt-3">
@@ -306,17 +316,18 @@ export function PlanCards({ compact = false }: { compact?: boolean }) {
               ))}
             </ul>
           )}
+          {compact && <span aria-hidden="true" className="flex-1" />}
           <a
-            href={`/?assunto=orcamento&plano=${plan.id}#contato`}
+            href={withBase(`/?assunto=orcamento&plano=${plan.id}#contato`)}
             data-track={`plano-${plan.id}`}
-            className="mt-6 rounded-full bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+            className="tap mt-6 rounded-full bg-primary px-4 py-2.5 text-center text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
           >
             {plans.cta}
             <span className="sr-only">: {plan.name}</span>
           </a>
-        </li>
+        </SwipeItem>
       ))}
-    </ul>
+    </SwipeRow>
   );
 }
 
