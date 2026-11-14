@@ -1,8 +1,7 @@
 name: Deploy
 
-# Manual only. Hosting is NOT defined yet (see docs/DEPLOYMENT.md):
-# this workflow builds and validates, then stops safely until a
-# real deploy method is configured for the chosen environment.
+# Manual only. Publishes the real site (Node server + SQLite) to the VPS over SSH.
+# Setup and required secrets: docs/DEPLOYMENT.md. "production" waits for approval.
 
 on:
   workflow_dispatch:
@@ -12,6 +11,11 @@ on:
         type: choice
         options: [staging, production]
         default: staging
+      action:
+        description: "deploy = publish this commit; rollback = go back to the previous release"
+        type: choice
+        options: [deploy, rollback]
+        default: deploy
 
 permissions:
   contents: read
@@ -23,6 +27,7 @@ concurrency:
 jobs:
   build:
     name: Build and validate
+    if: inputs.action == 'deploy'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -36,27 +41,95 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - name: Package release
+        # .output is self-contained; scripts + src/server + src/lib + zod run `arua-admin` and the status check.
+        run: tar -czf release.tgz .output scripts src/server src/lib package.json node_modules/zod
       - uses: actions/upload-artifact@v4
         with:
           name: release-${{ github.sha }}
-          path: .output/
-          include-hidden-files: true
+          path: release.tgz
           retention-days: 30
 
   deploy:
-    name: Deploy to ${{ inputs.target }}
+    name: ${{ inputs.action }} → ${{ inputs.target }}
     needs: build
+    if: always() && (needs.build.result == 'success' || inputs.action == 'rollback')
     runs-on: ubuntu-latest
-    # "production" requires manual approval (GitHub Environment protection).
-    environment: ${{ inputs.target }}
+    timeout-minutes: 10
+    environment:
+      name: ${{ inputs.target }}
+      url: ${{ vars.SITE_URL }}
+    env:
+      DEPLOY_METHOD: ${{ vars.DEPLOY_METHOD }}
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
     steps:
-      - name: Check deploy configuration
+      - name: Check configuration
         env:
-          DEPLOY_METHOD: ${{ vars.DEPLOY_METHOD }}
+          HAS_KEY: ${{ secrets.VPS_SSH_KEY != '' }}
+          HAS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS != '' }}
         run: |
-          if [ -z "$DEPLOY_METHOD" ]; then
-            echo "::error::Hospedagem ainda não definida para '${{ inputs.target }}'. Nada foi publicado. Veja docs/DEPLOYMENT.md."
+          missing=""
+          [ "$DEPLOY_METHOD" = "ssh" ] || missing="$missing DEPLOY_METHOD=ssh(variable)"
+          [ -n "$VPS_HOST" ] || missing="$missing VPS_HOST"
+          [ -n "$VPS_USER" ] || missing="$missing VPS_USER"
+          [ "$HAS_KEY" = "true" ] || missing="$missing VPS_SSH_KEY"
+          [ "$HAS_KNOWN_HOSTS" = "true" ] || missing="$missing VPS_KNOWN_HOSTS"
+          if [ -n "$missing" ]; then
+            echo "::error::Ambiente '${{ inputs.target }}' sem configuração:$missing. Nada foi publicado. Veja docs/DEPLOYMENT.md."
             exit 1
           fi
-          echo "::error::Método '$DEPLOY_METHOD' ainda não implementado neste workflow. Nada foi publicado."
+
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: deploy
+
+      - uses: actions/download-artifact@v4
+        if: inputs.action == 'deploy'
+        with:
+          name: release-${{ github.sha }}
+
+      - name: SSH setup (verified host key)
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy && chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts && chmod 644 ~/.ssh/known_hosts
+          printf 'Host vps\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/id_deploy\n  IdentitiesOnly yes\n  StrictHostKeyChecking yes\n' \
+            "$VPS_HOST" "$VPS_USER" > ~/.ssh/config
+
+      - name: Upload release
+        if: inputs.action == 'deploy'
+        run: |
+          scp -q release.tgz "vps:release-${GITHUB_SHA}.tgz"
+          scp -q deploy/release.sh vps:release.sh
+
+      - name: Install release on the server
+        if: inputs.action == 'deploy'
+        run: ssh vps "bash ~/release.sh '${{ inputs.target }}' ~/release-${GITHUB_SHA}.tgz '${GITHUB_SHA}'"
+
+      - name: Roll back on the server
+        if: inputs.action == 'rollback'
+        run: |
+          scp -q deploy/release.sh vps:release.sh
+          ssh vps "bash ~/release.sh '${{ inputs.target }}' --rollback"
+
+      - name: Public check
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: |
+          if [ -z "$SITE_URL" ]; then echo "::warning::SITE_URL não definida: verificação pública ignorada."; exit 0; fi
+          for i in $(seq 1 10); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$SITE_URL/")
+            echo "$SITE_URL/ -> $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 3
+          done
+          echo "::error::O site não respondeu 200 em $SITE_URL"
           exit 1
+
+      - name: Clean up key
+        if: always()
+        run: rm -f ~/.ssh/id_deploy

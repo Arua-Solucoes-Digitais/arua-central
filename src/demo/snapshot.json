@@ -1,0 +1,139 @@
+{
+  "showcase": {
+    "projects": [
+      {
+        "id": "bf722f07-7d69-4e59-9352-f6e02f437361",
+        "slug": "arua-hospedagens",
+        "title": "Aruá Hospedagens",
+        "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
+        "demo_url": "/hospedagens/demonstracao",
+        "kind": "product",
+        "category": "sistema",
+        "client": "",
+        "image_id": null
+      }
+    ],
+    "deployments": [],
+    "testimonials": []
+  },
+  "projectPages": {
+    "arua-hospedagens": {
+      "id": "bf722f07-7d69-4e59-9352-f6e02f437361",
+      "slug": "arua-hospedagens",
+      "title": "Aruá Hospedagens",
+      "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
+      "problem": "Quem tem uma hospedagem costuma responder às mesmas perguntas várias vezes e recebe pedidos de reserva incompletos, sem datas, sem quantidade de pessoas ou sem saber qual opção o hóspede quer.",
+      "features": [
+        "Página própria com fotos, vídeos, comodidades e localização",
+        "Modalidades como quarto, day use, fim de semana e espaço inteiro",
+        "Pedido de reserva com datas, pessoas e dados de contato",
+        "Mensagem organizada, pronta para enviar pelo WhatsApp",
+        "Painel para editar tudo sem mexer no código"
+      ],
+      "results": [],
+      "demo_url": "/hospedagens/demonstracao",
+      "status": "published",
+      "kind": "product",
+      "category": "sistema",
+      "client": "",
+      "image_id": null,
+      "deployments": [],
+      "testimonials": []
+    }
+  },
+  "propertyPages": {
+    "demonstracao": {
+      "id": "0187df63-b347-476b-9933-58230b6386c7",
+      "slug": "demonstracao",
+      "name": "Sítio Recanto do Ipê (demonstração)",
+      "description": "Este estabelecimento é fictício e existe só para mostrar como a vitrine funciona. Os textos, valores e horários são exemplos e nenhuma reserva será atendida.",
+      "amenities": "Piscina\nChurrasqueira\nWi-Fi\nEstacionamento\nÁrea verde\nAceita animais",
+      "instagram": "",
+      "address": "Endereço de exemplo, Cidade Fictícia (demonstração)",
+      "maps_url": "",
+      "whatsapp": "",
+      "status": "published",
+      "created_at": "2026-11-14T19:52:52.468Z",
+      "updated_at": "2026-11-14T19:52:52.468Z",
+      "is_demo": true,
+      "has_whatsapp": false,
+      "logo": null,
+      "banners": [],
+      "gallery": [],
+      "stays": [
+        {
+          "id": "a2799814-3ef8-4392-967e-c01880cd1761",
+          "name": "Quarto individual",
+          "description": "Quarto reservado, com acesso às áreas comuns.",
+          "capacity": 2,
+          "price_cents": 25000,
+          "billing": "por noite",
+          "rules": "Exemplo: silêncio após as 22h.",
+          "check_in_time": "14:00",
+          "check_out_time": "12:00",
+          "availability": "available",
+          "availability_note": "",
+          "sort_order": 0,
+          "created_at": "2026-11-14T19:52:52.468Z",
+          "updated_at": "2026-11-14T19:52:52.468Z",
+          "allows_same_day": false,
+          "photos": []
+        },
+        {
+          "id": "71fe9bb9-090b-4c39-a182-1614d9dc1658",
+          "name": "Day use",
+          "description": "Um dia inteiro no sítio, sem pernoite.",
+          "capacity": 20,
+          "price_cents": 6000,
+          "billing": "por pessoa",
+          "rules": "Exemplo: crianças até 5 anos não pagam.",
+          "check_in_time": "09:00",
+          "check_out_time": "18:00",
+          "availability": "available",
+          "availability_note": "",
+          "sort_order": 1,
+          "created_at": "2026-11-14T19:52:52.468Z",
+          "updated_at": "2026-11-14T19:52:52.468Z",
+          "allows_same_day": true,
+          "photos": []
+        },
+        {
+          "id": "64159281-3a20-4eb2-841f-e78880059c97",
+          "name": "Fim de semana",
+          "description": "Da sexta-feira ao domingo, no sítio.",
+          "capacity": 8,
+          "price_cents": 120000,
+          "billing": "por pacote",
+          "rules": "Exemplo: mínimo de duas noites.",
+          "check_in_time": "16:00",
+          "check_out_time": "16:00",
+          "availability": "on_request",
+          "availability_note": "Exemplo: confirme a data com o estabelecimento.",
+          "sort_order": 2,
+          "created_at": "2026-11-14T19:52:52.468Z",
+          "updated_at": "2026-11-14T19:52:52.468Z",
+          "allows_same_day": false,
+          "photos": []
+        },
+        {
+          "id": "06d5a3e1-d4d4-40cf-9a87-571afdf39e85",
+          "name": "Sítio inteiro",
+          "description": "Todo o espaço só para o seu grupo.",
+          "capacity": 30,
+          "price_cents": 300000,
+          "billing": "por diária",
+          "rules": "Exemplo: festas somente com aviso prévio.",
+          "check_in_time": "10:00",
+          "check_out_time": "10:00",
+          "availability": "on_request",
+          "availability_note": "Exemplo: sujeito à disponibilidade.",
+          "sort_order": 3,
+          "created_at": "2026-11-14T19:52:52.468Z",
+          "updated_at": "2026-11-14T19:52:52.468Z",
+          "allows_same_day": false,
+          "photos": []
+        }
+      ]
+    }
+  }
+}

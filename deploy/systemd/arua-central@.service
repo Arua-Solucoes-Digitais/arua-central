@@ -1,0 +1,30 @@
+# Aruá Central — one instance per environment: arua-central@production, arua-central@staging
+[Unit]
+Description=Aruá Central (%i)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=arua
+Group=arua
+EnvironmentFile=/srv/arua-central/%i/shared/env
+WorkingDirectory=/srv/arua-central/%i/current
+ExecStart=/usr/local/bin/node --no-warnings .output/server/index.mjs
+Restart=on-failure
+RestartSec=3
+
+# Hardening: the app may write only to its own data folder.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/arua-central/%i/shared
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

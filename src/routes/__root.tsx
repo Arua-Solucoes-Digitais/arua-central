@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 import { useLocation } from "@tanstack/react-router";
 import { track, installClickTracking } from "../lib/analytics";
+import { DEMO_NOTICE, IS_STATIC_DEMO } from "../lib/demo-mode";
 
 import appCss from "../styles.css?url";
 
@@ -108,6 +109,14 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body className="font-sans antialiased">
+        {IS_STATIC_DEMO && (
+          <p
+            role="note"
+            className="bg-primary px-4 py-2 text-center text-sm text-primary-foreground"
+          >
+            {DEMO_NOTICE}
+          </p>
+        )}
         {children}
         <Scripts />
       </body>

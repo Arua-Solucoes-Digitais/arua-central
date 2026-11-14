@@ -1,0 +1,16 @@
+# Checks the "Sistemas no ar" list (npm run status) for one environment.
+[Unit]
+Description=Aruá Central status check (%i)
+
+[Service]
+Type=oneshot
+User=arua
+Group=arua
+EnvironmentFile=/srv/arua-central/%i/shared/env
+WorkingDirectory=/srv/arua-central/%i/current
+ExecStart=/usr/local/bin/node --no-warnings scripts/check-status.ts
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/arua-central/%i/shared

@@ -109,4 +109,14 @@ O site precisa de um servidor Node com **disco permanente**, porque o banco e as
 
 Antes de abrir ao público, troque os textos marcados com "A DEFINIR" e confirme os marcados com "A CONFERIR" em `src/content/site.ts` (WhatsApp, e-mail e endereço ficam ocultos enquanto estiverem vazios). Esse caminho ainda não foi testado em um servidor real.
 
-Situação atual da hospedagem, do GitHub Pages e dos workflows do GitHub Actions: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Para publicar numa VPS com deploy automático (scripts em `deploy/`, workflow **Deploy** com aprovação para produção), siga [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+## Demonstração para clientes
+
+Versão estática, sem servidor, publicada no GitHub Pages a cada push na `main`: https://arua-solucoes-digitais.github.io/arua-central/ — dados de exemplo, formulários e área restrita desativados.
+
+```sh
+npm run build:demo   # gera dist/client
+```
+
+Detalhes em [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).

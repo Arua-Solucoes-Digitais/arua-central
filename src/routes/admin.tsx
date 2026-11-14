@@ -12,6 +12,7 @@ import { PropertiesEditor } from "@/components/admin/PropertiesEditor";
 import { DeploymentsEditor } from "@/components/admin/DeploymentsEditor";
 import { TestimonialsEditor } from "@/components/admin/TestimonialsEditor";
 import { contact } from "@/content/site";
+import { IS_STATIC_DEMO } from "@/lib/demo-mode";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
@@ -57,7 +58,12 @@ function AdminPage() {
         </div>
       </header>
       <main className="mx-auto max-w-5xl px-4 py-10">
-        {email === undefined ? (
+        {IS_STATIC_DEMO ? (
+          <p role="status" className="rounded-xl bg-background p-6">
+            A área restrita não funciona na versão de demonstração. No site real, ela fica neste
+            endereço e só a equipe Aruá entra.
+          </p>
+        ) : email === undefined ? (
           <p>Carregando...</p>
         ) : email ? (
           <Dashboard onExpired={() => setEmail(null)} />
