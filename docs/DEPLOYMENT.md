@@ -2,57 +2,104 @@
 
 Estado real em 2026-11-14. Atualize esta página sempre que algo mudar.
 
-## Resumo
+O site tem **duas formas de publicação**, com objetivos diferentes:
 
-| Item                                    | Situação                                                                                                              |
-| --------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Repositório                             | `Arua-Solucoes-Digitais/arua-central` (**público**, por decisão do dono, para demonstração)                           |
-| Hospedagem de produção                  | **Nenhuma.** O site ainda não está online em servidor algum.                                                          |
-| Domínio                                 | Não definido                                                                                                          |
-| GitHub Pages                            | Ligado no modo "legacy" (branch `local-sem-lovable`, pasta `/`). Ele mostra **só o README**, não o site. Veja abaixo. |
-| CI (`.github/workflows/ci.yml`)         | Roda em todo push e PR: lint, typecheck, testes, build, teste de fumaça e artefato do build                           |
-| Deploy (`.github/workflows/deploy.yml`) | Manual. Valida e gera o pacote, depois **para com erro de propósito** até a hospedagem ser definida                   |
-| Ambientes no GitHub                     | `staging` (sem aprovação) e `production` (aprovação obrigatória)                                                      |
+|                        | Demonstração (GitHub Pages)                                      | Site real (VPS)                                                    |
+| ---------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Para quê               | Mostrar ao cliente, de qualquer lugar                            | Funcionar de verdade: painel, pedidos, contato                     |
+| Endereço               | https://arua-solucoes-digitais.github.io/arua-central/           | Domínio próprio (a definir)                                        |
+| Dados                  | Exemplo, de um banco novo (nunca `data/arua.db`)                 | Banco real no servidor                                             |
+| Formulários e `/admin` | Desativados (aviso na tela)                                      | Funcionam                                                          |
+| Workflow               | `.github/workflows/pages.yml` (automático a cada push na `main`) | `.github/workflows/deploy.yml` (manual, produção com aprovação)    |
+| Custo                  | Grátis                                                           | VPS + domínio (abaixo)                                             |
+| Situação               | Pronto; publica depois do merge na `main`                        | Scripts prontos e testados em simulação; **falta contratar a VPS** |
 
-## O que o site precisa para ir ao ar
+## 1. Demonstração estática (GitHub Pages)
 
-O build gera um **servidor Node** (Nitro `node-server`) que guarda o banco SQLite e as fotos em disco. Por isso:
+`npm run build:demo` gera páginas HTML pré-renderizadas em `dist/client/`:
 
-- Precisa de **Node 22.18+** e **disco permanente** (VPS, ou plataforma com volume persistente).
-- **Não funciona** em hospedagem só de arquivos estáticos (GitHub Pages, hospedagem compartilhada sem Node) nem em Cloudflare Workers.
-- Passo a passo manual: seção "Publicar na internet" do `README.md`.
+- `src/demo/api.ts` substitui `src/lib/api.ts` (plugin no `vite.config.ts`). As leituras vêm de `src/demo/snapshot.json`; nada é gravado.
+- `npm run demo:snapshot` recria o `snapshot.json` a partir de um banco **novo e temporário** (só as migrações). O workflow roda isso antes de cada build.
+- Na demonstração, o pedido de reserva monta o resumo e abre o WhatsApp sem número (a pessoa escolhe o contato); o contato e o `/admin` mostram que estão desativados.
+- O teste `src/demo/api.test.ts` falha se alguma função nova de `src/lib/api.ts` não tiver substituta na demonstração.
 
-### Sobre o GitHub Pages
+Testar localmente: `npm run build:demo` e servir `dist/client` em `/arua-central/` (ex.: copiar para `algum-dir/arua-central` e rodar `python3 -m http.server` em `algum-dir`).
 
-O Pages só serve arquivos estáticos. O painel (`/admin`), os formulários, os pedidos da vitrine e o portfólio dependem do servidor e do banco, então o site completo não roda ali. Para usar o Pages como vitrine de demonstração, seria preciso uma versão estática separada (páginas pré-geradas, sem painel nem formulários). Isso ainda **não existe**.
+**Para ativar:** em Settings → Pages, a origem precisa ser **GitHub Actions** (hoje está em "branch `local-sem-lovable`", que mostra só o README).
 
-## Como o deploy vai funcionar (quando houver hospedagem)
+## 2. Site real na VPS
 
-1. Push ou PR → **CI** valida tudo e guarda o build como artefato.
-2. Alguém dispara **Deploy** manualmente e escolhe `staging` ou `production`.
-3. `production` fica esperando a aprovação de um revisor no GitHub.
-4. A etapa de deploy usa os _secrets_ do ambiente (nunca no código, nunca nos logs).
-5. Rollback: disparar o Deploy de novo num commit anterior (os builds ficam guardados por 30 dias).
+O build gera um **servidor Node** (Nitro `node-server`) que guarda o banco SQLite e as fotos em disco: precisa de Node 22.18+ e **disco permanente**. Não roda em GitHub Pages, hospedagem compartilhada sem Node nem Cloudflare Workers.
 
-Para ativar, falta:
+### Arquitetura no servidor
 
-- [ ] Escolher a hospedagem
-- [ ] Implementar a etapa de deploy para esse provedor em `deploy.yml`
-- [ ] Cadastrar `DEPLOY_METHOD` (variável) e as credenciais (_secrets_) nos ambientes
-- [ ] Configurar disco permanente, proxy HTTPS e `ARUA_TRUST_PROXY=1` no servidor
-- [ ] Rodar `npm run admin` no servidor
-- [ ] Primeiro deploy de produção, **com aprovação**
+```
+Internet → Caddy (HTTPS automático, portas 80/443)
+            ├─ dominio.com.br             → 127.0.0.1:8080  arua-central@production
+            └─ homologacao.dominio.com.br → 127.0.0.1:8081  arua-central@staging
+/srv/arua-central/<ambiente>/
+  releases/<data>-<commit>/   versões instaladas (guarda as 5 últimas)
+  current -> releases/...     versão no ar
+  shared/env                  variáveis do ambiente (chmod 600)
+  shared/data/                banco e uploads (nunca apagados pelo deploy)
+  shared/backups/             cópia do banco antes de cada deploy (15 últimas)
+```
 
-## Variáveis do servidor
+| Arquivo               | Função                                                                                                                                                                                       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `deploy/setup-vps.sh` | Prepara uma VPS Ubuntu 24.04 nova, **uma vez**: Node 22 (binário oficial com checksum), Caddy, firewall, atualizações automáticas, usuário `arua`, pastas, serviços e o comando `arua-admin` |
+| `deploy/release.sh`   | Em cada deploy: backup do banco → troca de versão → reinício → teste em `127.0.0.1` → **volta sozinho** para a versão anterior se o teste falhar                                             |
+| `deploy/systemd/`     | Serviço do site e verificação de "Sistemas no ar" a cada 5 minutos                                                                                                                           |
 
-| Variável           | Uso                                         |
-| ------------------ | ------------------------------------------- |
-| `HOST`, `PORT`     | Endereço e porta                            |
-| `ARUA_DB_PATH`     | Caminho do banco (disco permanente)         |
-| `ARUA_UPLOADS_DIR` | Pasta das fotos e vídeos (disco permanente) |
-| `ARUA_TRUST_PROXY` | `1` só atrás do proxy HTTPS                 |
+**Testado:** o `release.sh` foi exercitado numa simulação local com o servidor real (3 deploys, backup do banco, deploy quebrado com volta automática, 3 rollbacks em sequência, recusa sem versão anterior); o site respondeu 200 em todos os passos. **Não testado:** o `setup-vps.sh` e o workflow de deploy ainda não rodaram numa VPS de verdade.
 
-Nenhuma delas é secreta, mas o **arquivo do banco é**: ele tem dados pessoais e nunca vai para o Git.
+### Passo a passo (quando a VPS existir)
+
+1. Contratar uma VPS com **Ubuntu 24.04 LTS** (1 vCPU e 1–4 GB de RAM bastam).
+2. No computador: gerar a chave só para o deploy
+   `ssh-keygen -t ed25519 -f ~/.ssh/arua_deploy -C github-actions-arua -N ""`
+3. Na VPS, como root:
+   `curl -fsSLO https://raw.githubusercontent.com/Arua-Solucoes-Digitais/arua-central/main/deploy/setup-vps.sh`
+   `bash setup-vps.sh --domain SEU-DOMINIO --staging-domain homologacao.SEU-DOMINIO --deploy-key "$(conteúdo de ~/.ssh/arua_deploy.pub)"`
+4. DNS: apontar os domínios para o IP da VPS (registros A/AAAA). **Feito por você** no painel do domínio.
+5. GitHub → Settings → Environments → `staging` e `production`, em cada um:
+   - _Variables_: `DEPLOY_METHOD=ssh`, `SITE_URL=https://…` (endereço daquele ambiente)
+   - _Secrets_: `VPS_HOST` (IP), `VPS_USER=arua`, `VPS_SSH_KEY` (conteúdo de `~/.ssh/arua_deploy`), `VPS_KNOWN_HOSTS` (saída de `ssh-keyscan -t ed25519 IP-DA-VPS`)
+6. Actions → **Deploy** → `staging` / `deploy`. Conferir o endereço de homologação.
+7. Na VPS: `sudo arua-admin staging` (cria o login).
+8. Actions → **Deploy** → `production` / `deploy` → **aprovar** quando o GitHub pedir. Depois `sudo arua-admin production`.
+
+**Rollback:** Actions → Deploy → ambiente → `rollback` (volta uma versão por vez). O banco **não** é revertido sozinho; se precisar, os backups estão em `shared/backups/`.
+
+### Custo estimado (pesquisado em 2026-11-14, confira no site do provedor)
+
+| Item                                      | Estimativa                                            | Observação                                                     |
+| ----------------------------------------- | ----------------------------------------------------- | -------------------------------------------------------------- |
+| VPS Hostinger KVM 1 (1 vCPU, 4 GB, 50 GB) | ~R$ 25–28/mês em contrato longo; renovação ~R$ 48/mês | Tem data center no Brasil (menor latência para clientes daqui) |
+| VPS Hetzner CX23 (2 vCPU, 4 GB)           | ~€ 5,49/mês + impostos                                | Sem data center no Brasil; disponibilidade varia               |
+| VPS DigitalOcean Basic 1 GB               | ~US$ 6/mês (+20% com backup semanal)                  | Sem data center no Brasil                                      |
+| Domínio `.com.br` (Registro.br)           | ~R$ 40/ano                                            | Se ainda não tiver                                             |
+| GitHub (Actions + Pages)                  | R$ 0                                                  | Repositório público                                            |
+
+Estimativa total: **cerca de R$ 30 a R$ 60 por mês**, conforme provedor, câmbio e período de contrato. Homologação e produção cabem na mesma VPS.
+
+## Proteções
+
+- `main` protegida: só por PR com CI verde; sem force push nem exclusão.
+- Ambiente `production`: aprovação obrigatória e só a partir da `main`.
+- Chaves só em _GitHub Secrets_; host SSH verificado (`known_hosts`), chave restrita (`restrict`) e o usuário de deploy só pode **reiniciar** o próprio serviço.
+- O serviço roda com sistema de arquivos somente leitura, exceto a própria pasta `shared/`.
+
+## Variáveis do servidor (`shared/env`, criado pelo `setup-vps.sh`)
+
+| Variável           | Uso                                              |
+| ------------------ | ------------------------------------------------ |
+| `HOST`, `PORT`     | 127.0.0.1 e 8080 (produção) / 8081 (homologação) |
+| `ARUA_DB_PATH`     | Banco no disco permanente                        |
+| `ARUA_UPLOADS_DIR` | Fotos e vídeos no disco permanente               |
+| `ARUA_TRUST_PROXY` | `1` (atrás do Caddy)                             |
+
+Nenhuma é secreta, mas o **arquivo do banco é**: tem dados pessoais e nunca vai para o Git.
 
 ## Histórico de publicações
 

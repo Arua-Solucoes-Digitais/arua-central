@@ -10,3 +10,5 @@
 - The project runs without external services: data lives in SQLite at `data/arua.db` (never versioned) and browser code reaches it only through server functions in `src/lib/api.ts`, which check permission on every call.
 - Admin access = row in `users`; there is no public signup, admins are created or reset in the terminal with `npm run admin`.
 - Analytics are first-party and anonymous (`analytics_events`: no cookies, IP or user id); tracked clicks use `data-track="label"`.
+- Static demo (GitHub Pages): `npm run build:demo` swaps `src/lib/api.ts` for `src/demo/api.ts` (sample data from `src/demo/snapshot.json`, no writes). Every new export in `src/lib/api.ts` needs a stand-in there; `src/demo/api.test.ts` enforces it. Never build the snapshot from `data/arua.db`.
+- Real site deploys to a VPS over SSH (`deploy/`, `.github/workflows/deploy.yml`); see `docs/DEPLOYMENT.md`. Production deploys need approval.
