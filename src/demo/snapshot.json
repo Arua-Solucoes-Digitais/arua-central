@@ -2,11 +2,22 @@
   "showcase": {
     "projects": [
       {
-        "id": "bf722f07-7d69-4e59-9352-f6e02f437361",
+        "id": "ed8aa0e9-4957-4ae5-9b79-30d50b99c8d3",
         "slug": "arua-hospedagens",
         "title": "Aruá Hospedagens",
         "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
         "demo_url": "/hospedagens/demonstracao",
+        "kind": "product",
+        "category": "sistema",
+        "client": "",
+        "image_id": null
+      },
+      {
+        "id": "f0347333-1846-41f3-946d-75f0e7f25804",
+        "slug": "tlim",
+        "title": "Tlim",
+        "description": "Em desenvolvimento. Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
+        "demo_url": null,
         "kind": "product",
         "category": "sistema",
         "client": "",
@@ -18,7 +29,7 @@
   },
   "projectPages": {
     "arua-hospedagens": {
-      "id": "bf722f07-7d69-4e59-9352-f6e02f437361",
+      "id": "ed8aa0e9-4957-4ae5-9b79-30d50b99c8d3",
       "slug": "arua-hospedagens",
       "title": "Aruá Hospedagens",
       "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
@@ -39,11 +50,34 @@
       "image_id": null,
       "deployments": [],
       "testimonials": []
+    },
+    "tlim": {
+      "id": "f0347333-1846-41f3-946d-75f0e7f25804",
+      "slug": "tlim",
+      "title": "Tlim",
+      "description": "Em desenvolvimento. Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
+      "problem": "Quem vende comida por aplicativo paga comissão em cada pedido, e os pedidos que chegam pelo WhatsApp costumam ser anotados à mão, com erro, demora e retrabalho na cozinha.",
+      "features": [
+        "Cardápio da loja em site próprio, sem comissão por pedido",
+        "Pedido com itens, observações, entrega ou retirada e forma de pagamento",
+        "Impressão automática do pedido na cozinha e no balcão",
+        "Painel para a loja acompanhar e atualizar cada pedido",
+        "Cardápio editável: preços, fotos e itens esgotados"
+      ],
+      "results": [],
+      "demo_url": null,
+      "status": "published",
+      "kind": "product",
+      "category": "sistema",
+      "client": "",
+      "image_id": null,
+      "deployments": [],
+      "testimonials": []
     }
   },
   "propertyPages": {
     "demonstracao": {
-      "id": "0187df63-b347-476b-9933-58230b6386c7",
+      "id": "bb0488ba-2db4-455b-92c1-1fd100615ea4",
       "slug": "demonstracao",
       "name": "Sítio Recanto do Ipê (demonstração)",
       "description": "Este estabelecimento é fictício e existe só para mostrar como a vitrine funciona. Os textos, valores e horários são exemplos e nenhuma reserva será atendida.",
@@ -53,8 +87,8 @@
       "maps_url": "",
       "whatsapp": "",
       "status": "published",
-      "created_at": "2026-11-14T19:52:52.468Z",
-      "updated_at": "2026-11-14T19:52:52.468Z",
+      "created_at": "2026-11-14T20:48:21.513Z",
+      "updated_at": "2026-11-14T20:48:21.513Z",
       "is_demo": true,
       "has_whatsapp": false,
       "logo": null,
@@ -62,7 +96,7 @@
       "gallery": [],
       "stays": [
         {
-          "id": "a2799814-3ef8-4392-967e-c01880cd1761",
+          "id": "89deb5d4-d0ba-43ac-9544-adac45939340",
           "name": "Quarto individual",
           "description": "Quarto reservado, com acesso às áreas comuns.",
           "capacity": 2,
@@ -74,13 +108,13 @@
           "availability": "available",
           "availability_note": "",
           "sort_order": 0,
-          "created_at": "2026-11-14T19:52:52.468Z",
-          "updated_at": "2026-11-14T19:52:52.468Z",
+          "created_at": "2026-11-14T20:48:21.513Z",
+          "updated_at": "2026-11-14T20:48:21.513Z",
           "allows_same_day": false,
           "photos": []
         },
         {
-          "id": "71fe9bb9-090b-4c39-a182-1614d9dc1658",
+          "id": "3c3b079e-a32b-45c5-8d01-6a35b7ee0375",
           "name": "Day use",
           "description": "Um dia inteiro no sítio, sem pernoite.",
           "capacity": 20,
@@ -92,13 +126,13 @@
           "availability": "available",
           "availability_note": "",
           "sort_order": 1,
-          "created_at": "2026-11-14T19:52:52.468Z",
-          "updated_at": "2026-11-14T19:52:52.468Z",
+          "created_at": "2026-11-14T20:48:21.514Z",
+          "updated_at": "2026-11-14T20:48:21.514Z",
           "allows_same_day": true,
           "photos": []
         },
         {
-          "id": "64159281-3a20-4eb2-841f-e78880059c97",
+          "id": "63f4bdc3-b95f-46d1-a633-7b188fa6bd44",
           "name": "Fim de semana",
           "description": "Da sexta-feira ao domingo, no sítio.",
           "capacity": 8,
@@ -110,13 +144,13 @@
           "availability": "on_request",
           "availability_note": "Exemplo: confirme a data com o estabelecimento.",
           "sort_order": 2,
-          "created_at": "2026-11-14T19:52:52.468Z",
-          "updated_at": "2026-11-14T19:52:52.468Z",
+          "created_at": "2026-11-14T20:48:21.514Z",
+          "updated_at": "2026-11-14T20:48:21.514Z",
           "allows_same_day": false,
           "photos": []
         },
         {
-          "id": "06d5a3e1-d4d4-40cf-9a87-571afdf39e85",
+          "id": "2f9a6012-e057-45d3-a86b-681e199b0bae",
           "name": "Sítio inteiro",
           "description": "Todo o espaço só para o seu grupo.",
           "capacity": 30,
@@ -128,8 +162,8 @@
           "availability": "on_request",
           "availability_note": "Exemplo: sujeito à disponibilidade.",
           "sort_order": 3,
-          "created_at": "2026-11-14T19:52:52.468Z",
-          "updated_at": "2026-11-14T19:52:52.468Z",
+          "created_at": "2026-11-14T20:48:21.514Z",
+          "updated_at": "2026-11-14T20:48:21.514Z",
           "allows_same_day": false,
           "photos": []
         }

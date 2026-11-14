@@ -20,6 +20,7 @@ O site tem **duas formas de publicação**, com objetivos diferentes:
 
 - `src/demo/api.ts` substitui `src/lib/api.ts` (plugin no `vite.config.ts`). As leituras vêm de `src/demo/snapshot.json`; nada é gravado.
 - `npm run demo:snapshot` recria o `snapshot.json` a partir de um banco **novo e temporário** (só as migrações). O workflow roda isso antes de cada build.
+- **Projetos na demo:** depois de publicar ou editar um projeto no `/admin` local, rode `npm run demo:export-projects`. Ele grava em `src/demo/projects.json` só os projetos **publicados** e só os campos públicos (sem rascunhos, mensagens, pedidos, usuários ou fotos). Faça o commit desse arquivo e publique a demo.
 - Na demonstração, o pedido de reserva monta o resumo e abre o WhatsApp sem número (a pessoa escolhe o contato); o contato e o `/admin` mostram que estão desativados.
 - O teste `src/demo/api.test.ts` falha se alguma função nova de `src/lib/api.ts` não tiver substituta na demonstração.
 
