@@ -17,6 +17,7 @@
     "test:watch": "vitest",
     "start": "HOST=127.0.0.1 PORT=8080 node .output/server/index.mjs",
     "admin": "node scripts/admin.ts",
+    "status": "node scripts/check-status.ts",
     "typecheck": "tsc --noEmit"
   },
   "overrides": {

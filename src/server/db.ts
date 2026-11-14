@@ -3,11 +3,13 @@
 import { chmodSync, mkdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { DatabaseSync, type SQLInputValue } from "node:sqlite";
+import { migration2 } from "./migration-2.ts";
+import { migration3 } from "./migration-3.ts";
 
 const NOW = `(strftime('%Y-%m-%dT%H:%M:%fZ','now'))`;
 
 // Para mudar a estrutura, acrescente um item ao final; nunca edite um item já usado.
-const MIGRATIONS = [
+export const MIGRATIONS: (string | ((database: DatabaseSync) => void))[] = [
   `
   create table users (
     id text primary key,
@@ -72,6 +74,8 @@ const MIGRATIONS = [
     created_at text not null default ${NOW}
   );
   `,
+  migration2,
+  migration3,
 ];
 
 let db: DatabaseSync | undefined;
@@ -94,7 +98,8 @@ function migrate(database: DatabaseSync) {
   const row = database.prepare("pragma user_version").get() as { user_version: number };
   MIGRATIONS.slice(row.user_version).forEach((sql, index) => {
     transaction(() => {
-      database.exec(sql);
+      if (typeof sql === "string") database.exec(sql);
+      else sql(database);
       database.exec(`pragma user_version = ${row.user_version + index + 1}`);
     });
   });
@@ -132,6 +137,15 @@ export function run(sql: string, ...params: SQLInputValue[]) {
 }
 
 // Usado nos testes, para cada um começar com um banco vazio.
+export function uploadsDir() {
+  if (process.env["ARUA_UPLOADS_DIR"]) return process.env["ARUA_UPLOADS_DIR"];
+  const path = process.env["ARUA_DB_PATH"];
+  return resolve(
+    path && path !== ":memory:" ? dirname(path) : resolve(process.cwd(), "data"),
+    "uploads",
+  );
+}
+
 export function closeDb() {
   db?.close();
   db = undefined;

@@ -1,6 +1,11 @@
 ## Project rules
 - All homepage copy lives in `src/content/site.ts`; sections render from it so text can be edited without touching layout.
-- Base projects and their demo links live in the `base_projects` table, edited at `/admin`; only rows with `is_published` reach the public site.
+- Projects live in the `base_projects` table, edited at `/admin`; only rows with status `published` reach the public site. Never hard-code a product on the homepage.
+- Portfolio: `base_projects.kind` is `product` (Aruá's own, shown on the homepage) or `case` (client work, portfolio only). Live systems live in `deployments`; the public state ("No ar"/"Fora do ar") is always computed from the last automatic check (`npm run status`), never typed by hand.
+- Testimonials and client results must be real: a testimonial is published only with `authorized = 1` (enforced by the database). Never seed or invent them.
+- Aruá Hospedagens: `properties` is the tenant. Every query for stays, media or requests must be scoped by `property_id`, and commercial data belongs in the database, not in code.
+- Publishing means changing a row in the database of that server. Local data never reaches production by itself, so never report something as online without checking the online site.
+- To change the database structure, append to `MIGRATIONS` in `src/server/db.ts`; never edit a migration already used.
 - Brand colors/fonts are tokens in `src/styles.css` (`--aru-*`); components use semantic classes only.
 - The project runs without external services: data lives in SQLite at `data/arua.db` (never versioned) and browser code reaches it only through server functions in `src/lib/api.ts`, which check permission on every call.
 - Admin access = row in `users`; there is no public signup, admins are created or reset in the terminal with `npm run admin`.

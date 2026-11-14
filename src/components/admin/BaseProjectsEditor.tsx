@@ -12,23 +12,40 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   createBaseProject,
   deleteBaseProject,
   listBaseProjects,
   updateBaseProject,
 } from "@/lib/api";
-import { baseProjectSchema, type BaseProject as Project } from "@/lib/schemas";
+import {
+  baseProjectSchema,
+  type BaseProject as Project,
+  type PublicationStatus,
+} from "@/lib/schemas";
+import { portfolio } from "@/content/site";
+import { MediaManager } from "./MediaManager";
+import {
+  SelectField,
+  StatusBadge,
+  STATUS_OPTIONS,
+  TextAreaField,
+  TextField,
+  zodErrors,
+} from "./fields";
 
 type LoadState = "loading" | "ready" | "error";
+
+const STATUS_MESSAGE: Record<PublicationStatus, string> = {
+  published: "foi publicado no site deste servidor",
+  draft: "voltou a ser rascunho e saiu do site",
+  archived: "foi arquivado e saiu do site",
+};
 
 export function BaseProjectsEditor() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [state, setState] = useState<LoadState>("loading");
-  const [editing, setEditing] = useState<Project | "new" | null>(null);
+  const [editing, setEditing] = useState<string | "new" | null>(null);
   const [notice, setNotice] = useState("");
   const [actionError, setActionError] = useState("");
 
@@ -57,30 +74,36 @@ export function BaseProjectsEditor() {
     await load();
   }
 
-  async function togglePublished(project: Project) {
+  async function changeStatus(project: Project, status: PublicationStatus) {
     setNotice("");
     setActionError("");
     try {
-      await updateBaseProject({
+      const result = await updateBaseProject({
         data: {
           id: project.id,
           title: project.title,
+          slug: project.slug,
           description: project.description,
-          demo_url: project.demo_url,
+          problem: project.problem,
+          features: project.features,
+          demo_url: project.demo_url ?? "",
           sort_order: project.sort_order,
-          is_published: !project.is_published,
+          kind: project.kind,
+          category: project.category,
+          client: project.client,
+          results: project.results,
+          status,
         },
       });
+      if (!result.ok) return setActionError(result.message);
     } catch {
       return setActionError("Não foi possível alterar a publicação. Tente novamente.");
     }
-    setNotice(
-      project.is_published
-        ? `"${project.title}" saiu do site.`
-        : `"${project.title}" está no site.`,
-    );
+    setNotice(`"${project.title}" ${STATUS_MESSAGE[status]}.`);
     await load();
   }
+
+  const current = projects.find((p) => p.id === editing) ?? null;
 
   return (
     <section
@@ -90,11 +113,11 @@ export function BaseProjectsEditor() {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 id="projects-title" className="text-2xl font-bold text-primary">
-            Projetos base
+            Projetos
           </h2>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-            Aparecem na seção Projetos do site apenas quando publicados. Use só demonstrações sem
-            dados reais de clientes.
+            Só os publicados aparecem na página inicial. Rascunhos e arquivados ficam visíveis
+            apenas aqui. Use só demonstrações sem dados reais de clientes.
           </p>
         </div>
         {editing === null && (
@@ -123,9 +146,10 @@ export function BaseProjectsEditor() {
 
       {editing !== null && (
         <ProjectForm
-          key={editing === "new" ? "new" : editing.id}
-          project={editing === "new" ? null : editing}
+          key={editing}
+          project={current}
           onCancel={() => setEditing(null)}
+          onReload={load}
           onSaved={async (message) => {
             setEditing(null);
             setNotice(message);
@@ -146,8 +170,7 @@ export function BaseProjectsEditor() {
         )}
         {state === "ready" && projects.length === 0 && editing === null && (
           <p className="text-muted-foreground">
-            Nenhum projeto cadastrado. Use "Adicionar projeto" para incluir o primeiro link de
-            demonstração.
+            Nenhum projeto cadastrado. Use "Adicionar projeto" para incluir o primeiro.
           </p>
         )}
         {state === "ready" && projects.length > 0 && (
@@ -156,31 +179,66 @@ export function BaseProjectsEditor() {
               <li key={p.id} className="flex flex-wrap items-start justify-between gap-4 py-4">
                 <div className="min-w-0 flex-1 basis-64">
                   <p className="font-semibold text-primary">
-                    {p.title}{" "}
-                    <span className="ml-1 rounded-full border border-border px-2 py-0.5 text-xs font-medium text-muted-foreground">
-                      {p.is_published ? "Publicado" : "Rascunho"}
-                    </span>
+                    {p.title} <StatusBadge status={p.status} />
                   </p>
                   <p className="mt-1 text-sm text-muted-foreground">{p.description}</p>
-                  <a
-                    href={p.demo_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-1 inline-flex max-w-full items-center gap-1 text-sm text-primary underline"
-                  >
-                    <span className="truncate">{p.demo_url}</span>
-                    <ExternalLink aria-hidden="true" className="h-3 w-3 shrink-0" />
-                  </a>
+                  <div className="mt-1 flex flex-wrap gap-x-4 text-sm">
+                    <a
+                      href={`/projetos/${p.slug}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-primary underline"
+                    >
+                      {p.status === "published" ? "Ver página" : "Pré-visualizar"}
+                      <ExternalLink aria-hidden="true" className="h-3 w-3" />
+                    </a>
+                    {p.demo_url && (
+                      <a
+                        href={p.demo_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex max-w-full items-center gap-1 text-primary underline"
+                      >
+                        <span className="truncate">{p.demo_url}</span>
+                        <ExternalLink aria-hidden="true" className="h-3 w-3 shrink-0" />
+                      </a>
+                    )}
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" size="sm" onClick={() => void togglePublished(p)}>
-                    {p.is_published ? "Tirar do site" : "Publicar"}
-                  </Button>
+                  {p.status === "published" ? (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      aria-label={`Tirar ${p.title} do site`}
+                      onClick={() => void changeStatus(p, "draft")}
+                    >
+                      Tirar do site
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      aria-label={`Publicar ${p.title}`}
+                      onClick={() => void changeStatus(p, "published")}
+                    >
+                      Publicar
+                    </Button>
+                  )}
+                  {p.status !== "archived" && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      aria-label={`Arquivar ${p.title}`}
+                      onClick={() => void changeStatus(p, "archived")}
+                    >
+                      Arquivar
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     size="sm"
                     aria-label={`Editar ${p.title}`}
-                    onClick={() => setEditing(p)}
+                    onClick={() => setEditing(p.id)}
                   >
                     <Pencil aria-hidden="true" /> Editar
                   </Button>
@@ -194,8 +252,8 @@ export function BaseProjectsEditor() {
                       <AlertDialogHeader>
                         <AlertDialogTitle>Excluir "{p.title}"?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          O projeto sai do painel e do site. Uma cópia dos dados fica no histórico
-                          interno.
+                          O projeto e a imagem dele saem do painel e do site. Se quiser só tirar do
+                          ar, use "Arquivar".
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
@@ -220,10 +278,12 @@ function ProjectForm({
   project,
   onCancel,
   onSaved,
+  onReload,
 }: {
   project: Project | null;
   onCancel: () => void;
   onSaved: (message: string) => Promise<void>;
+  onReload: () => Promise<void>;
 }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState("");
@@ -231,129 +291,173 @@ function ProjectForm({
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const parsed = baseProjectSchema.safeParse({
-      title: fd.get("title"),
-      description: fd.get("description"),
-      demo_url: fd.get("demo_url"),
-      sort_order: fd.get("sort_order"),
-      is_published: fd.get("is_published") === "on",
-    });
-    if (!parsed.success) {
-      const next: Record<string, string> = {};
-      parsed.error.issues.forEach((issue) => (next[String(issue.path[0])] = issue.message));
-      setErrors(next);
-      return;
-    }
+    const parsed = baseProjectSchema.safeParse(Object.fromEntries(new FormData(e.currentTarget)));
+    if (!parsed.success) return setErrors(zodErrors(parsed.error.issues));
     setErrors({});
     setFormError("");
     setSaving(true);
     try {
-      if (project) await updateBaseProject({ data: { ...parsed.data, id: project.id } });
-      else await createBaseProject({ data: parsed.data });
+      const result = project
+        ? await updateBaseProject({ data: { ...parsed.data, id: project.id } })
+        : await createBaseProject({ data: parsed.data });
+      if (!result.ok) return setErrors({ [result.field]: result.message });
+      await onSaved(
+        `"${parsed.data.title}" foi salvo como ${parsed.data.status === "published" ? "publicado" : parsed.data.status === "archived" ? "arquivado" : "rascunho"}.`,
+      );
     } catch {
+      setFormError("Não foi possível salvar. Confira os campos e tente novamente.");
+    } finally {
       setSaving(false);
-      return setFormError("Não foi possível salvar. Confira os campos e tente novamente.");
     }
-    setSaving(false);
-    await onSaved(`"${parsed.data.title}" foi salvo.`);
   }
 
-  const invalid = (id: string) =>
-    errors[id] ? { "aria-invalid": true, "aria-describedby": `${id}-err` } : {};
-  const message = (id: string) =>
-    errors[id] ? (
-      <p id={`${id}-err`} className="text-sm text-destructive">
-        {errors[id]}
-      </p>
-    ) : null;
-
+  const common = { prefix: "project", errors };
   return (
-    <form
-      onSubmit={onSubmit}
-      noValidate
-      className="mt-6 grid gap-4 rounded-xl border border-border bg-secondary p-5"
-    >
-      <h3 className="text-lg font-semibold text-primary">
-        {project ? "Editar projeto" : "Novo projeto"}
-      </h3>
-      <div className="grid gap-1.5">
-        <Label htmlFor="title">Nome *</Label>
-        <Input
-          id="title"
+    <div className="mt-6 grid gap-4 rounded-xl border border-border bg-secondary p-5">
+      <form onSubmit={onSubmit} noValidate className="grid gap-4">
+        <h3 className="text-lg font-semibold text-primary">
+          {project ? "Editar projeto" : "Novo projeto"}
+        </h3>
+        <TextField
+          {...common}
           name="title"
-          defaultValue={project?.title}
+          label="Nome *"
+          value={project?.title ?? ""}
           maxLength={80}
-          {...invalid("title")}
         />
-        {message("title")}
-      </div>
-      <div className="grid gap-1.5">
-        <Label htmlFor="description">Descrição *</Label>
-        <Textarea
-          id="description"
+        <TextField
+          {...common}
+          name="slug"
+          label="Endereço da página"
+          value={project?.slug ?? ""}
+          maxLength={80}
+          hint="Em branco, é criado a partir do nome. Exemplo: arua-hospedagens"
+        />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <SelectField
+            {...common}
+            name="kind"
+            label="Tipo"
+            value={project?.kind ?? "product"}
+            options={Object.entries(portfolio.kinds)}
+            hint="Produto da Aruá aparece na página inicial; case de cliente, só no portfólio."
+          />
+          <SelectField
+            {...common}
+            name="category"
+            label="Categoria no portfólio"
+            value={project?.category ?? "sistema"}
+            options={Object.entries(portfolio.categories)}
+          />
+        </div>
+        <TextField
+          {...common}
+          name="client"
+          label="Cliente"
+          value={project?.client ?? ""}
+          maxLength={120}
+          hint="Só com autorização do cliente. Em branco para produtos da Aruá."
+        />
+        <TextAreaField
+          {...common}
           name="description"
-          defaultValue={project?.description}
-          rows={3}
+          label="Descrição comercial *"
+          value={project?.description ?? ""}
           maxLength={300}
-          {...invalid("description")}
         />
-        {message("description")}
-      </div>
-      <div className="grid gap-4 sm:grid-cols-[1fr_8rem]">
-        <div className="grid gap-1.5">
-          <Label htmlFor="demo_url">Link da demonstração *</Label>
-          <Input
-            id="demo_url"
-            name="demo_url"
-            type="url"
-            inputMode="url"
-            placeholder="https://"
-            defaultValue={project?.demo_url}
-            maxLength={500}
-            {...invalid("demo_url")}
+        <TextAreaField
+          {...common}
+          name="problem"
+          label="Problema que resolve"
+          value={project?.problem ?? ""}
+          maxLength={800}
+        />
+        <TextAreaField
+          {...common}
+          name="features"
+          label="Principais funcionalidades"
+          value={project?.features ?? ""}
+          maxLength={2000}
+          rows={5}
+          hint="Uma por linha."
+        />
+        <TextAreaField
+          {...common}
+          name="results"
+          label="Resultados"
+          value={project?.results ?? ""}
+          maxLength={2000}
+          rows={4}
+          hint="Um por linha. Só resultados reais e comprováveis; nunca estimativas."
+        />
+        <TextField
+          {...common}
+          name="demo_url"
+          label="Link da demonstração"
+          value={project?.demo_url ?? ""}
+          maxLength={500}
+          placeholder="https://"
+          hint="Endereço https:// completo, ou uma página deste site, como /hospedagens/demonstracao."
+        />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <SelectField
+            {...common}
+            name="status"
+            label="Situação"
+            value={project?.status ?? "draft"}
+            options={STATUS_OPTIONS}
           />
-          {message("demo_url")}
-        </div>
-        <div className="grid gap-1.5">
-          <Label htmlFor="sort_order">Ordem</Label>
-          <Input
-            id="sort_order"
+          <TextField
+            {...common}
             name="sort_order"
+            label="Ordem"
             type="number"
-            min={0}
-            max={9999}
-            defaultValue={project?.sort_order ?? 0}
-            {...invalid("sort_order")}
+            value={project?.sort_order ?? 0}
           />
-          {message("sort_order")}
         </div>
-      </div>
-      <div className="flex items-start gap-2">
-        <input
-          id="is_published"
-          name="is_published"
-          type="checkbox"
-          className="mt-1 h-4 w-4 accent-primary"
-          defaultChecked={project?.is_published ?? false}
+        {formError && (
+          <p role="alert" className="text-sm text-destructive">
+            {formError}
+          </p>
+        )}
+        <div className="flex flex-wrap gap-2">
+          <Button type="submit" disabled={saving}>
+            {saving ? "Salvando..." : "Salvar"}
+          </Button>
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancelar
+          </Button>
+        </div>
+      </form>
+      {project ? (
+        <MediaManager
+          title="Imagem de apresentação"
+          hint="JPG, PNG ou WebP, até 8 MB. Uma nova imagem substitui a atual."
+          target="project"
+          targetId={project.id}
+          role="cover"
+          single
+          items={
+            project.image_id
+              ? [
+                  {
+                    id: project.image_id,
+                    role: "cover",
+                    kind: "image",
+                    alt: "",
+                    description: "",
+                    stay_id: null,
+                  },
+                ]
+              : []
+          }
+          onChange={onReload}
         />
-        <Label htmlFor="is_published" className="font-normal leading-snug">
-          Mostrar no site público
-        </Label>
-      </div>
-      {formError && (
-        <p role="alert" className="text-sm text-destructive">
-          {formError}
+      ) : (
+        <p className="text-sm text-muted-foreground">
+          Depois de salvar, use "Editar" para enviar a imagem de apresentação.
         </p>
       )}
-      <div className="flex flex-wrap gap-2">
-        <Button type="submit" disabled={saving}>
-          {saving ? "Salvando..." : "Salvar"}
-        </Button>
-        <Button type="button" variant="outline" onClick={onCancel}>
-          Cancelar
-        </Button>
-      </div>
-    </form>
+    </div>
   );
 }
