@@ -11,7 +11,9 @@ import {
 import { useEffect, type ReactNode } from "react";
 import { useLocation } from "@tanstack/react-router";
 import { track, installClickTracking } from "../lib/analytics";
-import { DEMO_NOTICE, IS_STATIC_DEMO } from "../lib/demo-mode";
+import { DEMO_NOTICE, DEMO_NOTICE_SHORT, IS_STATIC_DEMO } from "../lib/demo-mode";
+import { withBase } from "../lib/paths";
+import { MotionProvider } from "../components/site/Motion";
 
 import appCss from "../styles.css?url";
 
@@ -61,7 +63,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
             Tentar novamente
           </button>
           <a
-            href="/"
+            href={withBase("/")}
             className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
             Voltar ao início
@@ -87,7 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "icon", type: "image/png", href: withBase("/favicon.png") },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -107,14 +109,19 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="pt-BR">
       <head>
         <HeadContent />
+        {/* Sem JavaScript, nada fica escondido esperando a animação. */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
       <body className="font-sans antialiased">
         {IS_STATIC_DEMO && (
           <p
             role="note"
-            className="bg-primary px-4 py-2 text-center text-sm text-primary-foreground"
+            className="bg-primary px-4 py-1.5 text-center text-xs text-primary-foreground sm:py-2 sm:text-sm"
           >
-            {DEMO_NOTICE}
+            <span className="sm:hidden">{DEMO_NOTICE_SHORT}</span>
+            <span className="hidden sm:inline">{DEMO_NOTICE}</span>
           </p>
         )}
         {children}
@@ -132,8 +139,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <MotionProvider>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </MotionProvider>
     </QueryClientProvider>
   );
 }

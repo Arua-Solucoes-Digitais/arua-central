@@ -4,6 +4,7 @@ import { portfolio } from "@/content/site";
 import { fetchShowcase } from "@/lib/api";
 import type { ProjectCategory } from "@/lib/schemas";
 import { PageShell, ProjectCard, Section, TestimonialList } from "@/components/site/Sections";
+import { RevealItem, RevealList } from "@/components/site/Motion";
 
 export const Route = createFileRoute("/portfolio")({
   loader: () => fetchShowcase(),
@@ -35,13 +36,13 @@ function PortfolioPage() {
 
   return (
     <PageShell title={portfolio.title} intro={portfolio.intro}>
-      <section aria-label="Projetos" className="py-16 md:py-20">
+      <section aria-label="Projetos" className="py-12 md:py-20">
         <div className="mx-auto max-w-6xl px-4">
           {categories.length > 1 && (
             <div
               role="group"
               aria-label="Filtrar por categoria"
-              className="mb-8 flex flex-wrap gap-2"
+              className="-mx-4 mb-8 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:px-0 [&::-webkit-scrollbar]:hidden"
             >
               {(["all", ...categories] as Filter[]).map((c) => (
                 <button
@@ -50,7 +51,7 @@ function PortfolioPage() {
                   aria-pressed={filter === c}
                   onClick={() => setFilter(c)}
                   data-track={`portfolio-filtro-${c}`}
-                  className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${filter === c ? "border-primary bg-primary text-primary-foreground" : "border-border text-primary hover:bg-secondary"}`}
+                  className={`tap min-h-11 shrink-0 rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${filter === c ? "border-primary bg-primary text-primary-foreground" : "border-border text-primary hover:bg-secondary"}`}
                 >
                   {c === "all" ? portfolio.all : portfolio.categories[c]}
                 </button>
@@ -60,11 +61,13 @@ function PortfolioPage() {
           {visible.length === 0 ? (
             <p className="text-muted-foreground">{portfolio.empty}</p>
           ) : (
-            <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <RevealList key={filter} onMount className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {visible.map((p) => (
-                <ProjectCard key={p.id} project={p} deployments={deployments} />
+                <RevealItem key={p.id} className="flex">
+                  <ProjectCard project={p} deployments={deployments} />
+                </RevealItem>
               ))}
-            </ul>
+            </RevealList>
           )}
         </div>
       </section>

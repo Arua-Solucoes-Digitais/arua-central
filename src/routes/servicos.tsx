@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { evolution, management, navigation, process, services, technical } from "@/content/site";
 import { CheckList, Icon, PageShell, Section } from "@/components/site/Sections";
+import { withBase } from "@/lib/paths";
 
 export const Route = createFileRoute("/servicos")({
   head: () => ({
@@ -78,9 +79,9 @@ function ServicesPage() {
         <CheckList items={evolution.items} columns={3} />
         <div className="mt-10 flex flex-wrap gap-3">
           <a
-            href="/#contato"
+            href={withBase("/#contato")}
             data-track="servicos-orcamento"
-            className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+            className="tap rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground transition-opacity hover:opacity-90"
           >
             {navigation.cta}
           </a>

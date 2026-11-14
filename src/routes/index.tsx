@@ -15,6 +15,8 @@ import { fetchShowcase } from "@/lib/api";
 import { LogoSymbol, SoftWaves, Swoosh } from "@/components/site/Shapes";
 import { SiteFooter, SiteHeader } from "@/components/site/SiteHeader";
 import { ContactForm } from "@/components/site/ContactForm";
+import { Reveal, RevealItem, RevealList } from "@/components/site/Motion";
+import { SwipeItem, SwipeRow } from "@/components/site/SwipeRow";
 import {
   ContactDetails,
   hasContactDetails,
@@ -68,43 +70,52 @@ function Index() {
         {/* PROPOSTA DE VALOR */}
         <section aria-labelledby="hero-title" className="relative overflow-hidden">
           <SoftWaves />
-          <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-[1.2fr_1fr] md:py-24">
-            <div>
-              <p className="mb-5 text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground">
-                {hero.eyebrow}
-              </p>
-              <h1
-                id="hero-title"
-                className="text-4xl font-semibold leading-tight text-primary sm:text-5xl"
+          <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 pb-12 pt-10 md:grid-cols-[1.2fr_1fr] md:gap-10 md:py-24">
+            <RevealList as="div" onMount>
+              <RevealItem
+                as="div"
+                className="mb-4 text-xs font-medium uppercase tracking-[0.3em] text-muted-foreground md:mb-5"
               >
-                {hero.title}
-              </h1>
-              <p className="mt-5 text-lg font-light text-muted-foreground">{hero.subtitle}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
+                {hero.eyebrow}
+              </RevealItem>
+              <RevealItem as="div">
+                <h1
+                  id="hero-title"
+                  className="text-[2.1rem] font-semibold leading-tight text-primary sm:text-5xl"
+                >
+                  {hero.title}
+                </h1>
+              </RevealItem>
+              <RevealItem as="div">
+                <p className="mt-4 text-lg font-light text-muted-foreground md:mt-5">
+                  {hero.subtitle}
+                </p>
+              </RevealItem>
+              <RevealItem as="div" className="mt-7 flex flex-col gap-3 sm:flex-row md:mt-8">
                 <a
                   href="#contato"
                   data-track="hero-orcamento"
-                  className="rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-soft transition-opacity hover:opacity-90"
+                  className="tap flex min-h-12 items-center justify-center rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-soft transition-opacity hover:opacity-90"
                 >
                   {hero.primaryCta}
                 </a>
                 <Link
                   to="/portfolio"
                   data-track="hero-portfolio"
-                  className="rounded-full border border-border bg-background px-6 py-3 font-semibold text-primary transition-colors hover:bg-secondary"
+                  className="tap flex min-h-12 items-center justify-center rounded-full border border-border bg-background px-6 py-3 font-semibold text-primary transition-colors hover:bg-secondary"
                 >
                   {hero.secondaryCta}
                 </Link>
-              </div>
-            </div>
-            <div className="flex flex-col items-center gap-8">
-              <LogoSymbol className="w-56 max-w-full sm:w-72" />
-              <p className="text-center text-2xl font-light italic leading-snug text-primary">
+              </RevealItem>
+            </RevealList>
+            <Reveal onMount delay={0.35} className="flex flex-col items-center gap-5 md:gap-8">
+              <LogoSymbol className="w-32 max-w-full sm:w-56 md:w-72" />
+              <p className="text-center text-xl font-light italic leading-snug text-primary md:text-2xl">
                 Inovação com harmonia, soluções com{" "}
                 <strong className="font-semibold text-accent">propósito.</strong>
-                <Swoosh className="mx-auto mt-2 w-48" />
+                <Swoosh className="mx-auto mt-2 w-40 md:w-48" />
               </p>
-            </div>
+            </Reveal>
           </div>
         </section>
 
@@ -112,10 +123,10 @@ function Index() {
         <section
           id="sobre"
           aria-labelledby="valores-title"
-          className="bg-primary py-16 text-primary-foreground"
+          className="bg-primary py-14 text-primary-foreground md:py-16"
         >
           <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 lg:grid-cols-[1fr_1.4fr]">
-            <div>
+            <Reveal>
               <h2 id="valores-title" className="text-3xl font-normal leading-tight sm:text-4xl">
                 {values.title}
                 <br />
@@ -123,38 +134,44 @@ function Index() {
               </h2>
               <span aria-hidden="true" className="my-5 block h-0.5 w-20 bg-accent" />
               <p className="font-light opacity-85">{values.text}</p>
-            </div>
-            <ul className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:divide-x sm:divide-primary-foreground/15">
+            </Reveal>
+            <RevealList className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:divide-x sm:divide-primary-foreground/15">
               {values.items.map((v) => {
                 const ValueIcon = valueIcons[v.icon as keyof typeof valueIcons];
                 return (
-                  <li key={v.title} className="flex flex-col items-center gap-3 px-2 text-center">
+                  <RevealItem
+                    key={v.title}
+                    className="flex flex-col items-center gap-3 px-2 text-center"
+                  >
                     <ValueIcon aria-hidden="true" className="h-10 w-10" strokeWidth={1.4} />
                     <p className="text-sm">
                       {v.title}
                       <br />
                       <span className="opacity-80">{v.subtitle}</span>
                     </p>
-                  </li>
+                  </RevealItem>
                 );
               })}
-            </ul>
+            </RevealList>
           </div>
         </section>
 
         {/* DESTAQUES DOS SERVIÇOS */}
         <Section id="servicos" title={services.title} intro={services.intro} tone="muted">
-          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <SwipeRow label={services.title} desktop="md:grid-cols-2 lg:grid-cols-4">
             {services.groups.map((s) => (
-              <li key={s.id} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
+              <SwipeItem
+                key={s.id}
+                className="flex-col rounded-2xl border border-border bg-card p-6 shadow-soft"
+              >
                 <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-brand-gradient text-primary-foreground">
                   <Icon name={s.icon} className="h-6 w-6" />
                 </span>
                 <h3 className="text-lg font-semibold text-primary">{s.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{s.description}</p>
-              </li>
+              </SwipeItem>
             ))}
-          </ul>
+          </SwipeRow>
           <Link
             to="/servicos"
             data-track="home-servicos"
@@ -169,11 +186,13 @@ function Index() {
           {products.length === 0 ? (
             <p className="text-muted-foreground">{baseProjects.empty}</p>
           ) : (
-            <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <SwipeRow label={baseProjects.title}>
               {products.map((p) => (
-                <ProjectCard key={p.id} project={p} deployments={deployments} />
+                <SwipeItem key={p.id}>
+                  <ProjectCard project={p} deployments={deployments} />
+                </SwipeItem>
               ))}
-            </ul>
+            </SwipeRow>
           )}
           <Link
             to="/portfolio"
@@ -208,36 +227,52 @@ function Index() {
         <section
           id="como-trabalhamos"
           aria-labelledby="processo-title"
-          className="bg-primary py-20 text-primary-foreground"
+          className="bg-primary py-14 text-primary-foreground md:py-20"
         >
           <div className="mx-auto max-w-6xl px-4">
-            <span
-              aria-hidden="true"
-              className="mb-4 block h-1 w-12 rounded-full bg-brand-gradient"
-            />
-            <h2 id="processo-title" className="text-3xl font-bold sm:text-4xl">
-              {process.title}
-            </h2>
-            <p className="mt-3 max-w-2xl text-lg opacity-80">{process.intro}</p>
-            <ol className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-              {process.steps.map((s, i) => (
-                <li key={s.title} className="rounded-2xl border border-primary-foreground/15 p-6">
-                  <span className="font-display text-3xl font-bold text-highlight">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mt-3 text-lg font-semibold">{s.title}</h3>
-                  <p className="mt-2 text-sm opacity-80">{s.description}</p>
-                </li>
-              ))}
-            </ol>
+            <Reveal>
+              <span
+                aria-hidden="true"
+                className="mb-4 block h-1 w-12 rounded-full bg-brand-gradient"
+              />
+              <h2 id="processo-title" className="text-3xl font-bold sm:text-4xl">
+                {process.title}
+              </h2>
+              <p className="mt-3 max-w-2xl text-lg opacity-80">{process.intro}</p>
+            </Reveal>
+            <div className="mt-8 md:mt-10">
+              <SwipeRow
+                label={process.title}
+                as="ol"
+                tone="dark"
+                desktop="md:grid-cols-2 lg:grid-cols-5"
+              >
+                {process.steps.map((s, i) => (
+                  <SwipeItem
+                    key={s.title}
+                    className="flex-col rounded-2xl border border-primary-foreground/15 p-6"
+                  >
+                    <span className="font-display text-3xl font-bold text-highlight">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="mt-3 text-lg font-semibold">{s.title}</h3>
+                    <p className="mt-2 text-sm opacity-80">{s.description}</p>
+                  </SwipeItem>
+                ))}
+              </SwipeRow>
+            </div>
             <p className="mt-8 font-medium text-highlight">{process.deadline}</p>
           </div>
         </section>
 
         {/* CONTATO */}
-        <section id="contato" aria-labelledby="contato-title" className="py-20">
+        <section
+          id="contato"
+          aria-labelledby="contato-title"
+          className="scroll-mt-20 py-14 md:py-20"
+        >
           <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-[1.5fr_1fr]">
-            <div>
+            <Reveal>
               <span
                 aria-hidden="true"
                 className="mb-4 block h-1 w-12 rounded-full bg-brand-gradient"
@@ -247,7 +282,7 @@ function Index() {
               </h2>
               <p className="mb-8 mt-3 text-lg text-muted-foreground">{contact.intro}</p>
               <ContactForm />
-            </div>
+            </Reveal>
             <ContactAside />
           </div>
         </section>

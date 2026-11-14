@@ -22,6 +22,14 @@ export const navigation = {
   cta: "Solicitar orçamento",
 };
 
+// Botão flutuante de contato (aparece depois de rolar a página e some perto do formulário).
+// Com WhatsApp preenchido em contactInfo, abre a conversa; sem ele, leva ao formulário.
+export const floatingContact = {
+  whatsappLabel: "Conversar no WhatsApp",
+  whatsappMessage: "Olá! Vim pelo site da Aruá e quero conversar sobre um projeto.",
+  quoteLabel: "Pedir orçamento",
+};
+
 export const brand = {
   name: "Aruá",
   subtitle: "Soluções Digitais",
