@@ -108,3 +108,5 @@ O site precisa de um servidor Node com **disco permanente**, porque o banco e as
 | `ARUA_TRUST_PROXY` | Use `1` só atrás do seu proxy: libera o cookie seguro e o limite de envios por visitante | desligado |
 
 Antes de abrir ao público, troque os textos marcados com "A DEFINIR" e confirme os marcados com "A CONFERIR" em `src/content/site.ts` (WhatsApp, e-mail e endereço ficam ocultos enquanto estiverem vazios). Esse caminho ainda não foi testado em um servidor real.
+
+Situação atual da hospedagem, do GitHub Pages e dos workflows do GitHub Actions: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).

@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [main, local-sem-lovable]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Minimum supported version (package.json "engines"); node:sqlite needs >= 22.18.
+          node-version: "22.18"
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Smoke test (temporary database, never data/)
+        env:
+          ARUA_DB_PATH: ${{ runner.temp }}/smoke/arua.db
+          ARUA_UPLOADS_DIR: ${{ runner.temp }}/smoke/uploads
+          HOST: 127.0.0.1
+          PORT: "8099"
+        run: |
+          node .output/server/index.mjs > "$RUNNER_TEMP/server.log" 2>&1 &
+          PID=$!
+          for i in $(seq 1 40); do
+            curl -s -o /dev/null "http://127.0.0.1:$PORT/" && break
+            sleep 0.5
+          done
+          fail=0
+          for path in / /servicos /planos /portfolio /suporte /status /privacidade /admin; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://127.0.0.1:$PORT$path")
+            echo "$path -> $code"
+            [ "$code" = "200" ] || fail=1
+          done
+          kill "$PID" || true
+          if [ "$fail" = "1" ]; then cat "$RUNNER_TEMP/server.log"; exit 1; fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: arua-central-build-${{ github.sha }}
+          path: .output/
+          include-hidden-files: true
+          retention-days: 14

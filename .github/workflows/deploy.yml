@@ -1,0 +1,62 @@
+name: Deploy
+
+# Manual only. Hosting is NOT defined yet (see docs/DEPLOYMENT.md):
+# this workflow builds and validates, then stops safely until a
+# real deploy method is configured for the chosen environment.
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Environment"
+        type: choice
+        options: [staging, production]
+        default: staging
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.18"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ github.sha }}
+          path: .output/
+          include-hidden-files: true
+          retention-days: 30
+
+  deploy:
+    name: Deploy to ${{ inputs.target }}
+    needs: build
+    runs-on: ubuntu-latest
+    # "production" requires manual approval (GitHub Environment protection).
+    environment: ${{ inputs.target }}
+    steps:
+      - name: Check deploy configuration
+        env:
+          DEPLOY_METHOD: ${{ vars.DEPLOY_METHOD }}
+        run: |
+          if [ -z "$DEPLOY_METHOD" ]; then
+            echo "::error::Hospedagem ainda não definida para '${{ inputs.target }}'. Nada foi publicado. Veja docs/DEPLOYMENT.md."
+            exit 1
+          fi
+          echo "::error::Método '$DEPLOY_METHOD' ainda não implementado neste workflow. Nada foi publicado."
+          exit 1
