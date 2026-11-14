@@ -36,5 +36,5 @@ dist-ssr
 .env.*
 !.env.example
 
-# O bun.lock é o lockfile de referência do Lovable; o do npm fica só local
-package-lock.json
+# Banco local: guarda dados pessoais e nunca vai para o Git
+data/

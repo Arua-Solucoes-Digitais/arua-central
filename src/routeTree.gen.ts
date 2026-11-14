@@ -11,7 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AplicacoesRouteImport } from './routes/aplicacoes'
+import { Route as PlanosRouteImport } from './routes/planos'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
+import { Route as ServicosRouteImport } from './routes/servicos'
+import { Route as StatusRouteImport } from './routes/status'
+import { Route as SuporteRouteImport } from './routes/suporte'
+import { Route as ApiUploadRouteImport } from './routes/api.upload'
+import { Route as HospedagensSlugRouteImport } from './routes/hospedagens.$slug'
+import { Route as MediaIdRouteImport } from './routes/media.$id'
+import { Route as ProjetosSlugRouteImport } from './routes/projetos.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +33,170 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AplicacoesRoute = AplicacoesRouteImport.update({
+  id: '/aplicacoes',
+  path: '/aplicacoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlanosRoute = PlanosRouteImport.update({
+  id: '/planos',
+  path: '/planos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacidadeRoute = PrivacidadeRouteImport.update({
   id: '/privacidade',
   path: '/privacidade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicosRoute = ServicosRouteImport.update({
+  id: '/servicos',
+  path: '/servicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatusRoute = StatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuporteRoute = SuporteRouteImport.update({
+  id: '/suporte',
+  path: '/suporte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiUploadRoute = ApiUploadRouteImport.update({
+  id: '/api/upload',
+  path: '/api/upload',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HospedagensSlugRoute = HospedagensSlugRouteImport.update({
+  id: '/hospedagens/$slug',
+  path: '/hospedagens/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MediaIdRoute = MediaIdRouteImport.update({
+  id: '/media/$id',
+  path: '/media/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjetosSlugRoute = ProjetosSlugRouteImport.update({
+  id: '/projetos/$slug',
+  path: '/projetos/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/aplicacoes': typeof AplicacoesRoute
+  '/planos': typeof PlanosRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/servicos': typeof ServicosRoute
+  '/status': typeof StatusRoute
+  '/suporte': typeof SuporteRoute
+  '/api/upload': typeof ApiUploadRoute
+  '/hospedagens/$slug': typeof HospedagensSlugRoute
+  '/media/$id': typeof MediaIdRoute
+  '/projetos/$slug': typeof ProjetosSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/aplicacoes': typeof AplicacoesRoute
+  '/planos': typeof PlanosRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/servicos': typeof ServicosRoute
+  '/status': typeof StatusRoute
+  '/suporte': typeof SuporteRoute
+  '/api/upload': typeof ApiUploadRoute
+  '/hospedagens/$slug': typeof HospedagensSlugRoute
+  '/media/$id': typeof MediaIdRoute
+  '/projetos/$slug': typeof ProjetosSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/aplicacoes': typeof AplicacoesRoute
+  '/planos': typeof PlanosRoute
+  '/portfolio': typeof PortfolioRoute
   '/privacidade': typeof PrivacidadeRoute
+  '/servicos': typeof ServicosRoute
+  '/status': typeof StatusRoute
+  '/suporte': typeof SuporteRoute
+  '/api/upload': typeof ApiUploadRoute
+  '/hospedagens/$slug': typeof HospedagensSlugRoute
+  '/media/$id': typeof MediaIdRoute
+  '/projetos/$slug': typeof ProjetosSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/privacidade'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/aplicacoes'
+    | '/planos'
+    | '/portfolio'
+    | '/privacidade'
+    | '/servicos'
+    | '/status'
+    | '/suporte'
+    | '/api/upload'
+    | '/hospedagens/$slug'
+    | '/media/$id'
+    | '/projetos/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/privacidade'
-  id: '__root__' | '/' | '/admin' | '/privacidade'
+  to:
+    | '/'
+    | '/admin'
+    | '/aplicacoes'
+    | '/planos'
+    | '/portfolio'
+    | '/privacidade'
+    | '/servicos'
+    | '/status'
+    | '/suporte'
+    | '/api/upload'
+    | '/hospedagens/$slug'
+    | '/media/$id'
+    | '/projetos/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/aplicacoes'
+    | '/planos'
+    | '/portfolio'
+    | '/privacidade'
+    | '/servicos'
+    | '/status'
+    | '/suporte'
+    | '/api/upload'
+    | '/hospedagens/$slug'
+    | '/media/$id'
+    | '/projetos/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  AplicacoesRoute: typeof AplicacoesRoute
+  PlanosRoute: typeof PlanosRoute
+  PortfolioRoute: typeof PortfolioRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
+  ServicosRoute: typeof ServicosRoute
+  StatusRoute: typeof StatusRoute
+  SuporteRoute: typeof SuporteRoute
+  ApiUploadRoute: typeof ApiUploadRoute
+  HospedagensSlugRoute: typeof HospedagensSlugRoute
+  MediaIdRoute: typeof MediaIdRoute
+  ProjetosSlugRoute: typeof ProjetosSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,11 +215,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aplicacoes': {
+      id: '/aplicacoes'
+      path: '/aplicacoes'
+      fullPath: '/aplicacoes'
+      preLoaderRoute: typeof AplicacoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/planos': {
+      id: '/planos'
+      path: '/planos'
+      fullPath: '/planos'
+      preLoaderRoute: typeof PlanosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacidade': {
       id: '/privacidade'
       path: '/privacidade'
       fullPath: '/privacidade'
       preLoaderRoute: typeof PrivacidadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicos': {
+      id: '/servicos'
+      path: '/servicos'
+      fullPath: '/servicos'
+      preLoaderRoute: typeof ServicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/status': {
+      id: '/status'
+      path: '/status'
+      fullPath: '/status'
+      preLoaderRoute: typeof StatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/suporte': {
+      id: '/suporte'
+      path: '/suporte'
+      fullPath: '/suporte'
+      preLoaderRoute: typeof SuporteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/upload': {
+      id: '/api/upload'
+      path: '/api/upload'
+      fullPath: '/api/upload'
+      preLoaderRoute: typeof ApiUploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hospedagens/$slug': {
+      id: '/hospedagens/$slug'
+      path: '/hospedagens/$slug'
+      fullPath: '/hospedagens/$slug'
+      preLoaderRoute: typeof HospedagensSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/media/$id': {
+      id: '/media/$id'
+      path: '/media/$id'
+      fullPath: '/media/$id'
+      preLoaderRoute: typeof MediaIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projetos/$slug': {
+      id: '/projetos/$slug'
+      path: '/projetos/$slug'
+      fullPath: '/projetos/$slug'
+      preLoaderRoute: typeof ProjetosSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -88,7 +298,17 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  AplicacoesRoute: AplicacoesRoute,
+  PlanosRoute: PlanosRoute,
+  PortfolioRoute: PortfolioRoute,
   PrivacidadeRoute: PrivacidadeRoute,
+  ServicosRoute: ServicosRoute,
+  StatusRoute: StatusRoute,
+  SuporteRoute: SuporteRoute,
+  ApiUploadRoute: ApiUploadRoute,
+  HospedagensSlugRoute: HospedagensSlugRoute,
+  MediaIdRoute: MediaIdRoute,
+  ProjetosSlugRoute: ProjetosSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
