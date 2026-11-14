@@ -1,0 +1,14 @@
+[
+  {
+    "slug": "tlim",
+    "title": "Tlim",
+    "description": "Em desenvolvimento. Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
+    "problem": "Quem vende comida por aplicativo paga comissão em cada pedido, e os pedidos que chegam pelo WhatsApp costumam ser anotados à mão, com erro, demora e retrabalho na cozinha.",
+    "features": "Cardápio da loja em site próprio, sem comissão por pedido\nPedido com itens, observações, entrega ou retirada e forma de pagamento\nImpressão automática do pedido na cozinha e no balcão\nPainel para a loja acompanhar e atualizar cada pedido\nCardápio editável: preços, fotos e itens esgotados",
+    "kind": "product",
+    "category": "sistema",
+    "client": "",
+    "results": "",
+    "sort_order": 10
+  }
+]

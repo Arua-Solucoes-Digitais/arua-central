@@ -20,6 +20,7 @@
     "admin": "node scripts/admin.ts",
     "status": "node scripts/check-status.ts",
     "demo:snapshot": "node scripts/demo-snapshot.ts",
+    "demo:export-projects": "node scripts/demo-export-projects.ts",
     "typecheck": "tsc --noEmit"
   },
   "overrides": {

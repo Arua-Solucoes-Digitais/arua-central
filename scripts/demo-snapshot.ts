@@ -1,9 +1,11 @@
 // Gera src/demo/snapshot.json para a demonstração estática (GitHub Pages): npm run demo:snapshot
-// Usa SEMPRE um banco novo e temporário, criado só com as migrações. Nunca lê data/arua.db,
-// então nenhum dado de cliente, mensagem ou pedido entra na demonstração.
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+// Usa SEMPRE um banco novo e temporário, criado pelas migrações, mais os projetos publicados de
+// src/demo/projects.json. Nunca lê data/arua.db, então nenhum dado de cliente, mensagem ou pedido
+// entra na demonstração.
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { randomUUID } from "node:crypto";
 
 const dir = mkdtempSync(join(tmpdir(), "arua-demo-"));
 process.env["ARUA_DB_PATH"] = join(dir, "demo.db");
@@ -13,10 +15,46 @@ const db = await import("../src/server/db.ts");
 const store = await import("../src/server/store.ts");
 const deployments = await import("../src/server/deployments.ts");
 const hospedagens = await import("../src/server/hospedagens.ts");
+const { slugify } = await import("../src/lib/slug.ts");
+// Projetos publicados exportados do painel (npm run demo:export-projects), só campos públicos.
+type ExportedProject = {
+  slug: string;
+  title: string;
+  description: string;
+  problem: string;
+  features: string;
+  kind: string;
+  category: string;
+  client: string;
+  results: string;
+  sort_order: number;
+};
+const exported = JSON.parse(readFileSync("src/demo/projects.json", "utf8")) as ExportedProject[];
 
 try {
   // Na demonstração o produto da própria Aruá aparece como publicado (no banco novo ele nasce rascunho).
   db.run("update base_projects set status = 'published' where slug = 'arua-hospedagens'");
+  for (const p of exported) {
+    if (db.get("select id from base_projects where slug = ?", p.slug)) continue;
+    db.run(
+      `insert into base_projects
+         (id, slug, title, title_key, description, problem, features, status, sort_order,
+          kind, category, client, results, published_at)
+       values (?, ?, ?, ?, ?, ?, ?, 'published', ?, ?, ?, ?, ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'))`,
+      randomUUID(),
+      p.slug,
+      p.title,
+      slugify(p.title),
+      p.description,
+      p.problem,
+      p.features,
+      p.sort_order,
+      p.kind,
+      p.category,
+      p.client,
+      p.results,
+    );
+  }
 
   const projects = store.listPublishedProjects();
   const projectPages = Object.fromEntries(
