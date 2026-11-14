@@ -1,3 +1,5 @@
+// @vitest-environment node
+// The route tree imports server code (node:sqlite); under jsdom, Node 22 cannot resolve that built-in.
 import { QueryClient } from "@tanstack/react-query";
 import { createRouter, rootRouteId } from "@tanstack/react-router";
 import { describe, expect, it } from "vitest";
