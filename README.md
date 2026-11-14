@@ -113,7 +113,7 @@ Para publicar numa VPS com deploy automático (scripts em `deploy/`, workflow **
 
 ## Demonstração para clientes
 
-Versão estática, sem servidor, publicada no GitHub Pages a cada push na `main`: https://arua-solucoes-digitais.github.io/arua-central/ — dados de exemplo, formulários e área restrita desativados.
+Versão estática, sem servidor, com dados de exemplo e formulários e área restrita desativados. Cada push na `main` gera a demonstração como artefato para conferir; a publicação no GitHub Pages é **manual** (ainda não publicada: exige repositório público ou plano pago).
 
 ```sh
 npm run build:demo   # gera dist/client

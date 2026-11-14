@@ -4,15 +4,15 @@ Estado real em 2026-11-14. Atualize esta página sempre que algo mudar.
 
 O site tem **duas formas de publicação**, com objetivos diferentes:
 
-|                        | Demonstração (GitHub Pages)                                      | Site real (VPS)                                                    |
-| ---------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------ |
-| Para quê               | Mostrar ao cliente, de qualquer lugar                            | Funcionar de verdade: painel, pedidos, contato                     |
-| Endereço               | https://arua-solucoes-digitais.github.io/arua-central/           | Domínio próprio (a definir)                                        |
-| Dados                  | Exemplo, de um banco novo (nunca `data/arua.db`)                 | Banco real no servidor                                             |
-| Formulários e `/admin` | Desativados (aviso na tela)                                      | Funcionam                                                          |
-| Workflow               | `.github/workflows/pages.yml` (automático a cada push na `main`) | `.github/workflows/deploy.yml` (manual, produção com aprovação)    |
-| Custo                  | Grátis                                                           | VPS + domínio (abaixo)                                             |
-| Situação               | Pronto; publica depois do merge na `main`                        | Scripts prontos e testados em simulação; **falta contratar a VPS** |
+|                        | Demonstração (GitHub Pages)                                         | Site real (VPS)                                                    |
+| ---------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Para quê               | Mostrar ao cliente, de qualquer lugar                               | Funcionar de verdade: painel, pedidos, contato                     |
+| Endereço               | https://arua-solucoes-digitais.github.io/arua-central/              | Domínio próprio (a definir)                                        |
+| Dados                  | Exemplo, de um banco novo (nunca `data/arua.db`)                    | Banco real no servidor                                             |
+| Formulários e `/admin` | Desativados (aviso na tela)                                         | Funcionam                                                          |
+| Workflow               | `pages.yml`: gera a cada push na `main`; **publica só manualmente** | `.github/workflows/deploy.yml` (manual, produção com aprovação)    |
+| Custo                  | Grátis                                                              | VPS + domínio (abaixo)                                             |
+| Situação               | Gerada e conferida; **não publicada** (repo privado, ver abaixo)    | Scripts prontos e testados em simulação; **falta contratar a VPS** |
 
 ## 1. Demonstração estática (GitHub Pages)
 
@@ -25,7 +25,11 @@ O site tem **duas formas de publicação**, com objetivos diferentes:
 
 Testar localmente: `npm run build:demo` e servir `dist/client` em `/arua-central/` (ex.: copiar para `algum-dir/arua-central` e rodar `python3 -m http.server` em `algum-dir`).
 
-**Para ativar:** em Settings → Pages, a origem precisa ser **GitHub Actions** (hoje está em "branch `local-sem-lovable`", que mostra só o README).
+**Publicação manual e só com autorização.** Um push na `main` apenas gera a demonstração e a guarda como artefato `demo-site-<commit>` (14 dias) em Actions, para conferir. Para publicar: Actions → _Demo (GitHub Pages)_ → _Run workflow_ → digitar `PUBLICAR`.
+
+**Bloqueio atual:** o repositório está **privado** e a organização está no plano **gratuito**: nesse caso o GitHub não oferece Pages. Para publicar é preciso (a) tornar o repositório público, (b) assinar GitHub Team, ou (c) publicar a pasta gerada em outro serviço estático. Depois disso, em Settings → Pages, a origem precisa ser **GitHub Actions**, e o ambiente `github-pages` precisa aceitar a branch `main` (hoje aceita só `local-sem-lovable`).
+
+**Conferir antes de publicar:** baixe o artefato `demo-site-<commit>` em Actions, extraia numa pasta `algum-dir/arua-central/` e rode `python3 -m http.server` dentro de `algum-dir`; abra `http://127.0.0.1:8000/arua-central/`.
 
 ## 2. Site real na VPS
 
@@ -67,7 +71,7 @@ Internet → Caddy (HTTPS automático, portas 80/443)
    - _Secrets_: `VPS_HOST` (IP), `VPS_USER=arua`, `VPS_SSH_KEY` (conteúdo de `~/.ssh/arua_deploy`), `VPS_KNOWN_HOSTS` (saída de `ssh-keyscan -t ed25519 IP-DA-VPS`)
 6. Actions → **Deploy** → `staging` / `deploy`. Conferir o endereço de homologação.
 7. Na VPS: `sudo arua-admin staging` (cria o login).
-8. Actions → **Deploy** → `production` / `deploy` → **aprovar** quando o GitHub pedir. Depois `sudo arua-admin production`.
+8. Actions → **Deploy** → `production` / `deploy` → no campo _confirm_ digite `PRODUCAO` (só quem estiver na variável `PRODUCTION_APPROVERS` consegue). Depois `sudo arua-admin production`.
 
 **Rollback:** Actions → Deploy → ambiente → `rollback` (volta uma versão por vez). O banco **não** é revertido sozinho; se precisar, os backups estão em `shared/backups/`.
 
@@ -79,14 +83,16 @@ Internet → Caddy (HTTPS automático, portas 80/443)
 | VPS Hetzner CX23 (2 vCPU, 4 GB)           | ~€ 5,49/mês + impostos                                | Sem data center no Brasil; disponibilidade varia               |
 | VPS DigitalOcean Basic 1 GB               | ~US$ 6/mês (+20% com backup semanal)                  | Sem data center no Brasil                                      |
 | Domínio `.com.br` (Registro.br)           | ~R$ 40/ano                                            | Se ainda não tiver                                             |
-| GitHub (Actions + Pages)                  | R$ 0                                                  | Repositório público                                            |
+| GitHub (Actions + Pages)                  | R$ 0                                                  | Pages exige repositório público ou plano pago                  |
 
 Estimativa total: **cerca de R$ 30 a R$ 60 por mês**, conforme provedor, câmbio e período de contrato. Homologação e produção cabem na mesma VPS.
 
 ## Proteções
 
-- `main` protegida: só por PR com CI verde; sem force push nem exclusão.
-- Ambiente `production`: aprovação obrigatória e só a partir da `main`.
+- **Repositório privado no plano gratuito:** o GitHub não aplica proteção de branch nem revisor obrigatório em ambientes. As regras configuradas antes (PR + CI na `main`, aprovação em `production`) **deixaram de valer**.
+- Produção protegida no próprio workflow: job _Production gate_ exige digitar `PRODUCAO` e que quem disparou esteja na variável de repositório `PRODUCTION_APPROVERS`. Sem essa variável, nenhum deploy de produção passa.
+- Ambiente `production`: só a partir da `main` (regra de branch, ainda ativa).
+- Na `main`, por combinação da equipe: mudanças só por PR com CI verde, sem force push nem exclusão de branch.
 - Chaves só em _GitHub Secrets_; host SSH verificado (`known_hosts`), chave restrita (`restrict`) e o usuário de deploy só pode **reiniciar** o próprio serviço.
 - O serviço roda com sistema de arquivos somente leitura, exceto a própria pasta `shared/`.
 
