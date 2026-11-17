@@ -42,7 +42,7 @@ export const rogerinhoBurguers: ClientDemo = {
     summary:
       "A loja já tem reputação construída no Google, identidade visual marcante e um caminho de pedido funcionando. As oportunidades estão na consistência das informações entre os canais, na atualização do Instagram e no cardápio online.",
     projectStatus:
-      "Proposta: piloto de 60 dias, de graça, para aprender juntos e colher resultados. Aguardando aprovação do proprietário; nenhum serviço aprovado registrado.",
+      "Proposta: piloto de 60 dias para aprender juntos e colher resultados. Aguardando aprovação do proprietário; nenhum serviço aprovado registrado.",
     projectStatusDate: PROPOSAL_DATE,
     strengths: [
       {
@@ -621,7 +621,7 @@ export const rogerinhoBurguers: ClientDemo = {
       state: "depende-autorizacao",
     },
     {
-      title: "Aprovação do piloto gratuito de 60 dias",
+      title: "Aprovação do piloto de 60 dias",
       detail: "Datas de início e fim do piloto, aprovadas pelo proprietário.",
       state: "depende-autorizacao",
     },
@@ -692,9 +692,6 @@ export const rogerinhoBurguers: ClientDemo = {
       { title: "Reputação no Google", description: "Responder e incentivar avaliações." },
       { title: "Análise periódica", description: "Leitura mensal da presença digital." },
     ],
-    proposalValue: "De graça",
-    proposalPurpose:
-      "Um piloto de 60 dias para aprender juntos e colher resultados. Ao final, olhamos o que o período mostrou e decidimos juntos os próximos passos.",
     proposalStatus:
       "Proposta apresentada em 17/11/2026, aguardando aprovação do proprietário. As datas do piloto dependem dessa aprovação.",
   },
@@ -757,11 +754,11 @@ export const rogerinhoBurguers: ClientDemo = {
     },
     "proposta-e-estrategia": {
       represents:
-        "A proposta da Aruá (piloto gratuito), os pilares do trabalho e a lógica do acompanhamento.",
+        "A proposta da Aruá (piloto de 60 dias), os pilares do trabalho e a lógica do acompanhamento.",
       problem: "Sem estratégia explícita, o cliente compara só preço e quantidade de posts.",
       howAruaUses: "Apresentamos os pilares e decidimos a continuidade com base no período.",
       whatIsReal:
-        "Pilares e plano por mês vêm do diagnóstico de 31/10/2026. O valor (de graça) é o da proposta apresentada em 17/11/2026.",
+        "Pilares e plano por mês vêm do diagnóstico de 31/10/2026; a situação da proposta, de 17/11/2026.",
     },
   },
 };

@@ -1,8 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { CheckCircle2, ExternalLink } from "lucide-react";
 import { SiteFooter, SiteHeader } from "@/components/site/SiteHeader";
-import { baseProjects, environments, portfolio } from "@/content/site";
-import { LiveBadge, liveLink, TestimonialList } from "@/components/site/Sections";
+import { baseProjects, COMING_SOON, environments, portfolio } from "@/content/site";
+import { ComingSoonBadge, LiveBadge, liveLink, TestimonialList } from "@/components/site/Sections";
+import { isComingSoon } from "@/lib/coming-soon";
 import { getProjectPage } from "@/lib/api";
 import { withBase } from "@/lib/paths";
 
@@ -57,6 +58,11 @@ function ProjectPage() {
           {portfolio.kinds[project.kind]} · {portfolio.categories[project.category]}
           {project.client && ` · ${copy.client}: ${project.client}`}
         </p>
+        {isComingSoon(project, live) && (
+          <p className="mt-4">
+            <ComingSoonBadge label={COMING_SOON} />
+          </p>
+        )}
         <h1 className="mt-4 text-4xl font-semibold text-primary sm:text-5xl">{project.title}</h1>
         <p className="mt-4 text-lg text-muted-foreground">{project.description}</p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

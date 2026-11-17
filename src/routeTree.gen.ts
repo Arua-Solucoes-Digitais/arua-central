@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AplicacoesRouteImport } from './routes/aplicacoes'
+import { Route as AreaDoClienteRouteImport } from './routes/area-do-cliente'
 import { Route as PlanosRouteImport } from './routes/planos'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as PrivacidadeRouteImport } from './routes/privacidade'
@@ -21,7 +22,6 @@ import { Route as SuporteRouteImport } from './routes/suporte'
 import { Route as ApiUploadRouteImport } from './routes/api.upload'
 import { Route as DemonstracoesIndexRouteImport } from './routes/demonstracoes.index'
 import { Route as DemonstracoesClientRouteImport } from './routes/demonstracoes.$client'
-import { Route as DemonstracoesEncantoDaMataRouteImport } from './routes/demonstracoes.encanto-da-mata'
 import { Route as HospedagensSlugRouteImport } from './routes/hospedagens.$slug'
 import { Route as MediaIdRouteImport } from './routes/media.$id'
 import { Route as ProjetosSlugRouteImport } from './routes/projetos.$slug'
@@ -41,6 +41,11 @@ const AdminRoute = AdminRouteImport.update({
 const AplicacoesRoute = AplicacoesRouteImport.update({
   id: '/aplicacoes',
   path: '/aplicacoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AreaDoClienteRoute = AreaDoClienteRouteImport.update({
+  id: '/area-do-cliente',
+  path: '/area-do-cliente',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlanosRoute = PlanosRouteImport.update({
@@ -88,12 +93,6 @@ const DemonstracoesClientRoute = DemonstracoesClientRouteImport.update({
   path: '/demonstracoes/$client',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemonstracoesEncantoDaMataRoute =
-  DemonstracoesEncantoDaMataRouteImport.update({
-    id: '/demonstracoes/encanto-da-mata',
-    path: '/demonstracoes/encanto-da-mata',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const HospedagensSlugRoute = HospedagensSlugRouteImport.update({
   id: '/hospedagens/$slug',
   path: '/hospedagens/$slug',
@@ -125,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/aplicacoes': typeof AplicacoesRoute
+  '/area-do-cliente': typeof AreaDoClienteRoute
   '/planos': typeof PlanosRoute
   '/portfolio': typeof PortfolioRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -133,7 +133,6 @@ export interface FileRoutesByFullPath {
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
   '/demonstracoes/$client': typeof DemonstracoesClientRouteWithChildren
-  '/demonstracoes/encanto-da-mata': typeof DemonstracoesEncantoDaMataRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
@@ -145,6 +144,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/aplicacoes': typeof AplicacoesRoute
+  '/area-do-cliente': typeof AreaDoClienteRoute
   '/planos': typeof PlanosRoute
   '/portfolio': typeof PortfolioRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -152,7 +152,6 @@ export interface FileRoutesByTo {
   '/status': typeof StatusRoute
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
-  '/demonstracoes/encanto-da-mata': typeof DemonstracoesEncantoDaMataRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
@@ -165,6 +164,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/aplicacoes': typeof AplicacoesRoute
+  '/area-do-cliente': typeof AreaDoClienteRoute
   '/planos': typeof PlanosRoute
   '/portfolio': typeof PortfolioRoute
   '/privacidade': typeof PrivacidadeRoute
@@ -173,7 +173,6 @@ export interface FileRoutesById {
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
   '/demonstracoes/$client': typeof DemonstracoesClientRouteWithChildren
-  '/demonstracoes/encanto-da-mata': typeof DemonstracoesEncantoDaMataRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
@@ -187,6 +186,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/aplicacoes'
+    | '/area-do-cliente'
     | '/planos'
     | '/portfolio'
     | '/privacidade'
@@ -195,7 +195,6 @@ export interface FileRouteTypes {
     | '/suporte'
     | '/api/upload'
     | '/demonstracoes/$client'
-    | '/demonstracoes/encanto-da-mata'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
@@ -207,6 +206,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/aplicacoes'
+    | '/area-do-cliente'
     | '/planos'
     | '/portfolio'
     | '/privacidade'
@@ -214,7 +214,6 @@ export interface FileRouteTypes {
     | '/status'
     | '/suporte'
     | '/api/upload'
-    | '/demonstracoes/encanto-da-mata'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
@@ -226,6 +225,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/aplicacoes'
+    | '/area-do-cliente'
     | '/planos'
     | '/portfolio'
     | '/privacidade'
@@ -234,7 +234,6 @@ export interface FileRouteTypes {
     | '/suporte'
     | '/api/upload'
     | '/demonstracoes/$client'
-    | '/demonstracoes/encanto-da-mata'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
@@ -247,6 +246,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AplicacoesRoute: typeof AplicacoesRoute
+  AreaDoClienteRoute: typeof AreaDoClienteRoute
   PlanosRoute: typeof PlanosRoute
   PortfolioRoute: typeof PortfolioRoute
   PrivacidadeRoute: typeof PrivacidadeRoute
@@ -255,7 +255,6 @@ export interface RootRouteChildren {
   SuporteRoute: typeof SuporteRoute
   ApiUploadRoute: typeof ApiUploadRoute
   DemonstracoesClientRoute: typeof DemonstracoesClientRouteWithChildren
-  DemonstracoesEncantoDaMataRoute: typeof DemonstracoesEncantoDaMataRoute
   HospedagensSlugRoute: typeof HospedagensSlugRoute
   MediaIdRoute: typeof MediaIdRoute
   ProjetosSlugRoute: typeof ProjetosSlugRoute
@@ -283,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/aplicacoes'
       fullPath: '/aplicacoes'
       preLoaderRoute: typeof AplicacoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/area-do-cliente': {
+      id: '/area-do-cliente'
+      path: '/area-do-cliente'
+      fullPath: '/area-do-cliente'
+      preLoaderRoute: typeof AreaDoClienteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/planos': {
@@ -348,13 +354,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemonstracoesClientRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demonstracoes/encanto-da-mata': {
-      id: '/demonstracoes/encanto-da-mata'
-      path: '/demonstracoes/encanto-da-mata'
-      fullPath: '/demonstracoes/encanto-da-mata'
-      preLoaderRoute: typeof DemonstracoesEncantoDaMataRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/hospedagens/$slug': {
       id: '/hospedagens/$slug'
       path: '/hospedagens/$slug'
@@ -410,6 +409,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AplicacoesRoute: AplicacoesRoute,
+  AreaDoClienteRoute: AreaDoClienteRoute,
   PlanosRoute: PlanosRoute,
   PortfolioRoute: PortfolioRoute,
   PrivacidadeRoute: PrivacidadeRoute,
@@ -418,7 +418,6 @@ const rootRouteChildren: RootRouteChildren = {
   SuporteRoute: SuporteRoute,
   ApiUploadRoute: ApiUploadRoute,
   DemonstracoesClientRoute: DemonstracoesClientRouteWithChildren,
-  DemonstracoesEncantoDaMataRoute: DemonstracoesEncantoDaMataRoute,
   HospedagensSlugRoute: HospedagensSlugRoute,
   MediaIdRoute: MediaIdRoute,
   ProjetosSlugRoute: ProjetosSlugRoute,

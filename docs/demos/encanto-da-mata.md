@@ -1,34 +1,31 @@
-# Pousada Encanto da Mata — projeto e proposta
+# Pousada Encanto da Mata — site modelo do Aruá Hospedagens
 
-Case do portfólio, com o botão "Ver demonstração" levando à apresentação do projeto e à proposta.
+Site modelo do **Aruá Hospedagens**. No portfólio, o "Ver demonstração" do produto Aruá Hospedagens e o do case Encanto da Mata abrem o site da pousada com o aviso da Aruá por cima.
 
 | Item            | Situação                                                                                   |
 | --------------- | ------------------------------------------------------------------------------------------ |
 | Cliente         | Pousada Encanto da Mata (Sítios Ipê Amarelo, Sabará/MG) — @pouso_encantodamata             |
 | Desenvolvimento | Aruá Soluções Digitais                                                                     |
-| Apresentação    | `/demonstracoes/encanto-da-mata`                                                           |
-| Proposta        | Plano Digital Profissional, 3 meses de teste grátis, depois R$ 1.149/mês (17/11/2026)      |
 | Autorização     | Uso do nome, fotos e valores autorizado pelo proprietário (informado em 17/11/2026)        |
 | WhatsApp        | Em todas as peças da demonstração: o da Aruá, +55 (38) 99963-6208. Nunca o do proprietário |
 | Indexação       | `noindex, nofollow` em todas as páginas: não concorre com o site real da pousada           |
 
 **Pendente:** guardar o comprovante da autorização por escrito (mensagem, e-mail ou termo) junto aos
 documentos do cliente e anotar aqui onde ele está. Se a autorização for retirada: apagar
-`public/demos/encanto-da-mata/` e `src/content/demos/encanto-da-mata.ts`, despublicar o case no painel,
+`public/demos/encanto-da-mata/`, despublicar o case no painel,
 rodar `npm run demo:export-projects` e `npm run demo:snapshot`, trocar o link de demonstração do Aruá Hospedagens no painel e republicar a demo.
 
 ## O que está no ar
 
-| Peça                    | Endereço                             | Observação                                                           |
-| ----------------------- | ------------------------------------ | -------------------------------------------------------------------- |
-| Site próprio            | `/demos/encanto-da-mata/index.html`  | Cópia do site como está no projeto, com a camada de pré-visualização |
-| Painel do proprietário  | `/demos/encanto-da-mata/painel.html` | Sem Supabase configurado: abre só com dados de exemplo (fictícios)   |
-| Apresentação + proposta | `/demonstracoes/encanto-da-mata`     | Site, painel e plano Digital Profissional com 3 meses grátis         |
+| Peça                   | Endereço                             | Observação                                                           |
+| ---------------------- | ------------------------------------ | -------------------------------------------------------------------- |
+| Site próprio           | `/demos/encanto-da-mata/index.html`  | Cópia do site como está no projeto, com a camada de pré-visualização |
+| Painel do proprietário | `/demos/encanto-da-mata/painel.html` | Sem Supabase configurado: abre só com dados de exemplo (fictícios)   |
 
 - O "Ver demonstração" do card **Aruá Hospedagens** abre o site da pousada (migração 4, 17/11/2026).
   As vitrines do produto no modelo padrão (a do Encanto e a fictícia "Sítio Recanto do Ipê") foram
   apagadas a pedido do responsável.
-- O case **Pousada Encanto da Mata** no portfólio abre a apresentação com a proposta.
+- O case **Pousada Encanto da Mata** abre o mesmo site, com `?origem=portfolio` no link (o sistema não aceita dois projetos com o link idêntico). Sem preços nem proposta: valores "Em breve" (17/11/2026).
 
 ### Diferenças da cópia em relação ao original
 

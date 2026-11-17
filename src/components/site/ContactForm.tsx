@@ -27,7 +27,7 @@ export function ContactForm({
     const fromUrl = contactTopicSchema.safeParse(params.get("assunto"));
     if (fromUrl.success) setTopic(fromUrl.data);
     const plan = plans.items.find((p) => p.id === params.get("plano"));
-    if (plan) setMessage(`Tenho interesse no plano ${plan.name} (${plan.price}${plan.period}).`);
+    if (plan) setMessage(`Tenho interesse no plano ${plan.name}.`);
   }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {

@@ -2,7 +2,7 @@
   "showcase": {
     "projects": [
       {
-        "id": "adbf387a-9f36-4791-96cc-d078ce24409e",
+        "id": "4d06d26d-a288-4c71-94de-e599aab2d574",
         "slug": "arua-hospedagens",
         "title": "Aruá Hospedagens",
         "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
@@ -13,10 +13,10 @@
         "image_id": null
       },
       {
-        "id": "330cb90f-ebdd-4ece-a2aa-b09af2aec5d2",
+        "id": "7f57131d-36bf-470c-85a1-59e8346cf7ca",
         "slug": "tlim",
         "title": "Tlim",
-        "description": "Em desenvolvimento. Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
+        "description": "Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
         "demo_url": null,
         "kind": "product",
         "category": "sistema",
@@ -24,7 +24,7 @@
         "image_id": null
       },
       {
-        "id": "9a5fcca8-294d-4a2f-9a63-f9376a594ef0",
+        "id": "d5f76c58-3aae-42ac-bc90-cd97d1a53ef5",
         "slug": "rogerinho-burguers",
         "title": "Rogerinho Burguer's — Presença Digital",
         "description": "Gestão da presença digital de uma hamburgueria em Belo Horizonte, com uma central onde o dono acompanha as atividades, aprova materiais e vê os indicadores.",
@@ -35,11 +35,11 @@
         "image_id": null
       },
       {
-        "id": "a321a214-f76c-4afa-a1c0-85adfb69baee",
+        "id": "4339b603-9392-45c9-a53d-5f4a16b93f57",
         "slug": "pousada-encanto-da-mata",
         "title": "Pousada Encanto da Mata",
         "description": "Site de hospedagem com simulador de reserva pelo WhatsApp e painel do proprietário para acompanhar contatos, reservas e a origem de cada cliente.",
-        "demo_url": "/demonstracoes/encanto-da-mata",
+        "demo_url": "/demos/encanto-da-mata/index.html?origem=portfolio",
         "kind": "case",
         "category": "site",
         "client": "Pousada Encanto da Mata",
@@ -51,7 +51,7 @@
   },
   "projectPages": {
     "arua-hospedagens": {
-      "id": "adbf387a-9f36-4791-96cc-d078ce24409e",
+      "id": "4d06d26d-a288-4c71-94de-e599aab2d574",
       "slug": "arua-hospedagens",
       "title": "Aruá Hospedagens",
       "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
@@ -74,10 +74,10 @@
       "testimonials": []
     },
     "tlim": {
-      "id": "330cb90f-ebdd-4ece-a2aa-b09af2aec5d2",
+      "id": "7f57131d-36bf-470c-85a1-59e8346cf7ca",
       "slug": "tlim",
       "title": "Tlim",
-      "description": "Em desenvolvimento. Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
+      "description": "Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
       "problem": "Quem vende comida por aplicativo paga comissão em cada pedido, e os pedidos que chegam pelo WhatsApp costumam ser anotados à mão, com erro, demora e retrabalho na cozinha.",
       "features": [
         "Cardápio da loja em site próprio, sem comissão por pedido",
@@ -97,7 +97,7 @@
       "testimonials": []
     },
     "rogerinho-burguers": {
-      "id": "9a5fcca8-294d-4a2f-9a63-f9376a594ef0",
+      "id": "d5f76c58-3aae-42ac-bc90-cd97d1a53ef5",
       "slug": "rogerinho-burguers",
       "title": "Rogerinho Burguer's — Presença Digital",
       "description": "Gestão da presença digital de uma hamburgueria em Belo Horizonte, com uma central onde o dono acompanha as atividades, aprova materiais e vê os indicadores.",
@@ -119,7 +119,7 @@
       "testimonials": []
     },
     "pousada-encanto-da-mata": {
-      "id": "a321a214-f76c-4afa-a1c0-85adfb69baee",
+      "id": "4339b603-9392-45c9-a53d-5f4a16b93f57",
       "slug": "pousada-encanto-da-mata",
       "title": "Pousada Encanto da Mata",
       "description": "Site de hospedagem com simulador de reserva pelo WhatsApp e painel do proprietário para acompanhar contatos, reservas e a origem de cada cliente.",
@@ -128,11 +128,10 @@
         "Simulador de reserva por acomodação, datas e hóspedes, com promoções válidas no período",
         "Mensagem pronta no WhatsApp com a origem do cliente",
         "Painel com contatos, reservas fechadas, valores e calendário",
-        "Links diretos com datas para anúncios e Instagram",
-        "Vitrine com pedido de reserva no Aruá Hospedagens"
+        "Links diretos com datas para anúncios e Instagram"
       ],
       "results": [],
-      "demo_url": "/demonstracoes/encanto-da-mata",
+      "demo_url": "/demos/encanto-da-mata/index.html?origem=portfolio",
       "status": "published",
       "kind": "case",
       "category": "site",

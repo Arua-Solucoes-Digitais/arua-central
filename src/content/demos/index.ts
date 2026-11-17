@@ -1,6 +1,5 @@
 // Registro das demonstrações guiadas. Para incluir outro cliente: crie o arquivo de dados
 // (mesmo contrato de ./types), adicione-o em `demos` e um tema em src/styles.css.
-import { plans } from "@/content/site";
 import { rogerinhoBurguers } from "./rogerinho-burguers";
 import type {
   ActionState,
@@ -9,23 +8,9 @@ import type {
   ClientDemo,
   DataNature,
   DemoArea,
-  PlanOffer,
 } from "./types";
 
-export type { ClientDemo, DemoArea, PlanOffer } from "./types";
-
-/** Plano da proposta, da mesma fonte da página de planos (src/content/site.ts). */
-export function getOfferPlan(offer: PlanOffer) {
-  const plan = plans.items.find((p) => p.id === offer.planId);
-  if (!plan) throw new Error(`Plano inexistente: ${offer.planId}`);
-  return plan;
-}
-
-/** Contato da Aruá nas propostas e demonstrações (nunca o número do cliente). */
-export const arualContact = {
-  whatsapp: "5538999636208",
-  display: "(38) 99963-6208",
-};
+export type { ClientDemo, DemoArea } from "./types";
 
 export const demos: Record<string, ClientDemo> = {
   [rogerinhoBurguers.slug]: rogerinhoBurguers,
