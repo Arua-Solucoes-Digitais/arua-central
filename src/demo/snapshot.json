@@ -2,18 +2,18 @@
   "showcase": {
     "projects": [
       {
-        "id": "ed8aa0e9-4957-4ae5-9b79-30d50b99c8d3",
+        "id": "bc4904bf-d7a5-49e4-ba42-3fa006ceb51c",
         "slug": "arua-hospedagens",
         "title": "Aruá Hospedagens",
         "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
-        "demo_url": "/hospedagens/demonstracao",
+        "demo_url": "/hospedagens/encanto-da-mata",
         "kind": "product",
         "category": "sistema",
         "client": "",
         "image_id": null
       },
       {
-        "id": "f0347333-1846-41f3-946d-75f0e7f25804",
+        "id": "ad6b9b42-07e5-4440-a331-a171cd8df18a",
         "slug": "tlim",
         "title": "Tlim",
         "description": "Em desenvolvimento. Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
@@ -29,7 +29,7 @@
   },
   "projectPages": {
     "arua-hospedagens": {
-      "id": "ed8aa0e9-4957-4ae5-9b79-30d50b99c8d3",
+      "id": "bc4904bf-d7a5-49e4-ba42-3fa006ceb51c",
       "slug": "arua-hospedagens",
       "title": "Aruá Hospedagens",
       "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
@@ -42,7 +42,7 @@
         "Painel para editar tudo sem mexer no código"
       ],
       "results": [],
-      "demo_url": "/hospedagens/demonstracao",
+      "demo_url": "/hospedagens/encanto-da-mata",
       "status": "published",
       "kind": "product",
       "category": "sistema",
@@ -52,7 +52,7 @@
       "testimonials": []
     },
     "tlim": {
-      "id": "f0347333-1846-41f3-946d-75f0e7f25804",
+      "id": "ad6b9b42-07e5-4440-a331-a171cd8df18a",
       "slug": "tlim",
       "title": "Tlim",
       "description": "Em desenvolvimento. Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
@@ -77,7 +77,7 @@
   },
   "propertyPages": {
     "demonstracao": {
-      "id": "bb0488ba-2db4-455b-92c1-1fd100615ea4",
+      "id": "3e276024-d836-4cbb-a17c-06ad8c76ac50",
       "slug": "demonstracao",
       "name": "Sítio Recanto do Ipê (demonstração)",
       "description": "Este estabelecimento é fictício e existe só para mostrar como a vitrine funciona. Os textos, valores e horários são exemplos e nenhuma reserva será atendida.",
@@ -87,8 +87,8 @@
       "maps_url": "",
       "whatsapp": "",
       "status": "published",
-      "created_at": "2026-11-14T20:48:21.513Z",
-      "updated_at": "2026-11-14T20:48:21.513Z",
+      "created_at": "2026-11-17T17:18:09.672Z",
+      "updated_at": "2026-11-17T17:18:09.672Z",
       "is_demo": true,
       "has_whatsapp": false,
       "logo": null,
@@ -96,7 +96,7 @@
       "gallery": [],
       "stays": [
         {
-          "id": "89deb5d4-d0ba-43ac-9544-adac45939340",
+          "id": "a8ae2c00-eddb-4f1e-a372-c94eab8071f2",
           "name": "Quarto individual",
           "description": "Quarto reservado, com acesso às áreas comuns.",
           "capacity": 2,
@@ -108,13 +108,13 @@
           "availability": "available",
           "availability_note": "",
           "sort_order": 0,
-          "created_at": "2026-11-14T20:48:21.513Z",
-          "updated_at": "2026-11-14T20:48:21.513Z",
+          "created_at": "2026-11-17T17:18:09.672Z",
+          "updated_at": "2026-11-17T17:18:09.672Z",
           "allows_same_day": false,
           "photos": []
         },
         {
-          "id": "3c3b079e-a32b-45c5-8d01-6a35b7ee0375",
+          "id": "e2b99924-356a-4a68-8743-26ef710a50a3",
           "name": "Day use",
           "description": "Um dia inteiro no sítio, sem pernoite.",
           "capacity": 20,
@@ -126,13 +126,13 @@
           "availability": "available",
           "availability_note": "",
           "sort_order": 1,
-          "created_at": "2026-11-14T20:48:21.514Z",
-          "updated_at": "2026-11-14T20:48:21.514Z",
+          "created_at": "2026-11-17T17:18:09.672Z",
+          "updated_at": "2026-11-17T17:18:09.672Z",
           "allows_same_day": true,
           "photos": []
         },
         {
-          "id": "63f4bdc3-b95f-46d1-a633-7b188fa6bd44",
+          "id": "3be047a8-1284-429d-8a2e-b0d6ea00c03d",
           "name": "Fim de semana",
           "description": "Da sexta-feira ao domingo, no sítio.",
           "capacity": 8,
@@ -144,13 +144,13 @@
           "availability": "on_request",
           "availability_note": "Exemplo: confirme a data com o estabelecimento.",
           "sort_order": 2,
-          "created_at": "2026-11-14T20:48:21.514Z",
-          "updated_at": "2026-11-14T20:48:21.514Z",
+          "created_at": "2026-11-17T17:18:09.672Z",
+          "updated_at": "2026-11-17T17:18:09.672Z",
           "allows_same_day": false,
           "photos": []
         },
         {
-          "id": "2f9a6012-e057-45d3-a86b-681e199b0bae",
+          "id": "10ae42ae-9c38-46c4-b7d1-67104ec14ceb",
           "name": "Sítio inteiro",
           "description": "Todo o espaço só para o seu grupo.",
           "capacity": 30,
@@ -162,10 +162,216 @@
           "availability": "on_request",
           "availability_note": "Exemplo: sujeito à disponibilidade.",
           "sort_order": 3,
-          "created_at": "2026-11-14T20:48:21.514Z",
-          "updated_at": "2026-11-14T20:48:21.514Z",
+          "created_at": "2026-11-17T17:18:09.672Z",
+          "updated_at": "2026-11-17T17:18:09.672Z",
           "allows_same_day": false,
           "photos": []
+        }
+      ]
+    },
+    "encanto-da-mata": {
+      "id": "0b4cc2df-e10a-4eec-a27e-6c13905c0231",
+      "slug": "encanto-da-mata",
+      "name": "Pousada Encanto da Mata",
+      "description": "Pousada em meio a 3.800 m² de mata preservada em Sabará (MG), pertinho de Belo Horizonte. Tem piscina com cascata e iluminação à noite, deck com rede, varanda voltada para a mata e flores do Cerrado ao redor. O iFood entrega normalmente.\n\nEsta vitrine é uma demonstração do Aruá Hospedagens, montada com o material público da pousada (Instagram @pouso_encantodamata e anúncio de hospedagem) e com autorização do proprietário. Os valores são os dos anúncios de novembro de 2026. Para reservar de verdade, fale com a pousada pelo Instagram.",
+      "amenities": "Piscina com cascata\nWi-Fi\nTV de 50\" com cabo HDMI\nSofá-cama e sofanete na sala\n3.800 m² de mata preservada\niFood entrega no local",
+      "instagram": "pouso_encantodamata",
+      "address": "Sítios Ipê Amarelo, Sabará · MG",
+      "maps_url": "https://www.google.com.br/maps/place/Pouso+Encanto+da+Mata/@-19.8969037,-43.8535743,17z/data=!3m1!4b1!4m6!3m5!1s0xa69d78cdc143f5:0x70448613b0535800!8m2!3d-19.8969088!4d-43.8509994!16s%2Fg%2F11vc1yb_fg",
+      "whatsapp": "",
+      "status": "published",
+      "created_at": "2026-11-17T17:18:09.684Z",
+      "updated_at": "2026-11-17T17:18:09.684Z",
+      "is_demo": true,
+      "has_whatsapp": false,
+      "logo": null,
+      "banners": [
+        {
+          "id": "fc37fa1c-5e2b-45a2-a0c9-224d83fae949",
+          "role": "banner",
+          "kind": "image",
+          "alt": "Deck coberto de madeira com rede colorida, mesas e cadeiras azuis, entre as árvores",
+          "description": "",
+          "stay_id": null,
+          "src": "encanto-da-mata/deck-rede.jpg"
+        }
+      ],
+      "gallery": [
+        {
+          "id": "82dfc725-9d40-4953-9f29-883196b5ab1c",
+          "role": "gallery",
+          "kind": "image",
+          "alt": "Fachada da casa lilás com janela azul, vasos de flores e bancos de madeira",
+          "description": "Casa lilás",
+          "stay_id": null,
+          "src": "encanto-da-mata/casa-lilas.jpg"
+        },
+        {
+          "id": "d518ef1f-248b-464c-a21f-cfed49d0dcf0",
+          "role": "gallery",
+          "kind": "image",
+          "alt": "Varanda com cadeiras de corda azuis, banco e mesa de centro, voltada para a mata",
+          "description": "Varanda",
+          "stay_id": null,
+          "src": "encanto-da-mata/varanda-cadeiras.jpg"
+        },
+        {
+          "id": "669aec11-0c16-4517-bbfc-6e4d65238eea",
+          "role": "gallery",
+          "kind": "image",
+          "alt": "Piscina com água azul e pequena cascata junto ao muro de pedra",
+          "description": "Piscina com cascata",
+          "stay_id": null,
+          "src": "encanto-da-mata/piscina.jpg"
+        },
+        {
+          "id": "6fafc4e8-5bd7-41b4-aca5-70cc5f5d618b",
+          "role": "gallery",
+          "kind": "image",
+          "alt": "Chalé amarelo com o nome Jade na parede, entre as árvores",
+          "description": "Chalé Jade",
+          "stay_id": null,
+          "src": "encanto-da-mata/chale-amarelo.jpg"
+        },
+        {
+          "id": "745589ec-a8c8-42dc-b9c9-cf3b8a3229d4",
+          "role": "gallery",
+          "kind": "image",
+          "alt": "Sala com sofá vermelho, televisão na parede e portas azuis abertas",
+          "description": "Sala",
+          "stay_id": null,
+          "src": "encanto-da-mata/sala-sofa.jpg"
+        },
+        {
+          "id": "c1f5fa81-78d0-4383-8609-a4e2f4742e40",
+          "role": "gallery",
+          "kind": "image",
+          "alt": "Cozinha com pia sob a janela azul, fogão e armário verde-claro",
+          "description": "Cozinha",
+          "stay_id": null,
+          "src": "encanto-da-mata/cozinha.jpg"
+        },
+        {
+          "id": "b9782704-d3c1-48b3-9e56-b5f52505b281",
+          "role": "gallery",
+          "kind": "image",
+          "alt": "Flor branca de pétalas finas entre folhas largas",
+          "description": "Flores do Cerrado",
+          "stay_id": null,
+          "src": "encanto-da-mata/flor-branca.jpg"
+        },
+        {
+          "id": "de11e886-29fd-41c7-b9c1-7e64f5d5c942",
+          "role": "gallery",
+          "kind": "image",
+          "alt": "Flor lilás com miolo amarelo entre folhas verdes",
+          "description": "Flores do Cerrado",
+          "stay_id": null,
+          "src": "encanto-da-mata/flor-roxa.jpg"
+        },
+        {
+          "id": "0df7931f-03aa-4fa4-bdfb-b4251473ef57",
+          "role": "gallery",
+          "kind": "image",
+          "alt": "Cachos de flores vermelhas em espiga, com céu azul ao fundo",
+          "description": "Flores do Cerrado",
+          "stay_id": null,
+          "src": "encanto-da-mata/flor-vermelha.jpg"
+        },
+        {
+          "id": "99edfbd4-3593-4385-be45-73c5138cb4a0",
+          "role": "gallery",
+          "kind": "video",
+          "alt": "Vídeo de apresentação da pousada: piscina, deck, quartos e mata (sem som)",
+          "description": "Apresentação em vídeo",
+          "stay_id": null,
+          "src": "encanto-da-mata/apresentacao.mp4"
+        }
+      ],
+      "stays": [
+        {
+          "id": "19b6ed5d-fe86-454f-b40d-5edd7dc34586",
+          "name": "Suíte Master",
+          "description": "Cama de casal, vista para a mata, banheiro, geladeira, aquecedor, área gourmet, escritório, bancada de mármore, pia e utensílios.",
+          "capacity": 4,
+          "price_cents": 30000,
+          "billing": "por diária",
+          "rules": "Valor da diária para casal. Recebe até 4 pessoas.",
+          "check_in_time": "",
+          "check_out_time": "",
+          "availability": "on_request",
+          "availability_note": "",
+          "sort_order": 0,
+          "created_at": "2026-11-17T17:18:09.687Z",
+          "updated_at": "2026-11-17T17:18:09.687Z",
+          "allows_same_day": false,
+          "photos": [
+            {
+              "id": "d215b570-aea7-44d0-b35c-345c055dc57c",
+              "role": "stay",
+              "kind": "image",
+              "alt": "Suíte Master: cama de casal com colcha xadrez e quadro de flores vermelhas",
+              "description": "",
+              "stay_id": "19b6ed5d-fe86-454f-b40d-5edd7dc34586",
+              "src": "encanto-da-mata/suite-master.jpg"
+            }
+          ]
+        },
+        {
+          "id": "2064a207-dfea-4f10-98ec-9a6dc0ec5639",
+          "name": "Suíte na Natureza",
+          "description": "Banheiro, janela para a floresta, mesa de trabalho, armário, ventilador e abajur.",
+          "capacity": 2,
+          "price_cents": 20000,
+          "billing": "por diária",
+          "rules": "",
+          "check_in_time": "",
+          "check_out_time": "",
+          "availability": "on_request",
+          "availability_note": "",
+          "sort_order": 1,
+          "created_at": "2026-11-17T17:18:09.693Z",
+          "updated_at": "2026-11-17T17:18:09.693Z",
+          "allows_same_day": false,
+          "photos": [
+            {
+              "id": "8f0d3176-4ff2-456d-a7ea-dee20a8582ce",
+              "role": "stay",
+              "kind": "image",
+              "alt": "Suíte na Natureza: cama de casal com colcha rosa e janela azul aberta para a mata",
+              "description": "",
+              "stay_id": "2064a207-dfea-4f10-98ec-9a6dc0ec5639",
+              "src": "encanto-da-mata/quarto-rosa-janela.jpg"
+            }
+          ]
+        },
+        {
+          "id": "29f46266-2b69-45c6-b2c4-c6ff84718be9",
+          "name": "Quarto Quádruplo",
+          "description": "Cama de casal, beliche, abajur, janela para o playground, banheiro social e chuveiro.",
+          "capacity": 4,
+          "price_cents": 20000,
+          "billing": "por diária",
+          "rules": "Valor a partir de R$ 200 por diária, segundo o anúncio.",
+          "check_in_time": "",
+          "check_out_time": "",
+          "availability": "on_request",
+          "availability_note": "",
+          "sort_order": 2,
+          "created_at": "2026-11-17T17:18:09.695Z",
+          "updated_at": "2026-11-17T17:18:09.695Z",
+          "allows_same_day": false,
+          "photos": [
+            {
+              "id": "0cceecaa-c329-4fb2-8b45-42cc6430148c",
+              "role": "stay",
+              "kind": "image",
+              "alt": "Quarto Quádruplo: cama de casal com colcha floral ao lado da janela azul",
+              "description": "",
+              "stay_id": "29f46266-2b69-45c6-b2c4-c6ff84718be9",
+              "src": "encanto-da-mata/quarto-triplo.jpg"
+            }
+          ]
         }
       ]
     }

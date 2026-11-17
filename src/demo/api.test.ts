@@ -32,6 +32,18 @@ describe("static demo API", () => {
     if (result.ok) expect(result.whatsapp_url).toMatch(/^https:\/\/wa\.me\/\?text=/);
   });
 
+  it("shows the Encanto da Mata showcase with every photo bundled, never /media", async () => {
+    const page = await demo.getPropertyPage({ data: { slug: "encanto-da-mata" } });
+    expect(page?.is_demo).toBe(true);
+    expect(page?.whatsapp).toBe("");
+    const items = [...page!.banners, ...page!.gallery, ...page!.stays.flatMap((s) => s.photos)];
+    expect(items).toHaveLength(14);
+    for (const item of items) {
+      expect(item.src).toBeTruthy();
+      expect(item.src).not.toMatch(/^\/media\//);
+    }
+  });
+
   it("refuses writes and the restricted area", async () => {
     await expect(demo.getDashboard()).rejects.toThrow(demo.DEMO_DISABLED_MESSAGE);
     expect(await demo.getCurrentUser()).toBeNull();

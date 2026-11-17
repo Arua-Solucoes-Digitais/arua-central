@@ -7,6 +7,7 @@ import { getPropertyPage } from "@/lib/api";
 import type { MediaItem } from "@/lib/schemas";
 import { formatPrice, instagramUrl } from "@/lib/whatsapp";
 import { withBase } from "@/lib/paths";
+import { mediaUrl } from "@/lib/media-url";
 
 export const Route = createFileRoute("/hospedagens/$slug")({
   loader: async ({ params }) => {
@@ -50,17 +51,12 @@ function Media({
         aria-label={item.alt || fallbackAlt}
         className={className}
       >
-        <source src={`/media/${item.id}`} />
+        <source src={mediaUrl(item)} />
       </video>
     );
   }
   return (
-    <img
-      src={`/media/${item.id}`}
-      alt={item.alt || fallbackAlt}
-      loading="lazy"
-      className={className}
-    />
+    <img src={mediaUrl(item)} alt={item.alt || fallbackAlt} loading="lazy" className={className} />
   );
 }
 
@@ -133,7 +129,7 @@ function Vitrine() {
         <div className="relative mx-auto max-w-5xl px-4 py-16 text-primary-foreground md:py-24">
           {property.logo && (
             <img
-              src={`/media/${property.logo.id}`}
+              src={mediaUrl(property.logo)}
               alt={property.logo.alt || `Logotipo de ${property.name}`}
               className="mb-5 h-20 w-auto rounded-xl bg-background object-contain p-1"
             />

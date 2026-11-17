@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { randomUUID } from "node:crypto";
-import { mkdtempSync, readdirSync } from "node:fs";
+import { copyFileSync, mkdtempSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -11,6 +11,7 @@ import { login, logout, userFromToken } from "./auth";
 import * as deployments from "./deployments";
 import * as hospedagens from "./hospedagens";
 import * as media from "./media";
+import { importProperty } from "./property-import";
 import { hashPassword, verifyPassword } from "./password";
 import { allowRequest, resetRateLimit } from "./rate-limit";
 import * as store from "./store";
@@ -787,5 +788,73 @@ describe("migração 3", () => {
       category: "sistema",
     });
     expect(store.listMessages()[0]?.topic).toBe("orcamento");
+  });
+});
+
+describe("importação de vitrine", () => {
+  const ENCANTO = "src/demo/properties/encanto-da-mata";
+  beforeEach(() => {
+    vi.stubEnv("ARUA_UPLOADS_DIR", mkdtempSync(join(tmpdir(), "arua-up-")));
+  });
+
+  it("cria a vitrine do Encanto com modalidades e fotos do próprio estabelecimento", () => {
+    const { id, slug, mediaFiles } = importProperty(ENCANTO, "script:test");
+    const page = hospedagens.getPropertyPage(slug, false);
+    expect(page?.is_demo).toBe(true);
+    expect(page?.has_whatsapp).toBe(false);
+    expect(page?.banners).toHaveLength(1);
+    expect(page?.gallery.some((m) => m.kind === "video")).toBe(true);
+    expect(page?.stays.map((s) => [s.name, s.photos.length])).toEqual([
+      ["Suíte Master", 1],
+      ["Suíte na Natureza", 1],
+      ["Quarto Quádruplo", 1],
+    ]);
+    expect(Object.values(mediaFiles)).toContain("encanto-da-mata/deck-rede.jpg");
+    expect(
+      get<{ n: number }>("select count(*) as n from media where property_id <> ?", id)?.n,
+    ).toBe(0);
+    expect(readdirSync(uploadsDir())).toHaveLength(14);
+  });
+
+  it("não substitui um estabelecimento que já existe", () => {
+    importProperty(ENCANTO, "script:test");
+    expect(() => importProperty(ENCANTO, "script:test")).toThrow(/Já existe/);
+    expect(
+      get<{ n: number }>("select count(*) as n from properties where slug = 'encanto-da-mata'")?.n,
+    ).toBe(1);
+  });
+
+  it("um arquivo inválido desfaz a importação inteira", () => {
+    const dir = mkdtempSync(join(tmpdir(), "arua-seed-"));
+    copyFileSync(join(ENCANTO, "deck-rede.jpg"), join(dir, "deck-rede.jpg"));
+    writeFileSync(join(dir, "falso.jpg"), "<svg onload=alert(1)>");
+    writeFileSync(
+      join(dir, "property.json"),
+      JSON.stringify({
+        property: { ...propertyInput, slug: "teste-importacao" },
+        stays: [{ ...stayInput, key: "a" }],
+        media: [
+          { file: "deck-rede.jpg", role: "banner", alt: "", description: "" },
+          { file: "falso.jpg", role: "gallery", alt: "", description: "" },
+        ],
+      }),
+    );
+    expect(() => importProperty(dir, "script:test")).toThrow(/falso\.jpg/);
+    expect(get("select id from properties where slug = 'teste-importacao'")).toBeUndefined();
+    expect(readdirSync(uploadsDir())).toEqual([]);
+  });
+
+  it("recusa arquivo fora da pasta do estabelecimento", () => {
+    const dir = mkdtempSync(join(tmpdir(), "arua-seed-"));
+    writeFileSync(
+      join(dir, "property.json"),
+      JSON.stringify({
+        property: { ...propertyInput, slug: "teste-caminho" },
+        stays: [],
+        media: [{ file: "../arua.db", role: "gallery", alt: "", description: "" }],
+      }),
+    );
+    expect(() => importProperty(dir, "script:test")).toThrow();
+    expect(get("select id from properties where slug = 'teste-caminho'")).toBeUndefined();
   });
 });

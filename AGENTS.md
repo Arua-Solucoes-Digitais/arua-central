@@ -1,4 +1,5 @@
 ## Project rules
+
 - All homepage copy lives in `src/content/site.ts`; sections render from it so text can be edited without touching layout.
 - Projects live in the `base_projects` table, edited at `/admin`; only rows with status `published` reach the public site. Never hard-code a product on the homepage.
 - Portfolio: `base_projects.kind` is `product` (Aruá's own, shown on the homepage) or `case` (client work, portfolio only). Live systems live in `deployments`; the public state ("No ar"/"Fora do ar") is always computed from the last automatic check (`npm run status`), never typed by hand.
@@ -11,4 +12,5 @@
 - Admin access = row in `users`; there is no public signup, admins are created or reset in the terminal with `npm run admin`.
 - Analytics are first-party and anonymous (`analytics_events`: no cookies, IP or user id); tracked clicks use `data-track="label"`.
 - Static demo (GitHub Pages): `npm run build:demo` swaps `src/lib/api.ts` for `src/demo/api.ts` (sample data from `src/demo/snapshot.json`, no writes). Every new export in `src/lib/api.ts` needs a stand-in there; `src/demo/api.test.ts` enforces it. The snapshot is built from a fresh database plus `src/demo/projects.json`, which `npm run demo:export-projects` exports from `data/arua.db` with only published projects and public fields; never put anything else from `data/arua.db` into the demo.
+- Demo showcases of real establishments (Aruá Hospedagens): one folder per property in `src/demo/properties/<slug>/` (`property.json` + photos), only with the owner's written authorization recorded in `docs/demos/<slug>.md`. `npm run demo:snapshot` imports them into the fresh demo database (media get a `src` resolved by `src/demo/api.ts`); `npm run property:import -- <folder>` creates the same showcase in a server's database (backup first, never overwrites). They stay `is_demo` with no WhatsApp, so no request reaches the real business.
 - Real site deploys to a VPS over SSH (`deploy/`, `.github/workflows/deploy.yml`); see `docs/DEPLOYMENT.md`. Production deploys need the typed `PRODUCAO` confirmation and an actor in `PRODUCTION_APPROVERS`. The demo is published to Pages only by manual run with `PUBLICAR`.

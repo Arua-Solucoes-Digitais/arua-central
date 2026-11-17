@@ -2,7 +2,7 @@
 // Usa SEMPRE um banco novo e temporário, criado pelas migrações, mais os projetos publicados de
 // src/demo/projects.json. Nunca lê data/arua.db, então nenhum dado de cliente, mensagem ou pedido
 // entra na demonstração.
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -15,6 +15,7 @@ const db = await import("../src/server/db.ts");
 const store = await import("../src/server/store.ts");
 const deployments = await import("../src/server/deployments.ts");
 const hospedagens = await import("../src/server/hospedagens.ts");
+const { importProperty } = await import("../src/server/property-import.ts");
 const { slugify } = await import("../src/lib/slug.ts");
 // Projetos publicados exportados do painel (npm run demo:export-projects), só campos públicos.
 type ExportedProject = {
@@ -34,6 +35,21 @@ const exported = JSON.parse(readFileSync("src/demo/projects.json", "utf8")) as E
 try {
   // Na demonstração o produto da própria Aruá aparece como publicado (no banco novo ele nasce rascunho).
   db.run("update base_projects set status = 'published' where slug = 'arua-hospedagens'");
+
+  // Vitrines de demonstração versionadas (src/demo/properties/<slug>/property.json), com autorização
+  // registrada em docs/demos/. Cada mídia ganha "src" para a demonstração achar o arquivo sem servidor.
+  const PROPERTIES_DIR = "src/demo/properties";
+  const mediaFiles: Record<string, string> = {};
+  for (const folder of readdirSync(PROPERTIES_DIR).sort()) {
+    Object.assign(
+      mediaFiles,
+      importProperty(join(PROPERTIES_DIR, folder), "script:demo-snapshot").mediaFiles,
+    );
+  }
+  // O exemplo do produto é um estabelecimento real, não o fictício.
+  db.run(
+    "update base_projects set demo_url = '/hospedagens/encanto-da-mata' where slug = 'arua-hospedagens'",
+  );
   for (const p of exported) {
     if (db.get("select id from base_projects where slug = ?", p.slug)) continue;
     db.run(
@@ -75,7 +91,7 @@ try {
   const propertyPages = Object.fromEntries(
     db
       .all<{ slug: string }>("select slug from properties where status = 'published'")
-      .map(({ slug }) => [slug, hospedagens.getPropertyPage(slug, false)]),
+      .map(({ slug }) => [slug, withSrc(hospedagens.getPropertyPage(slug, false), mediaFiles)]),
   );
 
   const snapshot = {
@@ -94,4 +110,21 @@ try {
 } finally {
   db.closeDb();
   rmSync(dir, { recursive: true, force: true });
+}
+
+type Page = ReturnType<typeof hospedagens.getPropertyPage>;
+type Media = NonNullable<Page>["gallery"][number];
+function withSrc(page: Page, files: Record<string, string>): Page {
+  if (!page) return page;
+  const mark = (item: Media): Media => {
+    const file = files[item.id];
+    return file ? { ...item, src: file } : item;
+  };
+  return {
+    ...page,
+    logo: page.logo && mark(page.logo),
+    banners: page.banners.map(mark),
+    gallery: page.gallery.map(mark),
+    stays: page.stays.map((stay) => ({ ...stay, photos: stay.photos.map(mark) })),
+  };
 }

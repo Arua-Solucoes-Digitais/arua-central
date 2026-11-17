@@ -27,10 +27,35 @@ const projectPages = snapshot.projectPages as unknown as Record<
   string,
   Awaited<ReturnType<Api["getProjectPage"]>>
 >;
-const propertyPages = snapshot.propertyPages as unknown as Record<
-  string,
-  Awaited<ReturnType<Api["getPropertyPage"]>>
->;
+type PropertyPage = NonNullable<Awaited<ReturnType<Api["getPropertyPage"]>>>;
+type Media = PropertyPage["gallery"][number];
+
+// Fotos e vídeos das vitrines de demonstração entram no build como arquivos (só neste build).
+const demoFiles = import.meta.glob<string>("./properties/*/*.{jpg,png,webp,mp4,webm}", {
+  eager: true,
+  query: "?url",
+  import: "default",
+});
+// Sem arquivo versionado não há o que mostrar: no lugar de um link quebrado, a mídia sai da vitrine.
+const resolveMedia = (item: Media): Media | null => {
+  const url = item.src && demoFiles[`./properties/${item.src}`];
+  return url ? { ...item, src: url } : null;
+};
+const keep = (items: Media[]) => items.flatMap((item) => resolveMedia(item) ?? []);
+const propertyPages: Record<string, PropertyPage | null> = Object.fromEntries(
+  Object.entries(snapshot.propertyPages as unknown as Record<string, PropertyPage | null>).map(
+    ([slug, page]) => [
+      slug,
+      page && {
+        ...page,
+        logo: page.logo && resolveMedia(page.logo),
+        banners: keep(page.banners),
+        gallery: keep(page.gallery),
+        stays: page.stays.map((s) => ({ ...s, photos: keep(s.photos) })),
+      },
+    ],
+  ),
+);
 
 // Público: leitura do retrato de demonstração
 export const getPublishedProjects = stub<"getPublishedProjects">(async () => showcase.projects);
