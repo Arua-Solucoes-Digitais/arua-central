@@ -15,28 +15,38 @@ Case do portfólio, com o botão "Ver demonstração" levando à apresentação 
 **Pendente:** guardar o comprovante da autorização por escrito (mensagem, e-mail ou termo) junto aos
 documentos do cliente e anotar aqui onde ele está. Se a autorização for retirada: apagar
 `public/demos/encanto-da-mata/` e `src/content/demos/encanto-da-mata.ts`, despublicar o case no painel,
-rodar `npm run demo:export-projects` e `npm run demo:snapshot` e republicar a demo.
+rodar `npm run demo:export-projects` e `npm run demo:snapshot`, trocar o link de demonstração do Aruá Hospedagens no painel e republicar a demo.
 
-## As três peças
+## O que está no ar
 
-| Peça                        | Endereço                             | Observação                                                         |
-| --------------------------- | ------------------------------------ | ------------------------------------------------------------------ |
-| Site próprio                | `/demos/encanto-da-mata/index.html`  | Cópia do site estático, com faixa de demonstração e `noindex`      |
-| Painel do proprietário      | `/demos/encanto-da-mata/painel.html` | Sem Supabase configurado: abre só com dados de exemplo (fictícios) |
-| Vitrine no Aruá Hospedagens | `/hospedagens/encanto-da-mata`       | Criada de `public/demos/encanto-da-mata/property.json`             |
+| Peça                    | Endereço                             | Observação                                                           |
+| ----------------------- | ------------------------------------ | -------------------------------------------------------------------- |
+| Site próprio            | `/demos/encanto-da-mata/index.html`  | Cópia do site como está no projeto, com a camada de pré-visualização |
+| Painel do proprietário  | `/demos/encanto-da-mata/painel.html` | Sem Supabase configurado: abre só com dados de exemplo (fictícios)   |
+| Apresentação + proposta | `/demonstracoes/encanto-da-mata`     | Site, painel e plano Digital Profissional com 3 meses grátis         |
 
-- O site e a vitrine usam os mesmos arquivos (`img/`, `video/`), sem duplicar fotos no repositório.
-- Servidor (local ou VPS): `npm run property:import -- public/demos/encanto-da-mata` cria a vitrine
-  (cópia do banco antes; recusa se o endereço já existir). Depois, edita-se pelo painel `/admin`.
+- O "Ver demonstração" do card **Aruá Hospedagens** abre o site da pousada (migração 4, 17/11/2026).
+  As vitrines do produto no modelo padrão (a do Encanto e a fictícia "Sítio Recanto do Ipê") foram
+  apagadas a pedido do responsável.
+- O case **Pousada Encanto da Mata** no portfólio abre a apresentação com a proposta.
 
 ### Diferenças da cópia em relação ao original
 
-O original fica em `~/Área de trabalho/EncandoDaMata/site/` e não foi modificado. Na cópia:
+O original fica em `ARUA-DEVELOPMENT/projetos/encanto-da-mata/site/` e não foi modificado. Na cópia
+(`diff` mostra só estas linhas):
 
 - `SITE.whatsapp` trocado pelo WhatsApp da Aruá;
-- faixa "Demonstração da Aruá…" com link de volta à apresentação, e `noindex, nofollow`;
-- `overflow-x: clip` no `html`/`body`: no original, a animação de entrada da foto da promoção
-  passava da largura no celular (rolagem lateral de 17 px). **Vale corrigir também no original.**
+- `<meta name="robots" content="noindex, nofollow">`;
+- `overflow-x: clip` no `html`/`body`: no original, a animação de entrada da foto da promoção passa
+  da largura no celular (rolagem lateral de 17 px). **Vale corrigir também no original;**
+- `<script src="arua-preview.js">` no fim do `index.html` e do `painel.html`: borrão progressivo fixo no
+  rodapé (160 px, `blur(16px)`, máscara de baixo para cima, sem capturar cliques), marca d'água
+  "Modo demonstração • Aruá ©" e botão "Quero um site assim" (abre o WhatsApp da Aruá). O borrão fica
+  abaixo da barra de reserva e do botão de WhatsApp do site, para não atrapalhar o uso; o botão sobe
+  acima da barra de reserva no celular.
+
+Para atualizar a cópia depois de mudar o site original: copiar de novo os arquivos e reaplicar só as
+linhas acima.
 
 ## Fonte de cada informação
 
@@ -48,13 +58,6 @@ O original fica em `~/Área de trabalho/EncandoDaMata/site/` e não foi modifica
 | Fotos e vídeo (sem som)                 | `site/img/`, `site/video/` (recortes de capturas, até 780 px)                |
 | Plano e preço                           | `plans` em `src/content/site.ts`, confirmados pelo responsável em 17/11/2026 |
 
-## Deixado de fora da vitrine, de propósito
-
-Promoções de Natal (prazo e dúvida de acomodação; o site próprio já as mostra e esconde sozinho),
-distância até a Praça Sete (não confirmada), horários de entrada e saída (não informados) e avaliações
-(nenhuma real recebida).
-
 ## Para melhorar
 
-- Fotos originais em alta resolução.
-- Capa (poster) para vídeos na vitrine do Aruá Hospedagens (melhoria do produto, vale para todos).
+- Fotos originais em alta resolução (as atuais são recortes de capturas de tela).

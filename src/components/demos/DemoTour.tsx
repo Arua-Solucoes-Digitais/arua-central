@@ -84,10 +84,6 @@ export function TourPanel({ demo, area }: { demo: ClientDemo; area: DemoArea }) 
             <dd className="mt-0.5 text-muted-foreground">{step[key]}</dd>
           </div>
         ))}
-        <div className="md:col-span-2 rounded-xl bg-secondary p-3">
-          <dt className="font-semibold text-foreground">{g.needsBackend}</dt>
-          <dd className="mt-0.5 text-muted-foreground">{step.needsBackend}</dd>
-        </div>
       </dl>
 
       {finished && !next && (

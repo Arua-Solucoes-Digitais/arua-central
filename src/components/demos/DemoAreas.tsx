@@ -14,9 +14,8 @@ import {
   ConceptChip,
   ExternalSource,
   NatureChip,
-  OperationalOnlyButton,
 } from "./DemoUi";
-import { PlanOfferCard } from "./PlanOfferCard";
+import { ApprovalSimulator } from "./ApprovalSimulator";
 
 type AreaProps = { demo: ClientDemo };
 
@@ -372,10 +371,6 @@ function Activities({ demo }: AreaProps) {
           </AreaSection>
         );
       })}
-      <div className="mt-8 flex flex-wrap gap-3">
-        <OperationalOnlyButton label="Registrar atividade" />
-        <OperationalOnlyButton label="Anexar evidência" />
-      </div>
     </>
   );
 }
@@ -439,10 +434,6 @@ function Presence({ demo }: AreaProps) {
           ))}
         </ul>
       </AreaSection>
-
-      <div className="mt-8">
-        <OperationalOnlyButton label="Registrar medição" />
-      </div>
     </>
   );
 }
@@ -521,10 +512,6 @@ function Publications({ demo }: AreaProps) {
           ))}
         </ul>
       </AreaSection>
-
-      <div className="mt-8">
-        <OperationalOnlyButton label="Registrar publicação" />
-      </div>
     </>
   );
 }
@@ -559,21 +546,10 @@ function Approvals({ demo }: AreaProps) {
       </AreaSection>
 
       <AreaSection
-        title="Como um material chega ao proprietário"
-        intro="Os botões abaixo não registram nada: aprovar de verdade exige login do proprietário e armazenamento seguro."
+        title="Teste o fluxo de aprovação"
+        intro="O mesmo motor da Central da loja: aprove, peça ajustes ou comente, e veja o histórico se formar."
       >
-        <Card className="max-w-xl">
-          <div className="flex flex-wrap gap-2">
-            <ConceptChip>{CONCEPT_LABEL}</ConceptChip>
-          </div>
-          <h3 className="mt-3 font-semibold text-foreground">{a.sample.title}</h3>
-          <p className="text-xs text-muted-foreground">Canal: {a.sample.channel}</p>
-          <p className="mt-2 text-sm text-foreground">{a.sample.description}</p>
-          <div className="mt-4 flex flex-wrap gap-4">
-            <OperationalOnlyButton label="Aprovar" variant="solid" />
-            <OperationalOnlyButton label="Solicitar ajustes" />
-          </div>
-        </Card>
+        <ApprovalSimulator material={a.sample} />
       </AreaSection>
     </>
   );
@@ -681,7 +657,7 @@ function NextActions({ demo }: AreaProps) {
         );
       })}
       <AreaSection
-        title="Oportunidades para depois do teste"
+        title="Oportunidades para depois do piloto"
         intro="Possibilidades a decidir juntos, com base no que o período mostrar."
       >
         <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -703,7 +679,14 @@ function Strategy({ demo }: AreaProps) {
   const s = demo.strategy;
   return (
     <>
-      <PlanOfferCard offer={demo.offer} business={demo.business.name} />
+      <Card className="border-highlight/60">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Proposta
+        </p>
+        <p className="mt-1 font-display text-4xl font-bold text-primary">{s.proposalValue}</p>
+        <p className="mt-2 max-w-2xl text-lg text-foreground">{s.proposalPurpose}</p>
+        <p className="mt-3 text-sm font-semibold text-foreground">{s.proposalStatus}</p>
+      </Card>
 
       <AreaSection title="Posicionamento">
         <p className="max-w-3xl text-lg text-foreground">{s.positioning}</p>
@@ -727,7 +710,7 @@ function Strategy({ demo }: AreaProps) {
         </ol>
       </AreaSection>
 
-      <AreaSection title="Os dois primeiros meses do teste">
+      <AreaSection title="Plano dos 60 dias">
         <ol className="grid gap-4 md:grid-cols-2">
           {s.months.map((m) => (
             <Card as="li" key={m.title}>

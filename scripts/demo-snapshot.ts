@@ -46,12 +46,6 @@ try {
     const imported = importProperty(join(DEMOS_DIR, folder), "script:demo-snapshot");
     for (const [id, file] of Object.entries(imported.mediaFiles)) mediaFiles[id] = `/demos/${file}`;
   }
-  // O exemplo do produto é um estabelecimento real, não o fictício.
-  // As vitrines entram com o WhatsApp (o da Aruá nas demonstrações), porque sem servidor é o
-  // navegador que monta o link do pedido.
-  db.run(
-    "update base_projects set demo_url = '/hospedagens/encanto-da-mata' where slug = 'arua-hospedagens'",
-  );
   for (const p of exported) {
     if (db.get("select id from base_projects where slug = ?", p.slug)) continue;
     db.run(
@@ -94,6 +88,7 @@ try {
   const propertyPages = Object.fromEntries(
     db
       .all<{ slug: string }>("select slug from properties where status = 'published'")
+      // Com o WhatsApp (o da Aruá nas demonstrações): sem servidor, o navegador monta o link do pedido.
       .map(({ slug }) => [slug, withSrc(hospedagens.getPropertyPage(slug, true), mediaFiles)]),
   );
 
