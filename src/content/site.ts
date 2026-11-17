@@ -525,8 +525,8 @@ export const clientArea = {
     "Cada cliente recebe o próprio acesso, criado pela Aruá. Não há cadastro aberto, e cada um vê só o que é seu.",
   previewTitle: "Quer ver como vai ser?",
   previewText:
-    "A demonstração da Central de Presença Digital mostra, com um caso real, como o acompanhamento e as aprovações funcionam.",
+    "A área do gestor do Tlim mostra como vai ser o acompanhamento: pedidos, clientes, aprovações e pesquisas, com um restaurante de exemplo.",
   previewCta: "Ver a demonstração",
-  previewHref: "/demonstracoes/rogerinho-burguers",
+  previewHref: "/demonstracoes/tlim/visao-geral",
   contactCta: "Falar com a Aruá",
 };

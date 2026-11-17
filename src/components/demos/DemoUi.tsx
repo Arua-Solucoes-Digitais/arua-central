@@ -1,5 +1,5 @@
 // Peças visuais das demonstrações guiadas. Status sempre com ícone + rótulo, nunca só cor.
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -8,29 +8,14 @@ import {
   Clock,
   FlaskConical,
   Info,
-  KeyRound,
   Lightbulb,
-  Lock,
   PlayCircle,
   ShieldCheck,
   ThumbsUp,
   type LucideIcon,
 } from "lucide-react";
-import {
-  actionStateLabels,
-  activityStatusLabels,
-  certaintyLabels,
-  demoCopy,
-  natureLabels,
-} from "@/content/demos";
-import type {
-  ActionState,
-  ActivityStatus,
-  Certainty,
-  DataNature,
-  SourceLink,
-} from "@/content/demos/types";
-import { safeHttpUrl } from "@/lib/safe-url";
+import { activityStatusLabels, certaintyLabels, natureLabels } from "@/content/demos";
+import type { ActivityStatus, Certainty, DataNature } from "@/content/demos/types";
 
 type Tone = "neutral" | "info" | "warn" | "good" | "brand";
 
@@ -112,23 +97,6 @@ export function NatureChip({ nature }: { nature: DataNature }) {
   );
 }
 
-const actionIcons: Record<ActionState, { icon: LucideIcon; tone: Tone }> = {
-  proposta: { icon: Lightbulb, tone: "neutral" },
-  "aguardando-confirmacao": { icon: CircleHelp, tone: "warn" },
-  "depende-acesso": { icon: KeyRound, tone: "info" },
-  "depende-autorizacao": { icon: Lock, tone: "brand" },
-  realizada: { icon: CheckCircle2, tone: "good" },
-};
-
-export function ActionStateChip({ state }: { state: ActionState }) {
-  const a = actionIcons[state];
-  return (
-    <Chip icon={a.icon} tone={a.tone}>
-      {actionStateLabels[state]}
-    </Chip>
-  );
-}
-
 export function ConceptChip({ children }: { children: ReactNode }) {
   return (
     <Chip icon={FlaskConical} tone="brand">
@@ -175,21 +143,5 @@ export function AreaSection({
       {intro && <p className="mt-1 max-w-3xl text-sm text-muted-foreground">{intro}</p>}
       <div className="mt-4">{children}</div>
     </section>
-  );
-}
-
-export function ExternalSource({ link }: { link: SourceLink }) {
-  const href = safeHttpUrl(link.url);
-  if (!href) return <span>{link.label}</span>;
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="font-medium text-accent underline underline-offset-4"
-    >
-      {link.label}
-      <span className="sr-only"> (abre em nova aba)</span>
-    </a>
   );
 }

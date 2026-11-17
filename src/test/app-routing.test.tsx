@@ -17,15 +17,18 @@ describe("App routing", () => {
     expect(matches.at(-1)?.routeId).not.toBe(rootRouteId);
   });
 
-  it("matches the guided demo pages of a client", () => {
+  it("matches the Tlim demo: presentation, manager areas and the online menu", () => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
 
     expect(router.matchRoutes("/demonstracoes").at(-1)?.routeId).toBe("/demonstracoes/");
-    expect(router.matchRoutes("/demonstracoes/rogerinho-burguers").at(-1)?.routeId).toBe(
+    expect(router.matchRoutes("/demonstracoes/tlim").at(-1)?.routeId).toBe(
       "/demonstracoes/$client/",
     );
-    expect(
-      router.matchRoutes("/demonstracoes/rogerinho-burguers/presenca-digital").at(-1)?.routeId,
-    ).toBe("/demonstracoes/$client/$area");
+    expect(router.matchRoutes("/demonstracoes/tlim/pedidos").at(-1)?.routeId).toBe(
+      "/demonstracoes/$client/$area",
+    );
+    expect(router.matchRoutes("/demonstracoes/tlim/loja").at(-1)?.routeId).toBe(
+      "/demonstracoes/$client/loja",
+    );
   });
 });

@@ -2,28 +2,15 @@
   {
     "slug": "tlim",
     "title": "Tlim",
-    "description": "Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
-    "problem": "Quem vende comida por aplicativo paga comissão em cada pedido, e os pedidos que chegam pelo WhatsApp costumam ser anotados à mão, com erro, demora e retrabalho na cozinha.",
-    "features": "Cardápio da loja em site próprio, sem comissão por pedido\nPedido com itens, observações, entrega ou retirada e forma de pagamento\nImpressão automática do pedido na cozinha e no balcão\nPainel para a loja acompanhar e atualizar cada pedido\nCardápio editável: preços, fotos e itens esgotados",
-    "demo_url": null,
+    "description": "Central de pedidos com cardápio online e área do gestor para Instagram, WhatsApp e CRM de vendas.",
+    "problem": "Pedidos chegam espalhados por WhatsApp, telefone e plataformas, anotados à mão; quem pediu uma vez não fica registrado; e as redes ficam sem ritmo nem pesquisa com quem comprou.",
+    "features": "Cardápio online próprio, com link para a bio e itens esgotados que saem na hora\nCentral de pedidos com comanda para a cozinha e o balcão\nCRM de vendas: histórico, total gasto e grupos de clientes\nDisparo de mensagens no WhatsApp por grupo de clientes\nAgendamento de posts, reels e stories no Instagram, com aprovação\nPesquisas de satisfação depois da entrega",
+    "demo_url": "/demonstracoes/tlim",
     "kind": "product",
     "category": "sistema",
     "client": "",
     "results": "",
     "sort_order": 10
-  },
-  {
-    "slug": "rogerinho-burguers",
-    "title": "Rogerinho Burguer's — Presença Digital",
-    "description": "Gestão da presença digital de uma hamburgueria em Belo Horizonte, com uma central onde o dono acompanha as atividades, aprova materiais e vê os indicadores.",
-    "problem": "A loja precisava de mais visibilidade no Instagram, no Google e nos canais de pedido, e de um jeito simples de acompanhar e aprovar o trabalho feito.",
-    "features": "Central de acompanhamento com acesso separado para o gestor e para o dono\nAprovação ou pedido de ajuste de cada material, com histórico\nIndicadores com fonte, data e período\nRegistro de atividades e próximas ações",
-    "demo_url": "/demonstracoes/rogerinho-burguers",
-    "kind": "case",
-    "category": "social",
-    "client": "Rogerinho Burguer's",
-    "results": "",
-    "sort_order": 20
   },
   {
     "slug": "pousada-encanto-da-mata",

@@ -220,39 +220,37 @@
   outline-offset: 2px;
 }
 
-/* Tema de cliente: redefine só os tokens semânticos dentro da demonstração, então os
-   componentes continuam usando bg-primary, text-muted-foreground etc. A faixa
-   institucional da Aruá fica fora deste escopo. Referência: design system da Central
-   original do Rogerinho Burguer's (#f6f3ee, #1d1a17, #4a423b, #e8e1d8, #c8102e,
-   #e9a800, #1f3a8a). */
-.demo-theme-rogerinho {
-  --rb-cream: oklch(0.965 0.007 80.7);
-  --rb-ink: oklch(0.22 0.007 67.4);
-  --rb-ink-2: oklch(0.385 0.016 63.5);
-  --rb-line: oklch(0.913 0.014 74.4);
-  --rb-soft: oklch(0.937 0.013 75.4);
-  --rb-red: oklch(0.53 0.207 22.3);
-  --rb-gold: oklch(0.773 0.16 80.6);
-  --rb-navy: oklch(0.379 0.137 265.9);
+/* Tema do restaurante de exemplo do Tlim: redefine só os tokens semânticos dentro da
+   demonstração, então os componentes continuam usando bg-primary, text-muted-foreground etc.
+   A marca da Aruá (topo, assinatura e marca d'água) fica fora deste escopo. */
+.demo-theme-tlim {
+  --tlim-cream: oklch(0.965 0.007 80.7);
+  --tlim-ink: oklch(0.22 0.007 67.4);
+  --tlim-ink-2: oklch(0.385 0.016 63.5);
+  --tlim-line: oklch(0.913 0.014 74.4);
+  --tlim-soft: oklch(0.937 0.013 75.4);
+  --tlim-red: oklch(0.53 0.207 22.3);
+  --tlim-gold: oklch(0.773 0.16 80.6);
+  --tlim-navy: oklch(0.379 0.137 265.9);
 
-  --background: var(--rb-cream);
-  --foreground: var(--rb-ink);
+  --background: var(--tlim-cream);
+  --foreground: var(--tlim-ink);
   --card: oklch(1 0 0);
-  --card-foreground: var(--rb-ink);
+  --card-foreground: var(--tlim-ink);
   --popover: oklch(1 0 0);
-  --popover-foreground: var(--rb-ink);
-  --primary: var(--rb-red);
+  --popover-foreground: var(--tlim-ink);
+  --primary: var(--tlim-red);
   --primary-foreground: oklch(1 0 0);
-  --secondary: var(--rb-soft);
-  --secondary-foreground: var(--rb-ink);
-  --muted: var(--rb-soft);
-  --muted-foreground: var(--rb-ink-2);
-  --accent: var(--rb-navy);
+  --secondary: var(--tlim-soft);
+  --secondary-foreground: var(--tlim-ink);
+  --muted: var(--tlim-soft);
+  --muted-foreground: var(--tlim-ink-2);
+  --accent: var(--tlim-navy);
   --accent-foreground: oklch(1 0 0);
-  --highlight: var(--rb-gold);
-  --border: var(--rb-line);
-  --input: var(--rb-line);
-  --ring: var(--rb-navy);
+  --highlight: var(--tlim-gold);
+  --border: var(--tlim-line);
+  --input: var(--tlim-line);
+  --ring: var(--tlim-navy);
 }
 
 /* Transição entre páginas: a nova sobe e aparece; o cabeçalho fica parado.

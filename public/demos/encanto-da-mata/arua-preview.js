@@ -24,10 +24,14 @@
     "border-radius:999px;background:#0B2D5B;color:#fff;text-decoration:none;font-size:13px;letter-spacing:.01em;" +
     "box-shadow:0 8px 24px rgba(11,45,91,.35);transition:transform .15s ease,box-shadow .15s ease}" +
     ".arua-cta:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(11,45,91,.45)}" +
-    ".arua-cta:focus-visible{outline:3px solid #f5c542;outline-offset:2px}" +
+    ".arua-cta:focus-visible,.arua-back:focus-visible{outline:3px solid #f5c542;outline-offset:2px}" +
+    ".arua-back{pointer-events:auto;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;" +
+    "border-radius:999px;background:#fff;color:#0B2D5B;text-decoration:none;font-size:13px;" +
+    "box-shadow:0 8px 24px rgba(11,45,91,.25);transition:transform .15s ease}" +
+    ".arua-back:hover{transform:translateY(-1px)}" +
     ".arua-spacer{height:120px}" +
     "@media (max-width:640px){.arua-blur{height:120px}.arua-mark{font-size:10px;padding:7px 11px}}" +
-    "@media (prefers-reduced-motion:reduce){.arua-preview,.arua-cta{transition:none}}" +
+    "@media (prefers-reduced-motion:reduce){.arua-preview,.arua-cta,.arua-back{transition:none}}" +
     "@media print{.arua-blur,.arua-preview,.arua-spacer{display:none}}";
 
   function el(tag, cls, text) {
@@ -52,6 +56,11 @@
     bar.setAttribute("role", "note");
     bar.setAttribute("aria-label", "Modo demonstração da Aruá");
     bar.appendChild(el("span", "arua-mark", "Modo demonstração • Aruá ©"));
+
+    // Sempre um caminho de volta ao portfólio da Aruá (funciona no site real e no GitHub Pages).
+    var back = el("a", "arua-back", "← Voltar à Aruá");
+    back.href = "../../portfolio";
+    bar.appendChild(back);
 
     var cta = el("a", "arua-cta", "Quero um site assim");
     var message =

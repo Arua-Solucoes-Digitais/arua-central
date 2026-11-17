@@ -38,7 +38,8 @@ O original fica em `ARUA-DEVELOPMENT/projetos/encanto-da-mata/site/` e não foi 
   da largura no celular (rolagem lateral de 17 px). **Vale corrigir também no original;**
 - `<script src="arua-preview.js">` no fim do `index.html` e do `painel.html`: borrão progressivo fixo no
   rodapé (160 px, `blur(16px)`, máscara de baixo para cima, sem capturar cliques), marca d'água
-  "Modo demonstração • Aruá ©" e botão "Quero um site assim" (abre o WhatsApp da Aruá). O borrão fica
+  "Modo demonstração • Aruá ©", botão "← Voltar à Aruá" (leva ao portfólio) e botão "Quero um site assim"
+  (abre o WhatsApp da Aruá). O borrão fica
   abaixo da barra de reserva e do botão de WhatsApp do site, para não atrapalhar o uso; o botão sobe
   acima da barra de reserva no celular.
 
