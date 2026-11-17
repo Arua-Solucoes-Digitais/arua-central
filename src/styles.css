@@ -214,6 +214,47 @@
   scale: 0.97;
 }
 
+/* Demonstrações guiadas (/demonstracoes): foco bem visível em toda a experiência. */
+.demo-frame :focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Tema de cliente: redefine só os tokens semânticos dentro da demonstração, então os
+   componentes continuam usando bg-primary, text-muted-foreground etc. A faixa
+   institucional da Aruá fica fora deste escopo. Referência: design system da Central
+   original do Rogerinho Burguer's (#f6f3ee, #1d1a17, #4a423b, #e8e1d8, #c8102e,
+   #e9a800, #1f3a8a). */
+.demo-theme-rogerinho {
+  --rb-cream: oklch(0.965 0.007 80.7);
+  --rb-ink: oklch(0.22 0.007 67.4);
+  --rb-ink-2: oklch(0.385 0.016 63.5);
+  --rb-line: oklch(0.913 0.014 74.4);
+  --rb-soft: oklch(0.937 0.013 75.4);
+  --rb-red: oklch(0.53 0.207 22.3);
+  --rb-gold: oklch(0.773 0.16 80.6);
+  --rb-navy: oklch(0.379 0.137 265.9);
+
+  --background: var(--rb-cream);
+  --foreground: var(--rb-ink);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--rb-ink);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--rb-ink);
+  --primary: var(--rb-red);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: var(--rb-soft);
+  --secondary-foreground: var(--rb-ink);
+  --muted: var(--rb-soft);
+  --muted-foreground: var(--rb-ink-2);
+  --accent: var(--rb-navy);
+  --accent-foreground: oklch(1 0 0);
+  --highlight: var(--rb-gold);
+  --border: var(--rb-line);
+  --input: var(--rb-line);
+  --ring: var(--rb-navy);
+}
+
 /* Transição entre páginas: a nova sobe e aparece; o cabeçalho fica parado.
    Vale para navegação do roteador e para páginas estáticas (demo). */
 @view-transition {

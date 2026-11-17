@@ -4,6 +4,7 @@
 import type * as Real from "../lib/api";
 import type { z } from "zod";
 import type { reservationSchema } from "../lib/schemas";
+import { withBase } from "../lib/paths";
 import { buildReservationMessage, buildWhatsappUrl } from "../lib/whatsapp";
 import snapshot from "./snapshot.json";
 
@@ -27,10 +28,28 @@ const projectPages = snapshot.projectPages as unknown as Record<
   string,
   Awaited<ReturnType<Api["getProjectPage"]>>
 >;
-const propertyPages = snapshot.propertyPages as unknown as Record<
-  string,
-  Awaited<ReturnType<Api["getPropertyPage"]>>
->;
+type PropertyPage = NonNullable<Awaited<ReturnType<Api["getPropertyPage"]>>>;
+type Media = PropertyPage["gallery"][number];
+
+// Fotos e vídeos das vitrines de demonstração ficam em public/demos e são servidos como arquivos.
+// Sem arquivo não há o que mostrar: no lugar de um link quebrado, a mídia sai da vitrine.
+const resolveMedia = (item: Media): Media | null =>
+  item.src ? { ...item, src: withBase(item.src) } : null;
+const keep = (items: Media[]) => items.flatMap((item) => resolveMedia(item) ?? []);
+const propertyPages: Record<string, PropertyPage | null> = Object.fromEntries(
+  Object.entries(snapshot.propertyPages as unknown as Record<string, PropertyPage | null>).map(
+    ([slug, page]) => [
+      slug,
+      page && {
+        ...page,
+        logo: page.logo && resolveMedia(page.logo),
+        banners: keep(page.banners),
+        gallery: keep(page.gallery),
+        stays: page.stays.map((s) => ({ ...s, photos: keep(s.photos) })),
+      },
+    ],
+  ),
+);
 
 // Público: leitura do retrato de demonstração
 export const getPublishedProjects = stub<"getPublishedProjects">(async () => showcase.projects);
@@ -42,7 +61,11 @@ export const getProjectPage = stub<"getProjectPage">(
   async ({ data }: { data: { slug: string } }) => projectPages[data.slug] ?? null,
 );
 export const getPropertyPage = stub<"getPropertyPage">(
-  async ({ data }: { data: { slug: string } }) => propertyPages[data.slug] ?? null,
+  async ({ data }: { data: { slug: string } }) => {
+    const page = propertyPages[data.slug];
+    // Como no site real: o número só aparece no link pronto, no fim do pedido.
+    return page ? { ...page, whatsapp: "" } : null;
+  },
 );
 
 // Pedido de reserva: monta o resumo e o link do WhatsApp no navegador, sem gravar nada.
@@ -73,7 +96,7 @@ export const submitReservation = stub<"submitReservation">(
       ok: true,
       message,
       stay_name: stay.name,
-      whatsapp_url: buildWhatsappUrl("", message),
+      whatsapp_url: buildWhatsappUrl(property.whatsapp, message),
     };
   },
 );

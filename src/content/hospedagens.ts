@@ -1,7 +1,7 @@
 // Textos fixos da vitrine. O que é de cada estabelecimento fica no banco, editável pelo painel.
 export const hospedagensCopy = {
   demoNotice:
-    "Demonstração: este estabelecimento é fictício. Valores, horários e fotos são exemplos, e nenhuma reserva será atendida.",
+    "Demonstração do Aruá Hospedagens: os pedidos feitos aqui não chegam ao estabelecimento e nenhuma reserva é confirmada.",
   previewNotice:
     "Pré-visualização: esta vitrine não está publicada, e só quem está conectado ao painel consegue vê-la.",
   demoPhoto: "Foto de demonstração",

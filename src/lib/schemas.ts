@@ -226,6 +226,8 @@ export type MediaItem = {
   alt: string;
   description: string;
   stay_id: string | null;
+  // Só na demonstração estática: arquivo versionado em src/demo/properties, no lugar de /media/<id>.
+  src?: string;
 };
 
 export type PublicBaseProject = {

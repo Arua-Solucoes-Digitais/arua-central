@@ -19,6 +19,7 @@ npm run dev
 | Suporte e Status dos sistemas | `/suporte`, `/status` |
 | Página de um projeto | http://127.0.0.1:8080/projetos/arua-hospedagens |
 | Vitrine de demonstração | http://127.0.0.1:8080/hospedagens/demonstracao |
+| Demonstrações guiadas da Central de Presença Digital | http://127.0.0.1:8080/demonstracoes |
 
 Para trocar a senha, rode `npm run admin` de novo com o mesmo e-mail. Isso também desfaz o bloqueio por tentativas erradas e encerra as sessões abertas.
 
@@ -84,6 +85,7 @@ npm start          # roda a versão gerada pelo build
 | Sistemas no ar e depoimentos | Área restrita (`/admin`) |
 | Textos, planos, preços, perguntas frequentes e contato direto | `src/content/site.ts` |
 | Textos fixos da vitrine | `src/content/hospedagens.ts` |
+| Demonstrações guiadas (dados de cada cliente) | `src/content/demos/` (fontes em `docs/demos/`) |
 | Cores e fontes | `src/styles.css` (`--aru-*`) |
 | Estrutura do banco | `MIGRATIONS` em `src/server/db.ts` |
 | Regras dos dados | `src/lib/schemas.ts` |

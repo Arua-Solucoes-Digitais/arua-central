@@ -40,6 +40,13 @@ function CustomAppsPage() {
         >
           Ver sistemas funcionando no portfólio
         </Link>
+        <Link
+          to="/demonstracoes"
+          data-track="aplicacoes-demonstracoes"
+          className="mt-3 block font-semibold text-primary underline underline-offset-4"
+        >
+          Conhecer a Central de Presença Digital em uma demonstração guiada
+        </Link>
       </Section>
 
       <Section id="funcionalidades" title={customApps.featuresTitle} tone="muted">

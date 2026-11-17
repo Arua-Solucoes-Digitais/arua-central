@@ -21,6 +21,7 @@
     "status": "node scripts/check-status.ts",
     "demo:snapshot": "node scripts/demo-snapshot.ts",
     "demo:export-projects": "node scripts/demo-export-projects.ts",
+    "property:import": "node scripts/import-property.ts",
     "typecheck": "tsc --noEmit"
   },
   "overrides": {

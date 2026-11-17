@@ -36,7 +36,11 @@ export function buildReservationMessage(s: ReservationSummary) {
   if (s.email) lines.push(`*E-mail:* ${s.email}`);
   if (s.notes) lines.push(`*Observações:* ${s.notes}`);
   lines.push("", "Aguardo a confirmação da disponibilidade e dos valores.");
-  if (s.isDemo) lines.push("", "(Mensagem de demonstração: este estabelecimento é fictício.)");
+  if (s.isDemo)
+    lines.push(
+      "",
+      "(Mensagem de demonstração do Aruá Hospedagens: este pedido não foi enviado ao estabelecimento.)",
+    );
   return lines.join("\n");
 }
 

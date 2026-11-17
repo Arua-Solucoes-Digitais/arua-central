@@ -19,9 +19,14 @@ import { Route as ServicosRouteImport } from './routes/servicos'
 import { Route as StatusRouteImport } from './routes/status'
 import { Route as SuporteRouteImport } from './routes/suporte'
 import { Route as ApiUploadRouteImport } from './routes/api.upload'
+import { Route as DemonstracoesIndexRouteImport } from './routes/demonstracoes.index'
+import { Route as DemonstracoesClientRouteImport } from './routes/demonstracoes.$client'
+import { Route as DemonstracoesEncantoDaMataRouteImport } from './routes/demonstracoes.encanto-da-mata'
 import { Route as HospedagensSlugRouteImport } from './routes/hospedagens.$slug'
 import { Route as MediaIdRouteImport } from './routes/media.$id'
 import { Route as ProjetosSlugRouteImport } from './routes/projetos.$slug'
+import { Route as DemonstracoesClientIndexRouteImport } from './routes/demonstracoes.$client.index'
+import { Route as DemonstracoesClientAreaRouteImport } from './routes/demonstracoes.$client.$area'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -73,6 +78,22 @@ const ApiUploadRoute = ApiUploadRouteImport.update({
   path: '/api/upload',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemonstracoesIndexRoute = DemonstracoesIndexRouteImport.update({
+  id: '/demonstracoes/',
+  path: '/demonstracoes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemonstracoesClientRoute = DemonstracoesClientRouteImport.update({
+  id: '/demonstracoes/$client',
+  path: '/demonstracoes/$client',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemonstracoesEncantoDaMataRoute =
+  DemonstracoesEncantoDaMataRouteImport.update({
+    id: '/demonstracoes/encanto-da-mata',
+    path: '/demonstracoes/encanto-da-mata',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const HospedagensSlugRoute = HospedagensSlugRouteImport.update({
   id: '/hospedagens/$slug',
   path: '/hospedagens/$slug',
@@ -88,6 +109,17 @@ const ProjetosSlugRoute = ProjetosSlugRouteImport.update({
   path: '/projetos/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemonstracoesClientIndexRoute =
+  DemonstracoesClientIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DemonstracoesClientRoute,
+  } as any)
+const DemonstracoesClientAreaRoute = DemonstracoesClientAreaRouteImport.update({
+  id: '/$area',
+  path: '/$area',
+  getParentRoute: () => DemonstracoesClientRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -100,9 +132,14 @@ export interface FileRoutesByFullPath {
   '/status': typeof StatusRoute
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
+  '/demonstracoes/$client': typeof DemonstracoesClientRouteWithChildren
+  '/demonstracoes/encanto-da-mata': typeof DemonstracoesEncantoDaMataRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
+  '/demonstracoes/': typeof DemonstracoesIndexRoute
+  '/demonstracoes/$client/$area': typeof DemonstracoesClientAreaRoute
+  '/demonstracoes/$client/': typeof DemonstracoesClientIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -115,9 +152,13 @@ export interface FileRoutesByTo {
   '/status': typeof StatusRoute
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
+  '/demonstracoes/encanto-da-mata': typeof DemonstracoesEncantoDaMataRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
+  '/demonstracoes': typeof DemonstracoesIndexRoute
+  '/demonstracoes/$client/$area': typeof DemonstracoesClientAreaRoute
+  '/demonstracoes/$client': typeof DemonstracoesClientIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -131,9 +172,14 @@ export interface FileRoutesById {
   '/status': typeof StatusRoute
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
+  '/demonstracoes/$client': typeof DemonstracoesClientRouteWithChildren
+  '/demonstracoes/encanto-da-mata': typeof DemonstracoesEncantoDaMataRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
+  '/demonstracoes/': typeof DemonstracoesIndexRoute
+  '/demonstracoes/$client/$area': typeof DemonstracoesClientAreaRoute
+  '/demonstracoes/$client/': typeof DemonstracoesClientIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -148,9 +194,14 @@ export interface FileRouteTypes {
     | '/status'
     | '/suporte'
     | '/api/upload'
+    | '/demonstracoes/$client'
+    | '/demonstracoes/encanto-da-mata'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
+    | '/demonstracoes/'
+    | '/demonstracoes/$client/$area'
+    | '/demonstracoes/$client/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -163,9 +214,13 @@ export interface FileRouteTypes {
     | '/status'
     | '/suporte'
     | '/api/upload'
+    | '/demonstracoes/encanto-da-mata'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
+    | '/demonstracoes'
+    | '/demonstracoes/$client/$area'
+    | '/demonstracoes/$client'
   id:
     | '__root__'
     | '/'
@@ -178,9 +233,14 @@ export interface FileRouteTypes {
     | '/status'
     | '/suporte'
     | '/api/upload'
+    | '/demonstracoes/$client'
+    | '/demonstracoes/encanto-da-mata'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
+    | '/demonstracoes/'
+    | '/demonstracoes/$client/$area'
+    | '/demonstracoes/$client/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -194,9 +254,12 @@ export interface RootRouteChildren {
   StatusRoute: typeof StatusRoute
   SuporteRoute: typeof SuporteRoute
   ApiUploadRoute: typeof ApiUploadRoute
+  DemonstracoesClientRoute: typeof DemonstracoesClientRouteWithChildren
+  DemonstracoesEncantoDaMataRoute: typeof DemonstracoesEncantoDaMataRoute
   HospedagensSlugRoute: typeof HospedagensSlugRoute
   MediaIdRoute: typeof MediaIdRoute
   ProjetosSlugRoute: typeof ProjetosSlugRoute
+  DemonstracoesIndexRoute: typeof DemonstracoesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -271,6 +334,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiUploadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/demonstracoes/': {
+      id: '/demonstracoes/'
+      path: '/demonstracoes'
+      fullPath: '/demonstracoes/'
+      preLoaderRoute: typeof DemonstracoesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demonstracoes/$client': {
+      id: '/demonstracoes/$client'
+      path: '/demonstracoes/$client'
+      fullPath: '/demonstracoes/$client'
+      preLoaderRoute: typeof DemonstracoesClientRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demonstracoes/encanto-da-mata': {
+      id: '/demonstracoes/encanto-da-mata'
+      path: '/demonstracoes/encanto-da-mata'
+      fullPath: '/demonstracoes/encanto-da-mata'
+      preLoaderRoute: typeof DemonstracoesEncantoDaMataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hospedagens/$slug': {
       id: '/hospedagens/$slug'
       path: '/hospedagens/$slug'
@@ -292,8 +376,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjetosSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/demonstracoes/$client/': {
+      id: '/demonstracoes/$client/'
+      path: '/'
+      fullPath: '/demonstracoes/$client/'
+      preLoaderRoute: typeof DemonstracoesClientIndexRouteImport
+      parentRoute: typeof DemonstracoesClientRoute
+    }
+    '/demonstracoes/$client/$area': {
+      id: '/demonstracoes/$client/$area'
+      path: '/$area'
+      fullPath: '/demonstracoes/$client/$area'
+      preLoaderRoute: typeof DemonstracoesClientAreaRouteImport
+      parentRoute: typeof DemonstracoesClientRoute
+    }
   }
 }
+
+interface DemonstracoesClientRouteChildren {
+  DemonstracoesClientAreaRoute: typeof DemonstracoesClientAreaRoute
+  DemonstracoesClientIndexRoute: typeof DemonstracoesClientIndexRoute
+}
+
+const DemonstracoesClientRouteChildren: DemonstracoesClientRouteChildren = {
+  DemonstracoesClientAreaRoute: DemonstracoesClientAreaRoute,
+  DemonstracoesClientIndexRoute: DemonstracoesClientIndexRoute,
+}
+
+const DemonstracoesClientRouteWithChildren =
+  DemonstracoesClientRoute._addFileChildren(DemonstracoesClientRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -306,9 +417,12 @@ const rootRouteChildren: RootRouteChildren = {
   StatusRoute: StatusRoute,
   SuporteRoute: SuporteRoute,
   ApiUploadRoute: ApiUploadRoute,
+  DemonstracoesClientRoute: DemonstracoesClientRouteWithChildren,
+  DemonstracoesEncantoDaMataRoute: DemonstracoesEncantoDaMataRoute,
   HospedagensSlugRoute: HospedagensSlugRoute,
   MediaIdRoute: MediaIdRoute,
   ProjetosSlugRoute: ProjetosSlugRoute,
+  DemonstracoesIndexRoute: DemonstracoesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

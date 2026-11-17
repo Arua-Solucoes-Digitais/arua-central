@@ -5,10 +5,37 @@
     "description": "Em desenvolvimento. Cardápio da própria loja num site com pedido online: o pedido chega na hora e sai impresso na cozinha e no balcão. Pediu, tlim, saiu.",
     "problem": "Quem vende comida por aplicativo paga comissão em cada pedido, e os pedidos que chegam pelo WhatsApp costumam ser anotados à mão, com erro, demora e retrabalho na cozinha.",
     "features": "Cardápio da loja em site próprio, sem comissão por pedido\nPedido com itens, observações, entrega ou retirada e forma de pagamento\nImpressão automática do pedido na cozinha e no balcão\nPainel para a loja acompanhar e atualizar cada pedido\nCardápio editável: preços, fotos e itens esgotados",
+    "demo_url": null,
     "kind": "product",
     "category": "sistema",
     "client": "",
     "results": "",
     "sort_order": 10
+  },
+  {
+    "slug": "rogerinho-burguers",
+    "title": "Rogerinho Burguer's — Presença Digital",
+    "description": "Gestão da presença digital de uma hamburgueria em Belo Horizonte, com uma central onde o dono acompanha as atividades, aprova materiais e vê os indicadores.",
+    "problem": "A loja precisava de mais visibilidade no Instagram, no Google e nos canais de pedido, e de um jeito simples de acompanhar e aprovar o trabalho feito.",
+    "features": "Central de acompanhamento com acesso separado para o gestor e para o dono\nAprovação ou pedido de ajuste de cada material, com histórico\nIndicadores com fonte, data e período\nRegistro de atividades e próximas ações",
+    "demo_url": "/demonstracoes/rogerinho-burguers",
+    "kind": "case",
+    "category": "social",
+    "client": "Rogerinho Burguer's",
+    "results": "",
+    "sort_order": 20
+  },
+  {
+    "slug": "pousada-encanto-da-mata",
+    "title": "Pousada Encanto da Mata",
+    "description": "Site de hospedagem com simulador de reserva pelo WhatsApp e painel do proprietário para acompanhar contatos, reservas e a origem de cada cliente.",
+    "problem": "As reservas chegavam por mensagens soltas, sem datas, acomodação ou valor definidos, e não havia como saber de onde vinha cada cliente.",
+    "features": "Simulador de reserva por acomodação, datas e hóspedes, com promoções válidas no período\nMensagem pronta no WhatsApp com a origem do cliente\nPainel com contatos, reservas fechadas, valores e calendário\nLinks diretos com datas para anúncios e Instagram\nVitrine com pedido de reserva no Aruá Hospedagens",
+    "demo_url": "/demonstracoes/encanto-da-mata",
+    "kind": "case",
+    "category": "site",
+    "client": "Pousada Encanto da Mata",
+    "results": "",
+    "sort_order": 30
   }
 ]
