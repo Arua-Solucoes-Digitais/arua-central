@@ -1,9 +1,11 @@
 // @vitest-environment node
 // Fidelidade e privacidade dos dados das demonstrações: o que aparece na tela
 // precisa ter fonte e data, e nada privado pode entrar no bundle público.
+import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { safeHttpUrl } from "@/lib/safe-url";
-import { demoAreas, demos, getDemo } from "./index";
+import { encantoShowcase } from "./encanto-da-mata";
+import { arualContact, demoAreas, demos, getDemo, getOfferPlan } from "./index";
 import { rogerinhoBurguers as rb } from "./rogerinho-burguers";
 
 const ALLOWED_HOSTS = ["pedido.anota.ai", "www.instagram.com"];
@@ -155,5 +157,41 @@ describe("Rogerinho demo data — privacy and links", () => {
     expect(safeHttpUrl("https://www.instagram.com/rogerinhoburguers/")).toBe(
       "https://www.instagram.com/rogerinhoburguers/",
     );
+  });
+});
+
+describe("propostas", () => {
+  const offers = [
+    ["Rogerinho Burguer's", demos["rogerinho-burguers"]!.offer],
+    ["Pousada Encanto da Mata", encantoShowcase.offer],
+  ] as const;
+
+  it.each(offers)("%s: o plano existe e o que fica fora do teste é item do plano", (_, offer) => {
+    const plan = getOfferPlan(offer);
+    expect(offer.trialMonths).toBe(3);
+    for (const item of offer.notInTrial) expect(plan.includes).toContain(item);
+    expect(offer.status).toMatch(/aguardando aprovação/);
+  });
+
+  it("Rogerinho: Digital Performance, sem anúncios no teste", () => {
+    const offer = demos["rogerinho-burguers"]!.offer;
+    expect(getOfferPlan(offer).name).toBe("Digital Performance");
+    expect(offer.notInTrial).toEqual(["Gestão de campanhas de anúncios"]);
+  });
+
+  it("Encanto: Digital Profissional, com arquivos que existem em public/", () => {
+    expect(getOfferPlan(encantoShowcase.offer).name).toBe("Digital Profissional");
+    const files = [
+      encantoShowcase.hero.src,
+      ...encantoShowcase.pieces.flatMap((p) => (p.kind === "file" ? [p.href, p.image] : [p.image])),
+    ];
+    for (const f of files) expect(existsSync(`public${f}`), f).toBe(true);
+  });
+
+  it("o contato das propostas é o da Aruá, nunca o do proprietário", () => {
+    expect(arualContact.whatsapp).toBe("5538999636208");
+    const site = readFileSync("public/demos/encanto-da-mata/index.html", "utf8");
+    expect(site).not.toContain("5531984721918");
+    expect(site).toContain("whatsapp: '5538999636208'");
   });
 });

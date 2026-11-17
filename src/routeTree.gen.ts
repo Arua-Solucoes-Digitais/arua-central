@@ -21,6 +21,7 @@ import { Route as SuporteRouteImport } from './routes/suporte'
 import { Route as ApiUploadRouteImport } from './routes/api.upload'
 import { Route as DemonstracoesIndexRouteImport } from './routes/demonstracoes.index'
 import { Route as DemonstracoesClientRouteImport } from './routes/demonstracoes.$client'
+import { Route as DemonstracoesEncantoDaMataRouteImport } from './routes/demonstracoes.encanto-da-mata'
 import { Route as HospedagensSlugRouteImport } from './routes/hospedagens.$slug'
 import { Route as MediaIdRouteImport } from './routes/media.$id'
 import { Route as ProjetosSlugRouteImport } from './routes/projetos.$slug'
@@ -87,6 +88,12 @@ const DemonstracoesClientRoute = DemonstracoesClientRouteImport.update({
   path: '/demonstracoes/$client',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemonstracoesEncantoDaMataRoute =
+  DemonstracoesEncantoDaMataRouteImport.update({
+    id: '/demonstracoes/encanto-da-mata',
+    path: '/demonstracoes/encanto-da-mata',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const HospedagensSlugRoute = HospedagensSlugRouteImport.update({
   id: '/hospedagens/$slug',
   path: '/hospedagens/$slug',
@@ -126,6 +133,7 @@ export interface FileRoutesByFullPath {
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
   '/demonstracoes/$client': typeof DemonstracoesClientRouteWithChildren
+  '/demonstracoes/encanto-da-mata': typeof DemonstracoesEncantoDaMataRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
@@ -144,6 +152,7 @@ export interface FileRoutesByTo {
   '/status': typeof StatusRoute
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
+  '/demonstracoes/encanto-da-mata': typeof DemonstracoesEncantoDaMataRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
@@ -164,6 +173,7 @@ export interface FileRoutesById {
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
   '/demonstracoes/$client': typeof DemonstracoesClientRouteWithChildren
+  '/demonstracoes/encanto-da-mata': typeof DemonstracoesEncantoDaMataRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/suporte'
     | '/api/upload'
     | '/demonstracoes/$client'
+    | '/demonstracoes/encanto-da-mata'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
@@ -203,6 +214,7 @@ export interface FileRouteTypes {
     | '/status'
     | '/suporte'
     | '/api/upload'
+    | '/demonstracoes/encanto-da-mata'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
@@ -222,6 +234,7 @@ export interface FileRouteTypes {
     | '/suporte'
     | '/api/upload'
     | '/demonstracoes/$client'
+    | '/demonstracoes/encanto-da-mata'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
@@ -242,6 +255,7 @@ export interface RootRouteChildren {
   SuporteRoute: typeof SuporteRoute
   ApiUploadRoute: typeof ApiUploadRoute
   DemonstracoesClientRoute: typeof DemonstracoesClientRouteWithChildren
+  DemonstracoesEncantoDaMataRoute: typeof DemonstracoesEncantoDaMataRoute
   HospedagensSlugRoute: typeof HospedagensSlugRoute
   MediaIdRoute: typeof MediaIdRoute
   ProjetosSlugRoute: typeof ProjetosSlugRoute
@@ -334,6 +348,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemonstracoesClientRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/demonstracoes/encanto-da-mata': {
+      id: '/demonstracoes/encanto-da-mata'
+      path: '/demonstracoes/encanto-da-mata'
+      fullPath: '/demonstracoes/encanto-da-mata'
+      preLoaderRoute: typeof DemonstracoesEncantoDaMataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hospedagens/$slug': {
       id: '/hospedagens/$slug'
       path: '/hospedagens/$slug'
@@ -397,6 +418,7 @@ const rootRouteChildren: RootRouteChildren = {
   SuporteRoute: SuporteRoute,
   ApiUploadRoute: ApiUploadRoute,
   DemonstracoesClientRoute: DemonstracoesClientRouteWithChildren,
+  DemonstracoesEncantoDaMataRoute: DemonstracoesEncantoDaMataRoute,
   HospedagensSlugRoute: HospedagensSlugRoute,
   MediaIdRoute: MediaIdRoute,
   ProjetosSlugRoute: ProjetosSlugRoute,

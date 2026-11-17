@@ -97,6 +97,18 @@ export type ApprovalStep = { title: string; detail: string };
 
 export type ScriptItem = { heading: string; text: string };
 
+/** Plano oferecido na proposta. Nome, preço e itens vêm de `plans` em src/content/site.ts. */
+export type PlanOffer = {
+  planId: "presenca" | "social" | "profissional" | "performance";
+  /** Meses de teste sem custo. */
+  trialMonths: number;
+  /** Itens do plano que não entram no teste (precisam existir no plano). */
+  notInTrial: string[];
+  trialNote: string;
+  /** Situação da proposta, com data. */
+  status: string;
+};
+
 export type ClientDemo = {
   slug: string;
   /** Classe CSS do tema do cliente em src/styles.css. */
@@ -154,5 +166,6 @@ export type ClientDemo = {
     continuity: { title: string; description: string }[];
     proposalStatus: string;
   };
+  offer: PlanOffer;
   guide: Record<DemoArea, GuideStep>;
 };

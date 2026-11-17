@@ -792,7 +792,7 @@ describe("migração 3", () => {
 });
 
 describe("importação de vitrine", () => {
-  const ENCANTO = "src/demo/properties/encanto-da-mata";
+  const ENCANTO = "public/demos/encanto-da-mata";
   beforeEach(() => {
     vi.stubEnv("ARUA_UPLOADS_DIR", mkdtempSync(join(tmpdir(), "arua-up-")));
   });
@@ -801,7 +801,12 @@ describe("importação de vitrine", () => {
     const { id, slug, mediaFiles } = importProperty(ENCANTO, "script:test");
     const page = hospedagens.getPropertyPage(slug, false);
     expect(page?.is_demo).toBe(true);
-    expect(page?.has_whatsapp).toBe(false);
+    // Demonstração: o número é o da Aruá, e o visitante não o recebe na página.
+    expect(page?.has_whatsapp).toBe(true);
+    expect(page?.whatsapp).toBe("");
+    expect(
+      get<{ whatsapp: string }>("select whatsapp from properties where id = ?", id)?.whatsapp,
+    ).toBe("5538999636208");
     expect(page?.banners).toHaveLength(1);
     expect(page?.gallery.some((m) => m.kind === "video")).toBe(true);
     expect(page?.stays.map((s) => [s.name, s.photos.length])).toEqual([
@@ -809,7 +814,7 @@ describe("importação de vitrine", () => {
       ["Suíte na Natureza", 1],
       ["Quarto Quádruplo", 1],
     ]);
-    expect(Object.values(mediaFiles)).toContain("encanto-da-mata/deck-rede.jpg");
+    expect(Object.values(mediaFiles)).toContain("encanto-da-mata/img/deck-rede.jpg");
     expect(
       get<{ n: number }>("select count(*) as n from media where property_id <> ?", id)?.n,
     ).toBe(0);
@@ -826,7 +831,7 @@ describe("importação de vitrine", () => {
 
   it("um arquivo inválido desfaz a importação inteira", () => {
     const dir = mkdtempSync(join(tmpdir(), "arua-seed-"));
-    copyFileSync(join(ENCANTO, "deck-rede.jpg"), join(dir, "deck-rede.jpg"));
+    copyFileSync(join(ENCANTO, "img", "deck-rede.jpg"), join(dir, "deck-rede.jpg"));
     writeFileSync(join(dir, "falso.jpg"), "<svg onload=alert(1)>");
     writeFileSync(
       join(dir, "property.json"),

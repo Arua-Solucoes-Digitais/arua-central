@@ -2,7 +2,7 @@
 // Usa SEMPRE um banco novo e temporário, criado pelas migrações, mais os projetos publicados de
 // src/demo/projects.json. Nunca lê data/arua.db, então nenhum dado de cliente, mensagem ou pedido
 // entra na demonstração.
-import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
@@ -24,6 +24,7 @@ type ExportedProject = {
   description: string;
   problem: string;
   features: string;
+  demo_url: string | null;
   kind: string;
   category: string;
   client: string;
@@ -36,17 +37,18 @@ try {
   // Na demonstração o produto da própria Aruá aparece como publicado (no banco novo ele nasce rascunho).
   db.run("update base_projects set status = 'published' where slug = 'arua-hospedagens'");
 
-  // Vitrines de demonstração versionadas (src/demo/properties/<slug>/property.json), com autorização
-  // registrada em docs/demos/. Cada mídia ganha "src" para a demonstração achar o arquivo sem servidor.
-  const PROPERTIES_DIR = "src/demo/properties";
+  // Vitrines de demonstração (public/demos/<slug>/property.json), com autorização registrada em
+  // docs/demos/. Cada mídia ganha "src" (arquivo em public/) para a demonstração funcionar sem servidor.
+  const DEMOS_DIR = "public/demos";
   const mediaFiles: Record<string, string> = {};
-  for (const folder of readdirSync(PROPERTIES_DIR).sort()) {
-    Object.assign(
-      mediaFiles,
-      importProperty(join(PROPERTIES_DIR, folder), "script:demo-snapshot").mediaFiles,
-    );
+  for (const folder of readdirSync(DEMOS_DIR).sort()) {
+    if (!existsSync(join(DEMOS_DIR, folder, "property.json"))) continue;
+    const imported = importProperty(join(DEMOS_DIR, folder), "script:demo-snapshot");
+    for (const [id, file] of Object.entries(imported.mediaFiles)) mediaFiles[id] = `/demos/${file}`;
   }
   // O exemplo do produto é um estabelecimento real, não o fictício.
+  // As vitrines entram com o WhatsApp (o da Aruá nas demonstrações), porque sem servidor é o
+  // navegador que monta o link do pedido.
   db.run(
     "update base_projects set demo_url = '/hospedagens/encanto-da-mata' where slug = 'arua-hospedagens'",
   );
@@ -54,9 +56,9 @@ try {
     if (db.get("select id from base_projects where slug = ?", p.slug)) continue;
     db.run(
       `insert into base_projects
-         (id, slug, title, title_key, description, problem, features, status, sort_order,
+         (id, slug, title, title_key, description, problem, features, demo_url, status, sort_order,
           kind, category, client, results, published_at)
-       values (?, ?, ?, ?, ?, ?, ?, 'published', ?, ?, ?, ?, ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'))`,
+       values (?, ?, ?, ?, ?, ?, ?, ?, 'published', ?, ?, ?, ?, ?, strftime('%Y-%m-%dT%H:%M:%fZ','now'))`,
       randomUUID(),
       p.slug,
       p.title,
@@ -64,6 +66,7 @@ try {
       p.description,
       p.problem,
       p.features,
+      p.demo_url ?? null,
       p.sort_order,
       p.kind,
       p.category,
@@ -91,7 +94,7 @@ try {
   const propertyPages = Object.fromEntries(
     db
       .all<{ slug: string }>("select slug from properties where status = 'published'")
-      .map(({ slug }) => [slug, withSrc(hospedagens.getPropertyPage(slug, false), mediaFiles)]),
+      .map(({ slug }) => [slug, withSrc(hospedagens.getPropertyPage(slug, true), mediaFiles)]),
   );
 
   const snapshot = {

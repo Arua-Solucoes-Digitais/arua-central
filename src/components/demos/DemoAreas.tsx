@@ -16,6 +16,7 @@ import {
   NatureChip,
   OperationalOnlyButton,
 } from "./DemoUi";
+import { PlanOfferCard } from "./PlanOfferCard";
 
 type AreaProps = { demo: ClientDemo };
 
@@ -680,7 +681,7 @@ function NextActions({ demo }: AreaProps) {
         );
       })}
       <AreaSection
-        title="Oportunidades para depois do piloto"
+        title="Oportunidades para depois do teste"
         intro="Possibilidades a decidir juntos, com base no que o período mostrar."
       >
         <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -702,12 +703,7 @@ function Strategy({ demo }: AreaProps) {
   const s = demo.strategy;
   return (
     <>
-      <Card className="border-highlight/60">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Situação da proposta
-        </p>
-        <p className="mt-1 font-semibold text-foreground">{s.proposalStatus}</p>
-      </Card>
+      <PlanOfferCard offer={demo.offer} business={demo.business.name} />
 
       <AreaSection title="Posicionamento">
         <p className="max-w-3xl text-lg text-foreground">{s.positioning}</p>
@@ -731,7 +727,7 @@ function Strategy({ demo }: AreaProps) {
         </ol>
       </AreaSection>
 
-      <AreaSection title="Plano proposto em dois meses">
+      <AreaSection title="Os dois primeiros meses do teste">
         <ol className="grid gap-4 md:grid-cols-2">
           {s.months.map((m) => (
             <Card as="li" key={m.title}>

@@ -14,7 +14,7 @@ if (!existsSync(source)) {
 const db = new DatabaseSync(source, { readOnly: true });
 const projects = db
   .prepare(
-    `select slug, title, description, problem, features, kind, category, client, results, sort_order
+    `select slug, title, description, problem, features, demo_url, kind, category, client, results, sort_order
      from base_projects where status = 'published' order by sort_order, created_at`,
   )
   .all();

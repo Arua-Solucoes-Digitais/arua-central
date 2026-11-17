@@ -14,8 +14,12 @@ const seedSchema = z.object({
   stays: z.array(staySchema.extend({ key: z.string().min(1) })),
   media: z.array(
     z.object({
-      // Só o nome do arquivo: nada fora da pasta do estabelecimento é lido.
-      file: z.string().regex(/^[a-z0-9][a-z0-9._-]*\.(jpg|png|webp|mp4|webm)$/),
+      // Arquivo da pasta (ou de uma subpasta, como img/): nada fora da pasta do estabelecimento é lido.
+      file: z
+        .string()
+        .regex(
+          /^(?:[a-z0-9][a-z0-9_-]*\/)?[a-z0-9][a-z0-9_-]*(?:\.[a-z0-9_-]+)*\.(jpg|png|webp|mp4|webm)$/,
+        ),
       role: z.enum(["logo", "banner", "gallery", "stay"]),
       stay: z.string().optional(),
       alt: z.string().max(200),

@@ -5,6 +5,7 @@
 import type { ClientDemo } from "./types";
 
 const DIAGNOSIS_DATE = "2026-10-31";
+const PROPOSAL_DATE = "2026-11-17";
 const CAPTURES = "Capturas de tela dos perfis públicos em 31/10/2026";
 
 export const rogerinhoBurguers: ClientDemo = {
@@ -41,8 +42,8 @@ export const rogerinhoBurguers: ClientDemo = {
     summary:
       "A loja já tem reputação construída no Google, identidade visual marcante e um caminho de pedido funcionando. As oportunidades estão na consistência das informações entre os canais, na atualização do Instagram e no cardápio online.",
     projectStatus:
-      "Proposta de piloto de 60 dias aguardando aprovação do proprietário. Nenhum serviço aprovado registrado.",
-    projectStatusDate: DIAGNOSIS_DATE,
+      "Proposta: plano Digital Performance com 3 meses de teste grátis, aguardando aprovação do proprietário. Nenhum serviço aprovado registrado.",
+    projectStatusDate: PROPOSAL_DATE,
     strengths: [
       {
         title: "Reputação já construída",
@@ -532,7 +533,7 @@ export const rogerinhoBurguers: ClientDemo = {
     ],
     recordedApprovals: 0,
     recordedNote:
-      "Aprovações registradas na Central original até 31/10/2026: nenhuma. O piloto ainda estava em fase de proposta.",
+      "Aprovações registradas na Central original até 31/10/2026: nenhuma. O trabalho ainda estava em fase de proposta.",
     sample: {
       title: "Stories: enquete “Qual é o seu preferido?”",
       channel: "Instagram",
@@ -620,8 +621,9 @@ export const rogerinhoBurguers: ClientDemo = {
       state: "depende-autorizacao",
     },
     {
-      title: "Aprovação do piloto de 60 dias",
-      detail: "Datas de início e fim e serviços aprovados pelo proprietário.",
+      title: "Aprovação do teste grátis de 3 meses",
+      detail:
+        "Datas de início e fim do teste do plano Digital Performance, aprovadas pelo proprietário.",
       state: "depende-autorizacao",
     },
     {
@@ -692,7 +694,17 @@ export const rogerinhoBurguers: ClientDemo = {
       { title: "Análise periódica", description: "Leitura mensal da presença digital." },
     ],
     proposalStatus:
-      "Proposta de piloto de 60 dias, aguardando aprovação do proprietário (situação documentada em 31/10/2026). Escopo, datas e valores dependem dessa aprovação.",
+      "Proposta apresentada em 17/11/2026: plano Digital Performance com 3 meses de teste grátis, aguardando aprovação do proprietário. As datas dependem dessa aprovação.",
+  },
+
+  offer: {
+    planId: "performance",
+    trialMonths: 3,
+    notInTrial: ["Gestão de campanhas de anúncios"],
+    trialNote:
+      "No teste não há anúncios pagos: as campanhas só começam se você decidir continuar no plano. Os dois primeiros meses seguem o plano montado a partir do diagnóstico; no terceiro, mantemos a rotina e fechamos o relatório do teste para decidirmos juntos.",
+    status:
+      "Proposta apresentada em 17/11/2026, aguardando aprovação do proprietário. Nada é cobrado durante o teste.",
   },
 
   guide: {
@@ -761,11 +773,12 @@ export const rogerinhoBurguers: ClientDemo = {
       needsBackend: "Marcar respostas do proprietário e transformar em atividades.",
     },
     "proposta-e-estrategia": {
-      represents: "Os pilares do trabalho e a lógica do acompanhamento.",
+      represents:
+        "A proposta da Aruá (plano e teste grátis), os pilares do trabalho e a lógica do acompanhamento.",
       problem: "Sem estratégia explícita, o cliente compara só preço e quantidade de posts.",
       howAruaUses: "Apresentamos os pilares e decidimos a continuidade com base no período.",
       whatIsReal:
-        "Pilares, plano por mês e situação da proposta, que aguardava aprovação em 31/10/2026.",
+        "Pilares e plano por mês vêm do diagnóstico de 31/10/2026. Plano, preço e teste grátis são os da proposta apresentada em 17/11/2026.",
       needsBackend: "Aprovação formal de cada serviço pelo proprietário.",
     },
   },

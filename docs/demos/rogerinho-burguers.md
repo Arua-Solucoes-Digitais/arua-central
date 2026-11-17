@@ -74,3 +74,14 @@ A visita guiada guarda apenas, em memória, se a orientação está aberta. O ro
 
 - Confirmar com o proprietário que a loja pode aparecer numa demonstração pública da Aruá (os dados são de perfis públicos, mas o uso como vitrine é decisão dele). A página não é indexada, mas é acessível por link a partir de `/aplicacoes` → `/demonstracoes`.
 - Conferir no build estático (ver `docs/DEPLOYMENT.md`) e publicar só pelo fluxo manual com `PUBLICAR`.
+
+## Proposta (17/11/2026)
+
+Área "Proposta e estratégia" (`/demonstracoes/rogerinho-burguers/proposta-e-estrategia`):
+plano **Digital Performance**, **3 meses de teste grátis, sem anúncios pagos no teste**, depois
+R$ 1.799/mês se o proprietário decidir continuar. Dados em `offer` de `src/content/demos/rogerinho-burguers.ts`;
+nome, preço e itens vêm de `plans` em `src/content/site.ts`. Contato: WhatsApp da Aruá (`arualContact`).
+
+No portfólio, o case aparece como os demais (decisão do responsável em 17/11/2026), sem citar plano
+nem preço. O proprietário **ainda não aprovou a proposta nem autorizou uso no portfólio**: registre a
+autorização quando vier, ou despublique o case no painel se ela não vier.

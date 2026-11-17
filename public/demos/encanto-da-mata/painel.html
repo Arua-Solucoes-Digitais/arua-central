@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Painel · Clientes e manutenção</title>
+<meta name="theme-color" content="#1d2e24">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self'; connect-src https://*.supabase.co; base-uri 'self'; form-action 'self'; object-src 'none'; frame-src 'none'">
+<style>
+@font-face { font-family: 'Playfair Display'; src: url('fonts/PlayfairDisplay-latin.woff2') format('woff2'); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url('fonts/DMSans-latin.woff2') format('woff2'); font-weight: 100 1000; font-display: swap; }
+:root {
+  --bg: #f3f2ea; --card: #fff; --ink: #17241c; --soft: #36433b; --muted: #5b665f; --line: #dcdcd0; --forest: #1d2e24; --moss: #4a6347;
+  --gold: #e6c47c; --focus: #b5651d; --danger: #9b2c22;
+  --c-site: #2f6f4f; --c-instagram: #b0387a; --c-ads: #2f5fa8; --c-outro: #7a6a4a;
+  --s-novo: #6b7280; --s-conversa: #b7791f; --s-fechou: #2f5fa8; --s-pago: #1f7a45; --s-concluido: #4a6347; --s-perdido: #9b2c22;
+  --serif: 'Playfair Display', Georgia, serif; --sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-family: var(--sans); font-size: 1rem; line-height: 1.5; color: var(--ink); background: var(--bg); }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; line-height: 1.15; }
+p { margin: 0; }
+button, input, select { font: inherit; color: inherit; }
+a, button, input, select, label { touch-action: manipulation; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+[hidden] { display: none !important; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 20px; border-radius: 10px; border: 1px solid transparent; font-weight: 600; cursor: pointer; text-decoration: none; background: var(--forest); color: #fff; }
+.btn:hover { background: #263b2e; } .btn:disabled { opacity: .6; cursor: default; }
+.btn.ghost { background: #fff; color: var(--ink); border-color: var(--line); } .btn.ghost:hover { background: #f6f6f0; }
+.btn.small { min-height: 40px; padding: 0 14px; font-size: .9375rem; }
+label.f { display: grid; gap: 4px; font-size: .8125rem; font-weight: 600; color: var(--muted); }
+label.f input, label.f select { min-height: 46px; padding: 0 12px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; font-size: 16px; font-weight: 400; color: var(--ink); min-width: 0; width: 100%; }
+label.f input:focus, label.f select:focus { outline: none; border-color: var(--moss); box-shadow: 0 0 0 3px rgba(74,99,71,.18); }
+
+/* Login */
+.login { min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px; background: radial-gradient(80% 70% at 80% 0%, #2c4435, var(--forest)); }
+.login-card { width: 100%; max-width: 420px; background: var(--card); border-radius: 16px; padding: 30px 26px; box-shadow: 0 30px 80px rgba(0,0,0,.35); display: grid; gap: 16px; }
+.login-card h1 { font-size: 1.9rem; } .login-card > p { color: var(--muted); font-size: .9375rem; }
+.msg { padding: 10px 12px; border-radius: 8px; font-size: .9375rem; background: #fdecea; color: var(--danger); }
+.msg.info { background: #eef3ea; color: #2c4a2f; }
+.setup { font-size: .9375rem; color: var(--soft); display: grid; gap: 8px; } .setup ol { margin: 0; padding-left: 20px; display: grid; gap: 6px; } .setup code { background: #f0efe6; padding: 1px 6px; border-radius: 4px; font-size: .875rem; word-break: break-all; }
+.back { color: #dfe6da; font-size: .9375rem; text-align: center; display: block; margin-top: 16px; }
+
+/* Painel */
+.top { position: sticky; top: 0; z-index: 20; background: var(--forest); color: #fff; }
+.top-in { max-width: 1280px; margin: 0 auto; padding: 12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left)); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.top h1 { font-size: 1.25rem; } .top small { display: block; font-family: var(--sans); font-size: .8125rem; color: #c9d2c5; }
+.top-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.top .btn { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.25); } .top .btn:hover { background: rgba(255,255,255,.2); }
+.demo-bar { background: #fbe9b7; color: #5a4300; text-align: center; padding: 8px 16px; font-size: .9375rem; font-weight: 600; }
+main { max-width: 1280px; margin: 0 auto; padding: 20px 16px 60px; display: grid; gap: 20px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+.card > h2 { font-size: 1.3rem; margin-bottom: 4px; } .card > .sub { color: var(--muted); font-size: .9375rem; margin-bottom: 14px; }
+
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 2px; border-top: 4px solid var(--k, var(--moss)); }
+.kpi span { font-size: .8125rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.kpi b { font-family: var(--serif); font-size: 2rem; font-weight: 500; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi small { color: var(--muted); font-size: .8125rem; }
+
+.filters { display: grid; grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr)); gap: 12px; align-items: end; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; font-weight: 600; font-size: .9375rem; }
+.chip i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); } .chip b { font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 500; }
+.chip[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #fff; } .chip[aria-pressed="true"] b { color: #dfe6da; }
+
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.bars { display: grid; gap: 12px; }
+.bar-row { display: grid; grid-template-columns: 110px 1fr auto; gap: 10px; align-items: center; font-size: .9375rem; }
+.bar-track { height: 26px; background: #f0efe6; border-radius: 6px; overflow: hidden; display: flex; }
+.bar-track i { display: block; height: 100%; background: var(--c); opacity: .35; transition: width .5s; } .bar-track i.paid { opacity: 1; } .bar-track i.closed { opacity: .65; }
+.bar-row span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .8125rem; color: var(--muted); margin-top: 12px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: var(--moss); vertical-align: -1px; margin-right: 5px; }
+
+.cal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.month h3 { font-family: var(--sans); font-size: .9375rem; font-weight: 700; text-transform: capitalize; margin-bottom: 6px; }
+.days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; font-size: .75rem; text-align: center; }
+.days span { aspect-ratio: 1; display: grid; place-items: center; border-radius: 5px; background: #eef3ea; color: #2c4a2f; font-variant-numeric: tabular-nums; }
+.days span.wd { background: none; color: var(--muted); font-weight: 700; aspect-ratio: auto; padding-bottom: 2px; }
+.days span.off { background: none; color: transparent; } .days span.past { background: #f4f4ee; color: #a3a99f; }
+.days span.busy { background: var(--s-fechou); color: #fff; font-weight: 700; } .days span.paid { background: var(--s-pago); color: #fff; font-weight: 700; }
+.days span.today { outline: 2px solid var(--ink); outline-offset: -2px; }
+.windows { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+.windows li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 8px; background: #eef3ea; font-size: .9375rem; } .windows b { font-variant-numeric: tabular-nums; }
+
+.table-wrap { overflow-x: auto; margin: 0 -18px; padding: 0 18px; }
+table { width: 100%; border-collapse: collapse; font-size: .9375rem; min-width: 880px; }
+th { text-align: left; font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 8px 10px; border-bottom: 2px solid var(--line); white-space: nowrap; }
+td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; } td .code { font-family: ui-monospace, Menlo, monospace; font-size: .8125rem; color: var(--muted); display: block; }
+.tag { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: .8125rem; font-weight: 700; color: #fff; background: var(--c); white-space: nowrap; }
+.tag.origin { background: color-mix(in srgb, var(--c) 14%, #fff); color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 40%, #fff); }
+td select, td input { min-height: 40px; border: 1.5px solid var(--line); border-radius: 8px; background: #fff; padding: 0 8px; font-size: 16px; }
+td input.val { width: 110px; }
+.empty { padding: 30px 10px; text-align: center; color: var(--muted); }
+.list-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.cards-m { display: none; list-style: none; margin: 0; padding: 0; gap: 10px; }
+.cards-m li { border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 10px; border-left: 5px solid var(--c); }
+.cards-m .r1 { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 10px; align-items: start; } .cards-m .r1 > div { min-width: 60%; flex: 1; } .cards-m strong { font-size: 1.0625rem; }
+.cards-m .meta { color: var(--muted); font-size: .875rem; } .cards-m .edit { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cards-m select, .cards-m input { min-height: 44px; border: 1.5px solid var(--line); border-radius: 8px; padding: 0 10px; font-size: 16px; width: 100%; background: #fff; }
+dialog { border: 0; border-radius: 16px; padding: 22px; width: min(94vw, 520px); } dialog::backdrop { background: rgba(10,18,13,.6); }
+dialog form { display: grid; gap: 12px; } dialog .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; } dialog .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 6px; }
+.toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 10px; font-size: .9375rem; z-index: 50; max-width: 92vw; }
+
+@media (max-width: 1000px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } .filters { grid-template-columns: 1fr 1fr; } .filters label:first-child { grid-column: 1 / -1; } .two { grid-template-columns: 1fr; } }
+@media (max-width: 700px) {
+  .kpis { grid-template-columns: 1fr 1fr; } .kpi b { font-size: 1.6rem; } .kpi:first-child { grid-column: 1 / -1; }
+  .cal-grid { grid-template-columns: 1fr; } .table-wrap { display: none; } .cards-m { display: grid; }
+  .bar-row { grid-template-columns: 84px 1fr; } .bar-row span:last-child { grid-column: 1 / -1; }
+  dialog .grid2 { grid-template-columns: 1fr; } .top h1 { font-size: 1.1rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media print { .top-actions, .filters, .chips, .list-head .btn, td select, td input { display: none !important; } .top { position: static; color: #000; background: none; } body { background: #fff; } }
+</style>
+</head>
+<body>
+
+<!-- ============================ LOGIN ============================ -->
+<div class="login" id="login">
+  <div>
+    <form class="login-card" id="login-form" novalidate>
+      <div><h1>Painel da Pousada</h1><p>Clientes, fechamentos e períodos livres para manutenção.</p></div>
+      <div id="setup" class="setup" hidden>
+        <p class="msg info"><strong>Falta conectar o banco de dados.</strong> O login só funciona depois disso, porque a senha é conferida no Supabase e nunca fica gravada neste arquivo.</p>
+        <ol>
+          <li>Crie o projeto no Supabase e execute <code>plataforma/supabase/schema.sql</code>.</li>
+          <li>Preencha <code>site/config.js</code> com a URL e a chave <strong>anon</strong>.</li>
+          <li>Em Authentication → Users, crie o usuário <code id="setup-email"></code> com a senha combinada e autorize-o na tabela <code>admins</code>.</li>
+        </ol>
+      </div>
+      <label class="f">Usuário<input id="l-user" autocomplete="username" autocapitalize="characters" spellcheck="false" maxlength="80" required></label>
+      <label class="f">Senha<input id="l-pass" type="password" autocomplete="current-password" maxlength="128" required></label>
+      <p class="msg" id="l-msg" role="alert" hidden></p>
+      <button class="btn" id="l-btn" type="submit">Entrar</button>
+      <button class="btn ghost" id="demo-btn" type="button">Ver demonstração com dados de exemplo</button>
+    </form>
+    <a class="back" href="index.html">← Voltar ao site</a>
+  </div>
+</div>
+
+<!-- ============================ PAINEL ============================ -->
+<div id="app" hidden>
+  <header class="top">
+    <div class="top-in">
+      <h1>Painel da Pousada<small id="who"></small></h1>
+      <div class="top-actions">
+        <button class="btn small" id="add-btn" type="button">+ Cliente</button>
+        <button class="btn small" id="csv-btn" type="button">Exportar planilha</button>
+        <button class="btn small" id="reload-btn" type="button">Atualizar</button>
+        <button class="btn small" id="logout-btn" type="button">Sair</button>
+      </div>
+    </div>
+    <div class="demo-bar" id="demo-bar" hidden>DADOS DE EXEMPLO (fictícios). Nada aqui é cliente real e nada é salvo.</div>
+  </header>
+
+  <main>
+    <section class="kpis" aria-label="Resumo" id="kpis"></section>
+
+    <section class="card" aria-labelledby="f-title">
+      <h2 id="f-title">Filtros</h2>
+      <p class="sub">Os números acima, os gráficos e a lista seguem o que estiver filtrado aqui.</p>
+      <div class="filters">
+        <label class="f">Buscar por nome ou código<input id="f-q" type="search" placeholder="Ex.: Ana ou IG-" autocomplete="off"></label>
+        <label class="f">Etapa<select id="f-stage"></select></label>
+        <label class="f">Campanha de anúncio<select id="f-camp"></select></label>
+        <label class="f">Entrada a partir de<input id="f-from" type="date"></label>
+        <label class="f">Entrada até<input id="f-to" type="date"></label>
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="Origem do cliente"></div>
+    </section>
+
+    <div class="two">
+      <section class="card" aria-labelledby="o-title">
+        <h2 id="o-title">De onde vieram</h2>
+        <p class="sub">Contatos, fechados e pagos por origem.</p>
+        <div class="bars" id="bars"></div>
+        <p class="legend"><span><i style="opacity:.35"></i>contato</span><span><i style="opacity:.65"></i>fechou</span><span><i></i>pagou</span></p>
+      </section>
+      <section class="card" aria-labelledby="m-title">
+        <h2 id="m-title">Manutenção: períodos sem hóspedes</h2>
+        <p class="sub">Próximos 90 dias, considerando as reservas fechadas e pagas (todas, sem filtro).</p>
+        <div class="cal-grid" id="cal"></div>
+        <p class="legend"><span><i style="background:#eef3ea;border:1px solid #cfdccb"></i>livre</span><span><i style="background:var(--s-fechou)"></i>fechado, a pagar</span><span><i style="background:var(--s-pago)"></i>pago</span></p>
+        <ul class="windows" id="windows"></ul>
+      </section>
+    </div>
+
+    <section class="card" aria-labelledby="l-title">
+      <div class="list-head"><div><h2 id="l-title">Clientes</h2><p class="sub" id="l-count" style="margin:0"></p></div></div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Cliente</th><th>Origem</th><th>Acomodação</th><th>Entrada</th><th>Saída</th><th>Hósp.</th><th>Etapa</th><th>Valor (R$)</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <ul class="cards-m" id="cards"></ul>
+      <p class="empty" id="empty" hidden>Nenhum cliente com estes filtros.</p>
+    </section>
+  </main>
+</div>
+
+<dialog id="add-dialog" aria-labelledby="a-title">
+  <form id="add-form" novalidate>
+    <h2 id="a-title">Adicionar cliente</h2>
+    <p style="color:var(--muted);font-size:.9375rem">Para quem não passou pelo formulário do site. Só o necessário: sem telefone nem documento.</p>
+    <label class="f">Nome<input id="a-name" maxlength="80" required autocapitalize="words"></label>
+    <div class="grid2">
+      <label class="f">Origem<select id="a-source"></select></label>
+      <label class="f">Campanha (se anúncio)<input id="a-camp" maxlength="80"></label>
+      <label class="f">Acomodação<select id="a-room"><option>Suíte Master</option><option>Suíte na Natureza</option><option>Quarto Quádruplo</option><option>Outra</option></select></label>
+      <label class="f">Hóspedes<input id="a-people" type="number" min="1" max="20" value="2" inputmode="numeric"></label>
+      <label class="f">Entrada<input id="a-in" type="date" required></label>
+      <label class="f">Saída<input id="a-out" type="date" required></label>
+    </div>
+    <p class="msg" id="a-msg" role="alert" hidden></p>
+    <div class="actions"><button class="btn ghost" type="button" id="a-cancel">Cancelar</button><button class="btn" type="submit">Salvar</button></div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="config.js"></script>
+<script>
+/* =====================================================================
+   Painel (CRM) da Pousada. Regras deste arquivo:
+   - Nenhuma senha, token fixo ou dado de cliente fica escrito aqui.
+   - O login é conferido no Supabase Auth; os dados só chegam para contas
+     autorizadas na tabela "admins" (regras RLS no banco).
+   - Mostra só o necessário: nome, datas, acomodação, valor, etapa, origem.
+     Telefone e mensagem não são lidos nem exibidos.
+   ===================================================================== */
+const CFG = window.EM_CONFIG || {};
+const URL_OK = /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(CFG.supabaseUrl || '') && Boolean(CFG.supabaseAnonKey);
+const DOMAIN = /^[a-z0-9.-]+\.[a-z]{2,}$/.test(CFG.dominioLogin || '') ? CFG.dominioLogin : 'painel.encantodamata.app';
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, props = {}, ...kids) => { const n = Object.assign(document.createElement(tag), props); kids.flat().forEach((k) => k != null && k !== false && n.append(k)); return n; };
+const brl = (v) => 'R$ ' + Number(v || 0).toLocaleString('pt-BR', { maximumFractionDigits: 0 });
+const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+const day = (s) => new Date(s + 'T12:00:00');
+const dmy = (s) => (s ? s.slice(0, 10).split('-').reverse().join('/') : '—');
+const addDays = (s, n) => { const d = day(s); d.setDate(d.getDate() + n); return iso(d); };
+const TODAY = iso(new Date());
+
+const SOURCES = { site: 'Site', instagram: 'Instagram', ads: 'Anúncios (Ads)', outro: 'Outros' };
+const STAGES = { novo: 'Novo contato', conversa: 'Em conversa', fechou: 'Fechou (a pagar)', pago: 'Pago', concluido: 'Estadia concluída', perdido: 'Não fechou' };
+const stageOf = (r) => (r.status === 'declined' ? 'perdido' : r.status === 'completed' ? 'concluido' : r.paid_at ? 'pago' : r.status === 'approved' ? 'fechou' : r.status === 'contacted' ? 'conversa' : 'novo');
+const isClosed = (r) => ['fechou', 'pago', 'concluido'].includes(stageOf(r));
+const isPaid = (r) => Boolean(r.paid_at);
+const sourceOf = (r) => (SOURCES[r.source] ? r.source : /^IG-/.test(r.ref || '') ? 'instagram' : /^AD-/.test(r.ref || '') ? 'ads' : 'site');
+/** O que cada etapa grava no banco. */
+const stagePatch = (stage, r) => ({
+  novo: { status: 'pending', paid_at: null }, conversa: { status: 'contacted', paid_at: null }, fechou: { status: 'approved', paid_at: null },
+  pago: { status: 'approved', paid_at: r.paid_at || new Date().toISOString() }, concluido: { status: 'completed' }, perdido: { status: 'declined', paid_at: null },
+}[stage]);
+
+let rows = [], demo = false, session = null;
+const filter = { q: '', stage: '', camp: '', from: '', to: '', source: '' };
+
+/* ============================ Supabase (REST) ============================ */
+const SESSION_KEY = 'em-painel';  // fica só nesta aba; some ao fechar o navegador
+const loadSession = () => { try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); } catch { return null; } };
+const saveSession = (s) => { session = s; try { s ? sessionStorage.setItem(SESSION_KEY, JSON.stringify(s)) : sessionStorage.removeItem(SESSION_KEY); } catch {} };
+
+async function api(path, { method = 'GET', body, auth = true, prefer } = {}) {
+  const headers = { apikey: CFG.supabaseAnonKey, 'Content-Type': 'application/json' };
+  if (auth && session) headers.Authorization = `Bearer ${session.access_token}`;
+  if (prefer) headers.Prefer = prefer;
+  const res = await fetch(CFG.supabaseUrl + path, { method, headers, body: body ? JSON.stringify(body) : undefined, cache: 'no-store' });
+  const text = await res.text();
+  let data = null; try { data = text ? JSON.parse(text) : null; } catch {}
+  if (!res.ok) { const e = new Error((data && (data.error_description || data.msg || data.message)) || `Erro ${res.status}`); e.status = res.status; throw e; }
+  return data;
+}
+async function signIn(user, pass) {
+  const email = user.includes('@') ? user.trim().toLowerCase() : `${user.trim().toLowerCase()}@${DOMAIN}`;
+  const d = await api('/auth/v1/token?grant_type=password', { method: 'POST', auth: false, body: { email, password: pass } });
+  saveSession({ access_token: d.access_token, refresh_token: d.refresh_token, expires_at: Date.now() + (d.expires_in || 3600) * 1000, user: user.trim().toUpperCase() });
+  if ((await api('/rest/v1/rpc/is_admin', { method: 'POST', body: {} })) !== true) { await signOut(); throw new Error('Esta conta não tem permissão para ver o painel.'); }
+}
+async function refresh() {
+  if (!session || Date.now() < session.expires_at - 60000) return;
+  const d = await api('/auth/v1/token?grant_type=refresh_token', { method: 'POST', auth: false, body: { refresh_token: session.refresh_token } });
+  saveSession({ ...session, access_token: d.access_token, refresh_token: d.refresh_token, expires_at: Date.now() + (d.expires_in || 3600) * 1000 });
+}
+async function signOut() { try { if (session) await api('/auth/v1/logout', { method: 'POST', body: {} }); } catch {} saveSession(null); }
+// Só as colunas necessárias: telefone e mensagem ficam de fora.
+const COLS = 'id,created_at,ref,name,date,checkout,people,offer,status,deal_value,paid_at,source,campaign';
+async function fetchRows() { await refresh(); return (await api(`/rest/v1/inquiries?select=${COLS}&order=date.desc&limit=2000`)) || []; }
+
+/* ============================ dados de exemplo ============================ */
+function demoRows() {
+  const names = ['Cliente exemplo A', 'Cliente exemplo B', 'Cliente exemplo C', 'Cliente exemplo D', 'Cliente exemplo E', 'Cliente exemplo F', 'Cliente exemplo G', 'Cliente exemplo H', 'Cliente exemplo I', 'Cliente exemplo J', 'Cliente exemplo K', 'Cliente exemplo L', 'Cliente exemplo M', 'Cliente exemplo N'];
+  const plan = [ // [dias até a entrada, diárias, origem, campanha, acomodação, hóspedes, status, pago, valor]
+    [-20, 2, 'site', '', 'Suíte na Natureza', 2, 'completed', 1, 400], [-9, 3, 'instagram', '', 'Suíte Master', 4, 'completed', 1, 1799], [-3, 2, 'ads', 'natal-2026', 'Quarto Quádruplo', 4, 'completed', 1, 480],
+    [4, 3, 'instagram', '', 'Suíte Master', 4, 'approved', 1, 1799], [9, 2, 'site', '', 'Suíte na Natureza', 2, 'approved', 0, 400], [15, 3, 'ads', 'natal-2026', 'Suíte Master', 3, 'approved', 1, 1799],
+    [22, 2, 'ads', 'ferias-janeiro', 'Quarto Quádruplo', 4, 'contacted', 0, null], [27, 3, 'site', '', 'Suíte Master', 2, 'approved', 0, 900], [33, 2, 'instagram', '', 'Suíte na Natureza', 2, 'pending', 0, null],
+    [41, 2, 'ads', 'natal-2026', 'Suíte na Natureza', 2, 'declined', 0, null], [48, 4, 'site', '', 'Suíte Master', 2, 'approved', 1, 1200], [55, 2, 'outro', '', 'Quarto Quádruplo', 3, 'contacted', 0, null],
+    [63, 3, 'instagram', '', 'Suíte Master', 4, 'pending', 0, null], [70, 2, 'ads', 'ferias-janeiro', 'Suíte na Natureza', 2, 'approved', 0, 400],
+  ];
+  return plan.map(([d, n, source, campaign, offer, people, status, paid, value], i) => {
+    const date = addDays(TODAY, d);
+    return { id: 'demo-' + i, created_at: addDays(date, -12) + 'T12:00:00Z', ref: ({ site: 'EM', instagram: 'IG', ads: 'AD', outro: 'EM' })[source] + '-EXEMP' + String.fromCharCode(65 + i), name: names[i], date, checkout: addDays(date, n), people, offer, status, deal_value: value, paid_at: paid ? addDays(date, -5) + 'T12:00:00Z' : null, source, campaign };
+  });
+}
+
+/* ============================ filtros e resumo ============================ */
+function filtered(ignoreSource = false) {
+  const q = filter.q.trim().toLowerCase();
+  return rows.filter((r) =>
+    (!q || (r.name || '').toLowerCase().includes(q) || (r.ref || '').toLowerCase().includes(q)) &&
+    (!filter.stage || stageOf(r) === filter.stage) && (!filter.camp || r.campaign === filter.camp) &&
+    (!filter.from || r.date >= filter.from) && (!filter.to || r.date <= filter.to) &&
+    (ignoreSource || !filter.source || sourceOf(r) === filter.source));
+}
+const sum = (list) => list.reduce((s, r) => s + (Number(r.deal_value) || 0), 0);
+
+function render() {
+  const list = filtered(), closed = list.filter(isClosed), paid = list.filter(isPaid);
+  const kpi = (label, value, note, color) => el('div', { className: 'kpi', style: `--k:${color}` }, el('span', { textContent: label }), el('b', { textContent: value }), el('small', { textContent: note }));
+  $('#kpis').replaceChildren(
+    kpi('Contatos', list.length, 'no período filtrado', 'var(--s-novo)'),
+    kpi('Fecharam', closed.length, list.length ? `${Math.round((closed.length / list.length) * 100)}% dos contatos` : '—', 'var(--s-fechou)'),
+    kpi('Já pagaram', paid.length, closed.length ? `${paid.length} de ${closed.length} fechados` : '—', 'var(--s-pago)'),
+    kpi('Valor pago', brl(sum(paid)), 'recebido', 'var(--s-pago)'),
+    kpi('A receber', brl(sum(closed.filter((r) => !isPaid(r)))), 'fechado e ainda não pago', 'var(--s-conversa)'),
+  );
+
+  // origem: botões de filtro e barras
+  const base = filtered(true);
+  const chip = (key, label, color) => { const n = key ? base.filter((r) => sourceOf(r) === key).length : base.length; const b = el('button', { type: 'button', className: 'chip', style: `--c:${color}` }, el('i'), label, el('b', { textContent: n })); b.setAttribute('aria-pressed', String(filter.source === key)); b.onclick = () => { filter.source = key; render(); }; return b; };
+  $('#chips').replaceChildren(chip('', 'Todas as origens', '#17241c'), ...Object.entries(SOURCES).map(([k, l]) => chip(k, l, `var(--c-${k})`)));
+  const max = Math.max(1, ...Object.keys(SOURCES).map((k) => base.filter((r) => sourceOf(r) === k).length));
+  $('#bars').replaceChildren(...Object.entries(SOURCES).map(([k, label]) => {
+    const all = base.filter((r) => sourceOf(r) === k), c = all.filter(isClosed).length, p = all.filter(isPaid).length, w = (n) => `${(n / max) * 100}%`;
+    return el('div', { className: 'bar-row', style: `--c:var(--c-${k})` }, el('strong', { textContent: label }),
+      el('div', { className: 'bar-track' }, el('i', { className: 'paid', style: `width:${w(p)}` }), el('i', { className: 'closed', style: `width:${w(c - p)}` }), el('i', { style: `width:${w(all.length - c)}` })),
+      el('span', { textContent: `${all.length} contato${all.length === 1 ? '' : 's'} · ${c} fech${c === 1 ? 'ou' : 'aram'} · ${p} pag${p === 1 ? 'ou' : 'aram'}` }));
+  }));
+
+  // lista
+  $('#l-count').textContent = `${list.length} de ${rows.length} clientes`;
+  $('#empty').hidden = list.length > 0;
+  const stageSelect = (r) => { const s = el('select', {}, Object.entries(STAGES).map(([k, l]) => el('option', { value: k, textContent: l, selected: stageOf(r) === k }))); s.setAttribute('aria-label', `Etapa de ${r.name}`); s.onchange = () => update(r, stagePatch(s.value, r)); return s; };
+  const valueInput = (r) => { const i = el('input', { className: 'val', type: 'number', min: 0, step: '1', inputMode: 'numeric', value: r.deal_value ?? '', placeholder: '—' }); i.setAttribute('aria-label', `Valor fechado de ${r.name}`); i.onchange = () => { const v = i.value === '' ? null : Number(i.value); if (v !== null && (!Number.isFinite(v) || v < 0 || v > 1000000)) { toast('Valor inválido.'); i.value = r.deal_value ?? ''; return; } update(r, { deal_value: v }); }; return i; };
+  const origin = (r) => el('span', { className: 'tag origin', style: `--c:var(--c-${sourceOf(r)})`, textContent: SOURCES[sourceOf(r)] + (r.campaign ? ` · ${r.campaign}` : '') });
+  $('#rows').replaceChildren(...list.map((r) => el('tr', {},
+    el('td', {}, el('strong', { textContent: r.name }), el('span', { className: 'code', textContent: r.ref || 'sem código' })),
+    el('td', {}, origin(r)), el('td', { textContent: (r.offer || '—').split(' — ')[0].slice(0, 40) }),
+    el('td', { className: 'num', textContent: dmy(r.date) }), el('td', { className: 'num', textContent: dmy(r.checkout) }), el('td', { className: 'num', textContent: r.people }),
+    el('td', {}, stageSelect(r)), el('td', {}, valueInput(r)))));
+  $('#cards').replaceChildren(...list.map((r) => el('li', { style: `--c:var(--s-${stageOf(r)})` },
+    el('div', { className: 'r1' }, el('div', {}, el('strong', { textContent: r.name }), el('div', { className: 'meta', textContent: `${r.ref || 'sem código'} · ${(r.offer || '—').split(' — ')[0].slice(0, 30)}` })), origin(r)),
+    el('div', { className: 'meta', textContent: `${dmy(r.date)} → ${dmy(r.checkout)} · ${r.people} hóspede(s)` }),
+    el('div', { className: 'edit' }, stageSelect(r), valueInput(r)))));
+
+  // campanhas disponíveis
+  const camps = [...new Set(rows.map((r) => r.campaign).filter(Boolean))].sort();
+  const fc = $('#f-camp'); const keep = filter.camp;
+  fc.replaceChildren(el('option', { value: '', textContent: 'Todas' }), ...camps.map((c) => el('option', { value: c, textContent: c, selected: c === keep })));
+  renderCalendar();
+}
+
+/* ============================ manutenção ============================ */
+function renderCalendar() {
+  const busy = new Map(); // dia -> 'paid' | 'busy'
+  rows.filter(isClosed).forEach((r) => { const out = r.checkout && r.checkout > r.date ? r.checkout : addDays(r.date, 1); for (let d = r.date; d < out; d = addDays(d, 1)) if (busy.get(d) !== 'paid') busy.set(d, isPaid(r) ? 'paid' : 'busy'); });
+  const start = new Date(); start.setDate(1);
+  const months = [0, 1, 2].map((k) => {
+    const m = new Date(start.getFullYear(), start.getMonth() + k, 1), box = el('div', { className: 'days' });
+    ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].forEach((w) => box.append(el('span', { className: 'wd', textContent: w })));
+    for (let i = 0; i < m.getDay(); i++) box.append(el('span', { className: 'off', textContent: '.' }));
+    const last = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
+    for (let d = 1; d <= last; d++) { const key = iso(new Date(m.getFullYear(), m.getMonth(), d, 12)); const s = el('span', { textContent: d, className: [busy.get(key) || '', key < TODAY ? 'past' : '', key === TODAY ? 'today' : ''].join(' ').trim() }); s.title = busy.get(key) === 'paid' ? 'Ocupado (pago)' : busy.get(key) ? 'Ocupado (a pagar)' : 'Livre'; box.append(s); }
+    return el('div', { className: 'month' }, el('h3', { textContent: m.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) }), box);
+  });
+  $('#cal').replaceChildren(...months);
+  // janelas livres de 2 dias ou mais nos próximos 90 dias
+  const wins = []; let from = null;
+  for (let i = 0; i <= 90; i++) { const d = addDays(TODAY, i), free = !busy.has(d) && i < 90; if (free && !from) from = d; if (!free && from) { const n = Math.round((day(d) - day(from)) / 864e5); if (n >= 2) wins.push([from, addDays(d, -1), n]); from = null; } }
+  $('#windows').replaceChildren(...(wins.length ? wins.slice(0, 6).map(([a, b, n]) => el('li', {}, el('span', { textContent: `${dmy(a)} a ${dmy(b)}` }), el('b', { textContent: `${n} dias livres` }))) : [el('li', {}, 'Nenhum período livre de 2 dias ou mais nos próximos 90 dias.')]));
+}
+
+/* ============================ ações ============================ */
+let toastTimer;
+function toast(text) { const t = $('#toast'); t.textContent = text; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.hidden = true), 3500); }
+async function update(r, patch) {
+  const before = { ...r };
+  Object.assign(r, patch); render();
+  if (demo) return;
+  try { await refresh(); await api(`/rest/v1/inquiries?id=eq.${encodeURIComponent(r.id)}`, { method: 'PATCH', body: patch, prefer: 'return=minimal' }); toast('Salvo.'); }
+  catch (e) { Object.assign(r, before); render(); if (e.status === 401) return expired(); toast('Não foi possível salvar: ' + e.message); }
+}
+async function load() {
+  try { rows = demo ? demoRows() : await fetchRows(); render(); }
+  catch (e) { if (e.status === 401) return expired(); toast('Não foi possível carregar: ' + e.message); }
+}
+function expired() { saveSession(null); rows = []; render(); showLogin('Sua sessão expirou. Entre de novo.'); }
+function showLogin(message) {
+  $('#app').hidden = true; $('#login').hidden = false;
+  $('#setup').hidden = URL_OK; $('#setup-email').textContent = `hjamal@${DOMAIN}`;
+  $('#l-btn').disabled = !URL_OK; $('#l-pass').value = '';
+  const m = $('#l-msg'); m.hidden = !message; m.textContent = message || '';
+}
+function showApp() {
+  $('#login').hidden = true; $('#app').hidden = false; $('#demo-bar').hidden = !demo;
+  $('#who').textContent = demo ? 'Modo demonstração' : `Conectado como ${session.user}`;
+  load();
+}
+
+/* Login: bloqueio progressivo no navegador (o Supabase também limita tentativas no servidor). */
+let fails = 0, lockedUntil = 0;
+$('#login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const user = $('#l-user').value, pass = $('#l-pass').value, m = $('#l-msg');
+  if (!URL_OK) return;
+  if (Date.now() < lockedUntil) { m.hidden = false; m.textContent = `Muitas tentativas. Aguarde ${Math.ceil((lockedUntil - Date.now()) / 1000)} s.`; return; }
+  if (!/^[\w.@+-]{2,80}$/.test(user.trim()) || pass.length < 6) { m.hidden = false; m.textContent = 'Informe o usuário e a senha.'; return; }
+  $('#l-btn').disabled = true; $('#l-btn').textContent = 'Entrando…'; m.hidden = true;
+  try { await signIn(user, pass); fails = 0; demo = false; showApp(); }
+  catch (err) { fails++; if (fails >= 3) lockedUntil = Date.now() + Math.min(300, 15 * 2 ** (fails - 3)) * 1000; m.hidden = false; m.textContent = /invalid|credentials/i.test(err.message) ? 'Usuário ou senha incorretos.' : err.message; }
+  finally { $('#l-btn').disabled = !URL_OK; $('#l-btn').textContent = 'Entrar'; $('#l-pass').value = ''; }
+});
+$('#demo-btn').onclick = () => { demo = true; showApp(); };
+$('#logout-btn').onclick = async () => { if (!demo) await signOut(); demo = false; rows = []; render(); showLogin(); };  // render() apaga os dados da tela
+$('#reload-btn').onclick = () => load().then(() => toast('Atualizado.'));
+
+// filtros
+$('#f-stage').append(el('option', { value: '', textContent: 'Todas' }), ...Object.entries(STAGES).map(([k, l]) => el('option', { value: k, textContent: l })));
+[['#f-q', 'q', 'input'], ['#f-stage', 'stage', 'change'], ['#f-camp', 'camp', 'change'], ['#f-from', 'from', 'change'], ['#f-to', 'to', 'change']].forEach(([s, k, ev]) => $(s).addEventListener(ev, (e) => { filter[k] = e.target.value; render(); }));
+
+// planilha (CSV) do que estiver filtrado, protegida contra fórmulas
+const cell = (v) => { let s = v == null ? '' : String(v); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return /[";\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+$('#csv-btn').onclick = () => {
+  const head = ['Código', 'Cliente', 'Origem', 'Campanha', 'Acomodação', 'Entrada', 'Saída', 'Hóspedes', 'Etapa', 'Valor (R$)', 'Pago em'];
+  const lines = filtered().map((r) => [r.ref, r.name, SOURCES[sourceOf(r)], r.campaign, (r.offer || '').split(' — ')[0], dmy(r.date), dmy(r.checkout), r.people, STAGES[stageOf(r)], r.deal_value ?? '', r.paid_at ? dmy(r.paid_at) : ''].map(cell).join(';'));
+  const a = el('a', { href: URL.createObjectURL(new Blob(['﻿' + [head.map(cell).join(';'), ...lines].join('\r\n')], { type: 'text/csv;charset=utf-8' })), download: `clientes-${TODAY}${demo ? '-EXEMPLO' : ''}.csv` });
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+
+// adicionar cliente manualmente
+const dlg = $('#add-dialog');
+$('#a-source').append(...Object.entries(SOURCES).map(([k, l]) => el('option', { value: k, textContent: l })));
+$('#add-btn').onclick = () => { $('#add-form').reset(); $('#a-msg').hidden = true; $('#a-in').min = TODAY; dlg.showModal(); };
+$('#a-cancel').onclick = () => dlg.close();
+$('#add-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const m = $('#a-msg'), fail = (t) => { m.hidden = false; m.textContent = t; };
+  const name = $('#a-name').value.trim(), date = $('#a-in').value, checkout = $('#a-out').value, people = Number($('#a-people').value);
+  if (name.length < 2) return fail('Informe o nome.');
+  if (!date || date < TODAY) return fail('A entrada precisa ser de hoje em diante.');
+  if (!checkout || checkout <= date) return fail('A saída precisa ser depois da entrada.');
+  if (!Number.isInteger(people) || people < 1 || people > 20) return fail('Informe o número de hóspedes.');
+  const row = { name, phone: 'não informado', date, checkout, people, event: 'Hospedagem', message: '', offer: $('#a-room').value, options: [], ref: '', source: $('#a-source').value, campaign: $('#a-camp').value.trim().slice(0, 80) };
+  try {
+    if (demo) rows.unshift({ ...row, id: 'demo-' + Date.now(), created_at: new Date().toISOString(), status: 'pending', deal_value: null, paid_at: null });
+    else { await refresh(); await api('/rest/v1/inquiries', { method: 'POST', body: row, prefer: 'return=minimal' }); rows = await fetchRows(); }
+    dlg.close(); render(); toast('Cliente adicionado.');
+  } catch (err) { if (err.status === 401) { dlg.close(); return expired(); } fail('Não foi possível salvar: ' + err.message); }
+});
+
+// início
+session = loadSession();
+if (session && URL_OK) showApp(); else showLogin();
+</script>
+</body>
+</html>
