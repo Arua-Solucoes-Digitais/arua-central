@@ -35,7 +35,7 @@ describe("demo registry", () => {
       for (const id of ids) {
         const step = demo.guide[id];
         expect(step.represents && step.problem && step.howAruaUses).toBeTruthy();
-        expect(step.whatIsReal && step.needsBackend).toBeTruthy();
+        expect(step.whatIsReal).toBeTruthy();
       }
     }
   });
@@ -103,8 +103,8 @@ describe("Rogerinho demo data — fidelity", () => {
   });
 
   it("keeps the pilot as an unapproved proposal and shows no prices", () => {
-    expect(rb.strategy.proposalStatus).toMatch(/aguardando aprovação/);
-    expect(rb.diagnosis.projectStatus).toMatch(/aguardando aprovação/);
+    expect(rb.strategy.proposalStatus).toMatch(/aguardando aprovação/i);
+    expect(rb.diagnosis.projectStatus).toMatch(/aguardando aprovação/i);
     expect(JSON.stringify(rb)).not.toMatch(/R\$\s?\d/);
   });
 
@@ -161,29 +161,29 @@ describe("Rogerinho demo data — privacy and links", () => {
 });
 
 describe("propostas", () => {
-  const offers = [
-    ["Rogerinho Burguer's", demos["rogerinho-burguers"]!.offer],
-    ["Pousada Encanto da Mata", encantoShowcase.offer],
-  ] as const;
+  it("Rogerinho: sem plano pago, a proposta é o piloto de graça", () => {
+    const s = demos["rogerinho-burguers"]!.strategy;
+    expect(s.proposalValue).toBe("De graça");
+    expect(s.proposalPurpose).toMatch(/aprender/);
+    expect(s.proposalStatus).toMatch(/aguardando aprovação/i);
+    expect(JSON.stringify(demos["rogerinho-burguers"])).not.toMatch(
+      /R\$ ?1\.799|Digital Performance/,
+    );
+  });
 
-  it.each(offers)("%s: o plano existe e o que fica fora do teste é item do plano", (_, offer) => {
+  it("Encanto: plano existe e o teste é de 3 meses", () => {
+    const offer = encantoShowcase.offer;
     const plan = getOfferPlan(offer);
     expect(offer.trialMonths).toBe(3);
     for (const item of offer.notInTrial) expect(plan.includes).toContain(item);
     expect(offer.status).toMatch(/aguardando aprovação/);
   });
 
-  it("Rogerinho: Digital Performance, sem anúncios no teste", () => {
-    const offer = demos["rogerinho-burguers"]!.offer;
-    expect(getOfferPlan(offer).name).toBe("Digital Performance");
-    expect(offer.notInTrial).toEqual(["Gestão de campanhas de anúncios"]);
-  });
-
   it("Encanto: Digital Profissional, com arquivos que existem em public/", () => {
     expect(getOfferPlan(encantoShowcase.offer).name).toBe("Digital Profissional");
     const files = [
       encantoShowcase.hero.src,
-      ...encantoShowcase.pieces.flatMap((p) => (p.kind === "file" ? [p.href, p.image] : [p.image])),
+      ...encantoShowcase.pieces.flatMap((p) => [p.href, p.image]),
     ];
     for (const f of files) expect(existsSync(`public${f}`), f).toBe(true);
   });

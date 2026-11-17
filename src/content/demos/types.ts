@@ -81,7 +81,6 @@ export type GuideStep = {
   problem: string;
   howAruaUses: string;
   whatIsReal: string;
-  needsBackend: string;
 };
 
 export type ConceptPost = {
@@ -164,8 +163,10 @@ export type ClientDemo = {
     measurement: string[];
     lasting: string[];
     continuity: { title: string; description: string }[];
+    /** Valor da proposta, como está escrito na apresentação (ex.: "De graça"). */
+    proposalValue: string;
+    proposalPurpose: string;
     proposalStatus: string;
   };
-  offer: PlanOffer;
   guide: Record<DemoArea, GuideStep>;
 };

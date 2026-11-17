@@ -139,7 +139,7 @@ describe("guided demo — navigation and tour", () => {
     expect(screen.getByTestId("tour-progress")).toHaveTextContent("Etapa 2 de 9");
   });
 
-  it("explains each area: what it is, the problem, Aruá's use, what is real and what needs a backend", async () => {
+  it("explains each area: what it is, the problem, Aruá's use and what is real", async () => {
     await open(`${BASE}/aprovacoes`);
     const panel = screen.getByTestId("tour-panel");
     for (const label of [
@@ -147,7 +147,6 @@ describe("guided demo — navigation and tour", () => {
       demoCopy.guide.problem,
       demoCopy.guide.howAruaUses,
       demoCopy.guide.whatIsReal,
-      demoCopy.guide.needsBackend,
     ]) {
       expect(within(panel).getByText(label)).toBeInTheDocument();
     }
@@ -233,25 +232,53 @@ describe("guided demo — data honesty", () => {
 });
 
 describe("guided demo — no fake auth, no fake decisions, accessible controls", () => {
-  it("has no forms, inputs or login anywhere", async () => {
+  it("has no forms, inputs or login anywhere (only the approval simulator's note box)", async () => {
     for (const path of [BASE, ...demoAreas.map((a) => `${BASE}/${a.id}`)]) {
       await open(path);
-      expect(document.querySelectorAll("form, input, textarea, select"), path).toHaveLength(0);
+      expect(document.querySelectorAll("form, input, select"), path).toHaveLength(0);
+      expect(document.querySelectorAll("textarea"), path).toHaveLength(
+        path.endsWith("/aprovacoes") ? 1 : 0,
+      );
       expect(document.body.textContent, path).not.toMatch(/digite (seu|o) PIN|entrar com senha/i);
       cleanup();
     }
   });
 
-  it("demo approval buttons only explain that the action needs the operational version", async () => {
+  it("runs the approval engine in memory: adjustment needs a note, then resend and approve", async () => {
+    const setItem = vi.spyOn(Storage.prototype, "setItem");
     await open(`${BASE}/aprovacoes`);
+    const history = () => document.body.textContent ?? "";
+
+    await click(screen.getByRole("button", { name: "Pedir ajustes" }));
+    expect(screen.getByRole("alert")).toHaveTextContent(/Descreva o que precisa mudar/);
+    expect(history()).not.toMatch(/Ajustes solicitados/);
+
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "Trocar a foto" } });
+    await click(screen.getByRole("button", { name: "Pedir ajustes" }));
+    expect(history()).toMatch(/Ajustes solicitados/);
+    expect(history()).toMatch(/“Trocar a foto”/);
+
+    await click(screen.getByRole("button", { name: "Reenviar com ajustes (Aruá)" }));
+    expect(history()).toMatch(/Reenviado para aprovação/);
+
     await click(screen.getByRole("button", { name: "Aprovar" }));
-    expect(screen.getByRole("status")).toHaveTextContent(demoCopy.operationalOnly);
-    expect(document.body.textContent).not.toMatch(
-      /aprovado com sucesso|aprovação registrada|decisão registrada/i,
-    );
+    expect(history()).toMatch(/Aprovado/);
+    expect(screen.queryByRole("textbox")).toBeNull();
+
+    // A simulação não grava nada, e o número real de aprovações continua o registrado.
+    expect(setItem).not.toHaveBeenCalled();
     expect(
       screen.getByText(/Aprovações registradas na Central original até 31\/10\/2026: nenhuma/),
     ).toBeInTheDocument();
+    setItem.mockRestore();
+  });
+
+  it("shows nothing that depends on a version that is not ready", async () => {
+    for (const a of demoAreas) {
+      await open(`${BASE}/${a.id}`);
+      expect(document.body.textContent, a.id).not.toMatch(/versão operacional|Ação demonstrativa/);
+      cleanup();
+    }
   });
 
   it("uses only native, keyboard-reachable controls with safe external links", async () => {

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, Check, MapPin } from "lucide-react";
 import { PlanOfferCard } from "@/components/demos/PlanOfferCard";
 import { encantoShowcase as s, type ShowcasePiece } from "@/content/demos/encanto-da-mata";
@@ -21,13 +21,6 @@ const buttonClass =
   "mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 font-semibold text-primary-foreground transition-opacity hover:opacity-90";
 
 function PieceLink({ piece }: { piece: ShowcasePiece }) {
-  if (piece.kind === "route") {
-    return (
-      <Link to={piece.href} data-track={`encanto-${piece.id}`} className={buttonClass}>
-        {piece.cta}
-      </Link>
-    );
-  }
   return (
     <a
       href={withBase(piece.href)}
@@ -75,7 +68,7 @@ function EncantoShowcase() {
           <h2 id="projeto" className="mb-5 text-2xl font-bold text-primary">
             {s.piecesTitle}
           </h2>
-          <ul className="grid gap-5 md:grid-cols-3">
+          <ul className="grid gap-5 md:grid-cols-2">
             {s.pieces.map((piece) => (
               <li
                 key={piece.id}

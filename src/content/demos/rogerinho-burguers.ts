@@ -42,7 +42,7 @@ export const rogerinhoBurguers: ClientDemo = {
     summary:
       "A loja já tem reputação construída no Google, identidade visual marcante e um caminho de pedido funcionando. As oportunidades estão na consistência das informações entre os canais, na atualização do Instagram e no cardápio online.",
     projectStatus:
-      "Proposta: plano Digital Performance com 3 meses de teste grátis, aguardando aprovação do proprietário. Nenhum serviço aprovado registrado.",
+      "Proposta: piloto de 60 dias, de graça, para aprender juntos e colher resultados. Aguardando aprovação do proprietário; nenhum serviço aprovado registrado.",
     projectStatusDate: PROPOSAL_DATE,
     strengths: [
       {
@@ -514,7 +514,7 @@ export const rogerinhoBurguers: ClientDemo = {
 
   approvals: {
     intro:
-      "Nenhum material vai ao ar sem a decisão do proprietário. Cada decisão fica registrada com data, autor e origem.",
+      "Nenhum material vai ao ar sem a decisão do proprietário. Cada decisão fica registrada com data, autor e origem. Teste abaixo o mesmo fluxo da Central da loja.",
     steps: [
       { title: "Material preparado", detail: "A Aruá produz a peça e descreve objetivo e canal." },
       {
@@ -621,9 +621,8 @@ export const rogerinhoBurguers: ClientDemo = {
       state: "depende-autorizacao",
     },
     {
-      title: "Aprovação do teste grátis de 3 meses",
-      detail:
-        "Datas de início e fim do teste do plano Digital Performance, aprovadas pelo proprietário.",
+      title: "Aprovação do piloto gratuito de 60 dias",
+      detail: "Datas de início e fim do piloto, aprovadas pelo proprietário.",
       state: "depende-autorizacao",
     },
     {
@@ -693,18 +692,11 @@ export const rogerinhoBurguers: ClientDemo = {
       { title: "Reputação no Google", description: "Responder e incentivar avaliações." },
       { title: "Análise periódica", description: "Leitura mensal da presença digital." },
     ],
+    proposalValue: "De graça",
+    proposalPurpose:
+      "Um piloto de 60 dias para aprender juntos e colher resultados. Ao final, olhamos o que o período mostrou e decidimos juntos os próximos passos.",
     proposalStatus:
-      "Proposta apresentada em 17/11/2026: plano Digital Performance com 3 meses de teste grátis, aguardando aprovação do proprietário. As datas dependem dessa aprovação.",
-  },
-
-  offer: {
-    planId: "performance",
-    trialMonths: 3,
-    notInTrial: ["Gestão de campanhas de anúncios"],
-    trialNote:
-      "No teste não há anúncios pagos: as campanhas só começam se você decidir continuar no plano. Os dois primeiros meses seguem o plano montado a partir do diagnóstico; no terceiro, mantemos a rotina e fechamos o relatório do teste para decidirmos juntos.",
-    status:
-      "Proposta apresentada em 17/11/2026, aguardando aprovação do proprietário. Nada é cobrado durante o teste.",
+      "Proposta apresentada em 17/11/2026, aguardando aprovação do proprietário. As datas do piloto dependem dessa aprovação.",
   },
 
   guide: {
@@ -714,7 +706,6 @@ export const rogerinhoBurguers: ClientDemo = {
       howAruaUses:
         "Abrimos cada conversa de acompanhamento por aqui: situação, pendências e próximos passos.",
       whatIsReal: "Identificação da loja, indicadores do marco inicial e situação da proposta.",
-      needsBackend: "Atualização automática das pendências e das últimas atividades.",
     },
     diagnostico: {
       represents: "O ponto de partida da loja em cada canal, com a evidência de cada achado.",
@@ -722,14 +713,12 @@ export const rogerinhoBurguers: ClientDemo = {
       howAruaUses: "Cada oportunidade tem fonte e grau de certeza antes de virar atividade.",
       whatIsReal:
         "Todos os achados vêm das capturas de 31/10/2026. Hipóteses e pendências estão marcadas.",
-      needsBackend: "Abrir a captura de cada achado e registrar novas evidências.",
     },
     atividades: {
       represents: "O plano de 2 meses, atividade por atividade, com status e evidências.",
       problem: "Sem plano visível, o cliente não sabe o que está sendo feito nem por quê.",
       howAruaUses: "Nenhuma atividade é marcada como concluída sem evidência registrada.",
       whatIsReal: "O plano e os status registrados na Central original em 31/10/2026.",
-      needsBackend: "Mudar status, anexar evidências e manter o histórico das mudanças.",
     },
     "presenca-digital": {
       represents: "Os indicadores da loja, cada um com valor, data, fonte e natureza.",
@@ -738,7 +727,6 @@ export const rogerinhoBurguers: ClientDemo = {
         "Registramos a mesma medição, do mesmo jeito, a cada período. Sem série real, não há gráfico de evolução.",
       whatIsReal:
         "Os quatro números do marco inicial, observados em 31/10/2026. Não são resultados da Aruá.",
-      needsBackend: "Registrar novas medições e montar a série histórica.",
     },
     publicacoes: {
       represents: "A organização dos conteúdos: o que vai ao ar, onde, para quê e em que fase.",
@@ -746,7 +734,6 @@ export const rogerinhoBurguers: ClientDemo = {
       howAruaUses: "Cada peça nasce com objetivo e canal, passa por aprovação e é registrada.",
       whatIsReal:
         "Nenhuma publicação da Aruá até a data do diagnóstico. Os cartões são exemplos conceituais.",
-      needsBackend: "Registrar publicações reais com data, link e evidência.",
     },
     aprovacoes: {
       represents: "Como o proprietário decide sobre cada material antes de ir ao ar.",
@@ -754,15 +741,12 @@ export const rogerinhoBurguers: ClientDemo = {
       howAruaUses:
         "Cada decisão fica com data, autor e origem; pedidos de ajuste exigem descrição.",
       whatIsReal: "O fluxo é o da Central original. Nenhuma aprovação foi registrada até 31/10.",
-      needsBackend:
-        "Aprovar ou pedir ajustes de verdade exige login do proprietário e armazenamento seguro.",
     },
     "pesquisas-e-avaliacoes": {
       represents: "A estratégia para ouvir clientes e manter a reputação no Google ativa.",
       problem: "Pedir avaliação só a quem gostou, ou oferecer vantagem, viola as regras do Google.",
       howAruaUses: "A loja envia; as respostas entram sem nome nem telefone do cliente.",
       whatIsReal: "As regras e os roteiros documentados no projeto. Nenhuma resposta registrada.",
-      needsBackend: "Registrar respostas e calcular médias e temas de melhoria.",
     },
     "proximas-acoes": {
       represents: "O que falta decidir, confirmar ou liberar para o trabalho andar.",
@@ -770,16 +754,14 @@ export const rogerinhoBurguers: ClientDemo = {
       howAruaUses:
         "Separamos o que é proposta, o que espera confirmação e o que depende de acesso.",
       whatIsReal: "As perguntas e dependências documentadas no diagnóstico.",
-      needsBackend: "Marcar respostas do proprietário e transformar em atividades.",
     },
     "proposta-e-estrategia": {
       represents:
-        "A proposta da Aruá (plano e teste grátis), os pilares do trabalho e a lógica do acompanhamento.",
+        "A proposta da Aruá (piloto gratuito), os pilares do trabalho e a lógica do acompanhamento.",
       problem: "Sem estratégia explícita, o cliente compara só preço e quantidade de posts.",
       howAruaUses: "Apresentamos os pilares e decidimos a continuidade com base no período.",
       whatIsReal:
-        "Pilares e plano por mês vêm do diagnóstico de 31/10/2026. Plano, preço e teste grátis são os da proposta apresentada em 17/11/2026.",
-      needsBackend: "Aprovação formal de cada serviço pelo proprietário.",
+        "Pilares e plano por mês vêm do diagnóstico de 31/10/2026. O valor (de graça) é o da proposta apresentada em 17/11/2026.",
     },
   },
 };

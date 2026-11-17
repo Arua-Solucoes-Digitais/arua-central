@@ -67,14 +67,12 @@ export const demoCopy = {
   entryPurpose:
     "É assim que o proprietário acompanha, pelo celular, o trabalho de presença digital: o que foi encontrado, o que está planejado, o que precisa da decisão dele e como medimos.",
   panelNotice: "Demonstração guiada · dados do diagnóstico de 31/10/2026 · nada é salvo",
-  operationalOnly: "Disponível na versão operacional mediante implantação.",
   guide: {
     title: "Orientação",
     represents: "O que esta área representa",
     problem: "Qual problema resolve",
     howAruaUses: "Como a Aruá usa no acompanhamento",
     whatIsReal: "O que é real aqui",
-    needsBackend: "Depende da versão operacional",
     previous: "Anterior",
     next: "Próxima área",
     finish: "Concluir visita",

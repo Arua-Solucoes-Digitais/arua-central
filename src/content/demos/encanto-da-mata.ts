@@ -1,6 +1,6 @@
 // Apresentação do projeto da Pousada Encanto da Mata (/demonstracoes/encanto-da-mata).
 // Uso de nome, fotos e valores autorizado pelo proprietário: ver docs/demos/encanto-da-mata.md.
-// Os arquivos ficam em public/demos/encanto-da-mata (site estático, painel e fotos da vitrine).
+// Os arquivos ficam em public/demos/encanto-da-mata: cópia do site e do painel, como estão no projeto.
 import type { PlanOffer } from "./types";
 
 const FILES = "/demos/encanto-da-mata";
@@ -11,9 +11,8 @@ export type ShowcasePiece = {
   description: string;
   features: string[];
   cta: string;
+  /** Arquivo estático em public/, aberto em nova aba. */
   href: string;
-  /** Página deste site (roteador) ou arquivo estático aberto em nova aba. */
-  kind: "route" | "file";
   note?: string;
   image: string;
   imageAlt: string;
@@ -25,7 +24,7 @@ export const encantoShowcase = {
   place: "Sabará · MG",
   eyebrow: "Projeto Aruá",
   intro:
-    "Tudo o que a Aruá montou para a pousada receber mais pedidos de reserva, com menos mensagens soltas: site próprio, painel do proprietário e vitrine no Aruá Hospedagens.",
+    "Tudo o que a Aruá montou para a pousada receber mais pedidos de reserva, com menos mensagens soltas: o site próprio e o painel do proprietário.",
   notice:
     "Demonstração: as mensagens enviadas por estas páginas vão para o WhatsApp da Aruá, não para a pousada.",
   hero: {
@@ -47,7 +46,6 @@ export const encantoShowcase = {
       ],
       cta: "Abrir o site",
       href: `${FILES}/index.html`,
-      kind: "file",
       image: `${FILES}/img/piscina.jpg`,
       imageAlt: "Piscina com água azul e pequena cascata junto ao muro de pedra",
     },
@@ -64,26 +62,9 @@ export const encantoShowcase = {
       ],
       cta: "Abrir o painel",
       href: `${FILES}/painel.html`,
-      kind: "file",
       note: "Na demonstração, use “Ver demonstração com dados de exemplo”: os dados são fictícios e o login fica desativado.",
       image: `${FILES}/img/varanda-cadeiras.jpg`,
       imageAlt: "Varanda com cadeiras de corda azuis voltada para a mata",
-    },
-    {
-      id: "vitrine",
-      title: "Vitrine no Aruá Hospedagens",
-      description:
-        "A mesma pousada no produto da Aruá para hospedagens, editável pelo painel, sem mexer em código.",
-      features: [
-        "Fotos, vídeo, acomodações, valores e comodidades",
-        "Pedido de reserva com datas, pessoas e contato, enviado pelo WhatsApp",
-        "Endereço e link para o Google Maps e o Instagram",
-      ],
-      cta: "Abrir a vitrine",
-      href: "/hospedagens/encanto-da-mata",
-      kind: "route",
-      image: `${FILES}/img/suite-master.jpg`,
-      imageAlt: "Suíte Master: cama de casal com colcha xadrez",
     },
   ] satisfies ShowcasePiece[],
   offer: {

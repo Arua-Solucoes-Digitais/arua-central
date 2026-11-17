@@ -1,8 +1,8 @@
 // @vitest-environment node
 import { randomUUID } from "node:crypto";
-import { copyFileSync, mkdtempSync, readdirSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, mkdtempSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { slugify } from "../lib/slug";
@@ -298,17 +298,14 @@ const request = (slug: string, stayId: string) => ({
 });
 
 describe("Aruá Hospedagens", () => {
-  it("a demonstração é pública, marcada como fictícia e sem número de WhatsApp", () => {
-    const page = hospedagens.getPropertyPage("demonstracao", false);
-    expect(page?.is_demo).toBe(true);
-    expect(page?.name).toContain("demonstração");
-    expect(page?.has_whatsapp).toBe(false);
-    expect(page?.stays.map((s) => s.name)).toEqual([
-      "Quarto individual",
-      "Day use",
-      "Fim de semana",
-      "Sítio inteiro",
-    ]);
+  it("migração 4: a vitrine fictícia sai e a demonstração do produto é o site do Encanto", () => {
+    expect(hospedagens.getPropertyPage("demonstracao", true)).toBeNull();
+    expect(get<{ n: number }>("select count(*) as n from stay_types")?.n).toBe(0);
+    expect(
+      get<{ demo_url: string }>(
+        "select demo_url from base_projects where slug = 'arua-hospedagens'",
+      )?.demo_url,
+    ).toBe("/demos/encanto-da-mata/index.html");
   });
 
   it("estabelecimento real não é publicado sem WhatsApp", () => {
@@ -792,46 +789,63 @@ describe("migração 3", () => {
 });
 
 describe("importação de vitrine", () => {
-  const ENCANTO = "public/demos/encanto-da-mata";
+  const PHOTOS = "public/demos/encanto-da-mata/img";
   beforeEach(() => {
     vi.stubEnv("ARUA_UPLOADS_DIR", mkdtempSync(join(tmpdir(), "arua-up-")));
   });
 
-  it("cria a vitrine do Encanto com modalidades e fotos do próprio estabelecimento", () => {
-    const { id, slug, mediaFiles } = importProperty(ENCANTO, "script:test");
+  // Pasta de exemplo, com fotos reais em subpastas, como as de public/demos/<slug>.
+  function seedDir() {
+    const dir = mkdtempSync(join(tmpdir(), "arua-seed-"));
+    mkdirSync(join(dir, "img"));
+    for (const f of ["deck-rede.jpg", "piscina.jpg", "suite-master.jpg"]) {
+      copyFileSync(join(PHOTOS, f), join(dir, "img", f));
+    }
+    writeFileSync(
+      join(dir, "property.json"),
+      JSON.stringify({
+        property: { ...propertyInput, slug: "vitrine-teste", is_demo: true },
+        stays: [{ ...stayInput, key: "suite", name: "Suíte" }],
+        media: [
+          { file: "img/deck-rede.jpg", role: "banner", alt: "Deck", description: "" },
+          { file: "img/piscina.jpg", role: "gallery", alt: "Piscina", description: "" },
+          { file: "img/suite-master.jpg", role: "stay", stay: "suite", alt: "", description: "" },
+        ],
+      }),
+    );
+    return dir;
+  }
+
+  it("cria a vitrine com modalidades e fotos do próprio estabelecimento", () => {
+    const dir = seedDir();
+    const { id, slug, mediaFiles } = importProperty(dir, "script:test");
     const page = hospedagens.getPropertyPage(slug, false);
     expect(page?.is_demo).toBe(true);
-    // Demonstração: o número é o da Aruá, e o visitante não o recebe na página.
+    // O número fica no banco, e o visitante não o recebe na página.
     expect(page?.has_whatsapp).toBe(true);
     expect(page?.whatsapp).toBe("");
-    expect(
-      get<{ whatsapp: string }>("select whatsapp from properties where id = ?", id)?.whatsapp,
-    ).toBe("5538999636208");
     expect(page?.banners).toHaveLength(1);
-    expect(page?.gallery.some((m) => m.kind === "video")).toBe(true);
-    expect(page?.stays.map((s) => [s.name, s.photos.length])).toEqual([
-      ["Suíte Master", 1],
-      ["Suíte na Natureza", 1],
-      ["Quarto Quádruplo", 1],
-    ]);
-    expect(Object.values(mediaFiles)).toContain("encanto-da-mata/img/deck-rede.jpg");
+    expect(page?.gallery).toHaveLength(1);
+    expect(page?.stays.map((s) => [s.name, s.photos.length])).toEqual([["Suíte", 1]]);
+    expect(Object.values(mediaFiles)).toContain(`${basename(dir)}/img/deck-rede.jpg`);
     expect(
       get<{ n: number }>("select count(*) as n from media where property_id <> ?", id)?.n,
     ).toBe(0);
-    expect(readdirSync(uploadsDir())).toHaveLength(14);
+    expect(readdirSync(uploadsDir())).toHaveLength(3);
   });
 
   it("não substitui um estabelecimento que já existe", () => {
-    importProperty(ENCANTO, "script:test");
-    expect(() => importProperty(ENCANTO, "script:test")).toThrow(/Já existe/);
+    const dir = seedDir();
+    importProperty(dir, "script:test");
+    expect(() => importProperty(dir, "script:test")).toThrow(/Já existe/);
     expect(
-      get<{ n: number }>("select count(*) as n from properties where slug = 'encanto-da-mata'")?.n,
+      get<{ n: number }>("select count(*) as n from properties where slug = 'vitrine-teste'")?.n,
     ).toBe(1);
   });
 
   it("um arquivo inválido desfaz a importação inteira", () => {
     const dir = mkdtempSync(join(tmpdir(), "arua-seed-"));
-    copyFileSync(join(ENCANTO, "img", "deck-rede.jpg"), join(dir, "deck-rede.jpg"));
+    copyFileSync(join(PHOTOS, "deck-rede.jpg"), join(dir, "deck-rede.jpg"));
     writeFileSync(join(dir, "falso.jpg"), "<svg onload=alert(1)>");
     writeFileSync(
       join(dir, "property.json"),

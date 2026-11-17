@@ -77,11 +77,19 @@ A visita guiada guarda apenas, em memória, se a orientação está aberta. O ro
 
 ## Proposta (17/11/2026)
 
-Área "Proposta e estratégia" (`/demonstracoes/rogerinho-burguers/proposta-e-estrategia`):
-plano **Digital Performance**, **3 meses de teste grátis, sem anúncios pagos no teste**, depois
-R$ 1.799/mês se o proprietário decidir continuar. Dados em `offer` de `src/content/demos/rogerinho-burguers.ts`;
-nome, preço e itens vêm de `plans` em `src/content/site.ts`. Contato: WhatsApp da Aruá (`arualContact`).
+Área "Proposta e estratégia": **de graça**, um piloto de 60 dias "para aprender juntos e colher resultados"
+(`strategy.proposalValue` e `proposalPurpose` em `src/content/demos/rogerinho-burguers.ts`). Sem plano
+pago e sem preço, por decisão do responsável.
 
-No portfólio, o case aparece como os demais (decisão do responsável em 17/11/2026), sem citar plano
-nem preço. O proprietário **ainda não aprovou a proposta nem autorizou uso no portfólio**: registre a
-autorização quando vier, ou despublique o case no painel se ela não vier.
+## O que é funcional na demonstração
+
+- **Aprovações:** `ApprovalSimulator` reproduz o motor da Central da loja (`sistema/server.py`): aprovar,
+  pedir ajustes (descrição obrigatória), comentar, e a Aruá reenviar após ajustes; histórico com data,
+  autor e origem. Tudo só na memória da página: nada é salvo, e o contador real de aprovações continua 0.
+- Saíram os botões que só existiam na versão operacional (registrar atividade, anexar evidência,
+  registrar medição/publicação) e o quadro "Depende da versão operacional" da orientação: a demonstração
+  mostra só o que funciona.
+
+No portfólio, o case aparece como os demais (decisão do responsável em 17/11/2026). O proprietário
+**ainda não aprovou a proposta nem autorizou uso no portfólio**: registre a autorização quando vier, ou
+despublique o case no painel se ela não vier.
