@@ -6,6 +6,9 @@
 // Projetos, sistemas no ar e depoimentos vêm do banco (Área restrita), não daqui.
 // =====================================================================
 
+// Valores ainda não divulgados (decisão de 17/11/2026): no lugar de qualquer preço, "Em breve".
+export const COMING_SOON = "Em breve";
+
 export const navigation = {
   menuLabel: "Abrir menu",
   title: "Menu",
@@ -16,6 +19,7 @@ export const navigation = {
     { href: "/aplicacoes", label: "Aplicações personalizadas" },
     { href: "/portfolio", label: "Portfólio" },
     { href: "/suporte", label: "Suporte" },
+    { href: "/area-do-cliente", label: "Área do cliente" },
     { href: "/#contato", label: "Contato" },
   ],
   restricted: "Área restrita",
@@ -163,7 +167,7 @@ export const plans: {
   title: "Planos",
   intro:
     "Escolha o tamanho certo para o momento da sua empresa. Você pode mudar de plano quando precisar.", // A CONFERIR: troca de plano a qualquer momento
-  note: "Valores mensais. A criação de site ou aplicação sob medida é orçada à parte, a partir de R$ 5.500.",
+  note: "Valores em breve. A criação de site ou aplicação sob medida é orçada à parte.",
   more: "Comparar planos",
   cta: "Quero este plano",
   // A CONFERIR: o que cada plano inclui foi montado a partir dos nomes do mapa mental.
@@ -171,8 +175,8 @@ export const plans: {
     {
       id: "presenca",
       name: "Presença Digital",
-      price: "R$ 149",
-      period: "/mês",
+      price: COMING_SOON,
+      period: "",
       summary: "Para estar na internet com um site profissional, seguro e sempre no ar.",
       includes: [
         "Site no ar com hospedagem",
@@ -184,16 +188,16 @@ export const plans: {
     {
       id: "social",
       name: "Digital + Social",
-      price: "R$ 699",
-      period: "/mês",
+      price: COMING_SOON,
+      period: "",
       summary: "O site mais as redes sociais cuidadas por quem entende.",
       includes: ["Tudo do Presença Digital", "Gestão das redes sociais", "Produção de conteúdo"],
     },
     {
       id: "profissional",
       name: "Digital Profissional",
-      price: "R$ 1.149",
-      period: "/mês",
+      price: COMING_SOON,
+      period: "",
       summary: "Conteúdo com fotos e vídeos próprios e relatórios para acompanhar.",
       includes: [
         "Tudo do Digital + Social",
@@ -205,8 +209,8 @@ export const plans: {
     {
       id: "performance",
       name: "Digital Performance",
-      price: "R$ 1.799",
-      period: "/mês",
+      price: COMING_SOON,
+      period: "",
       summary: "Para crescer com anúncios, métricas e acompanhamento estratégico.",
       includes: [
         "Tudo do Digital Profissional",
@@ -232,24 +236,22 @@ export const plans: {
   },
 };
 
-// Corrigido do mapa: "Manutenção R$ 199+" vale para sistemas sob medida (o site fica no Presença Digital),
-// e "até R$ 1.799+" virou faixa fechada, porque "até" e "+" se contradizem.
 export const pricing = {
   title: "Modelo comercial",
   intro:
-    "Transparente desde o primeiro contato: um valor para criar e um valor mensal para manter e crescer.",
+    "Transparente desde o primeiro contato: um valor para criar e um valor mensal para manter e crescer. Os valores serão divulgados em breve.",
   groups: [
     {
       title: "Desenvolvimento inicial",
-      items: ["Site ou aplicação sob medida: a partir de R$ 5.500 (pagamento único)"],
+      items: ["Site ou aplicação sob medida (pagamento único)"],
     },
     {
       title: "Planos mensais",
       items: [
-        "Presença digital: a partir de R$ 149/mês",
-        "Manutenção de sistemas sob medida: a partir de R$ 199/mês",
-        "Social media: a partir de R$ 699/mês",
-        "Planos completos: de R$ 1.149 a R$ 1.799/mês",
+        "Presença digital",
+        "Manutenção de sistemas sob medida",
+        "Social media",
+        "Planos completos, com conteúdo próprio e anúncios",
       ],
     },
     {
@@ -272,7 +274,7 @@ export const faq: { title: string; items: { q: string; a: string }[] } = {
     },
     {
       q: "O valor do plano inclui a criação do site?",
-      a: "Os planos cobrem manter, atualizar e divulgar. A criação de site ou aplicação sob medida é orçada à parte, a partir de R$ 5.500.", // A CONFERIR
+      a: "Os planos cobrem manter, atualizar e divulgar. A criação de site ou aplicação sob medida é orçada à parte.", // A CONFERIR
     },
     {
       q: "A verba dos anúncios está incluída?",
@@ -486,4 +488,45 @@ export const contact = {
     outro: "Outro assunto",
   },
   infoTitle: "Informações",
+};
+
+// Área do cliente: ainda não existe (login de cliente fica para uma fase futura).
+// A página só explica o que vem; nada de login, cadastro ou formulário aqui.
+export const clientArea = {
+  title: "Área do cliente",
+  badge: COMING_SOON,
+  intro:
+    "Um espaço só seu para acompanhar o trabalho da Aruá, decidir sobre cada material e encontrar tudo do seu projeto, no celular ou no computador.",
+  featuresTitle: "O que você vai poder fazer",
+  features: [
+    {
+      icon: "track",
+      title: "Acompanhar o trabalho",
+      text: "As atividades do mês, o status de cada uma e as evidências do que foi feito, sem precisar perguntar.",
+    },
+    {
+      icon: "approve",
+      title: "Aprovar materiais",
+      text: "Aprove posts e peças antes de irem ao ar, ou peça ajustes com um comentário. Cada decisão fica registrada.",
+    },
+    {
+      icon: "reports",
+      title: "Relatórios",
+      text: "O relatório mensal com o que foi feito e os indicadores do seu negócio, cada número com fonte e data.",
+    },
+    {
+      icon: "support",
+      title: "Suporte e arquivos",
+      text: "Abra chamados de suporte e encontre materiais, contratos e arquivos do seu projeto num só lugar.",
+    },
+  ],
+  accessTitle: "Acesso pessoal e seguro",
+  accessText:
+    "Cada cliente recebe o próprio acesso, criado pela Aruá. Não há cadastro aberto, e cada um vê só o que é seu.",
+  previewTitle: "Quer ver como vai ser?",
+  previewText:
+    "A demonstração da Central de Presença Digital mostra, com um caso real, como o acompanhamento e as aprovações funcionam.",
+  previewCta: "Ver a demonstração",
+  previewHref: "/demonstracoes/rogerinho-burguers",
+  contactCta: "Falar com a Aruá",
 };

@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/accordion";
 import {
   baseProjects,
+  COMING_SOON,
   contactInfo,
   faq,
   environments,
@@ -43,6 +44,7 @@ import type {
   PublicTestimonial,
 } from "@/lib/schemas";
 import { instagramUrl } from "@/lib/whatsapp";
+import { isComingSoon } from "@/lib/coming-soon";
 import { withBase } from "@/lib/paths";
 import { Reveal, RevealItem, RevealList } from "./Motion";
 import { SiteFooter, SiteHeader } from "./SiteHeader";
@@ -84,10 +86,13 @@ export function SectionTitle({ id, title, intro }: { id: string; title: string; 
 export function PageShell({
   title,
   intro,
+  badge,
   children,
 }: {
   title: string;
   intro: string;
+  /** Selo curto acima do título, como "Em breve". */
+  badge?: string;
   children: ReactNode;
 }) {
   return (
@@ -100,6 +105,11 @@ export function PageShell({
               aria-hidden="true"
               className="mb-4 block h-1 w-12 rounded-full bg-brand-gradient"
             />
+            {badge && (
+              <p className="mb-3">
+                <ComingSoonBadge label={badge} tone="dark" />
+              </p>
+            )}
             <h1 className="text-4xl font-semibold sm:text-5xl">{title}</h1>
             <p className="mt-4 max-w-2xl text-lg font-light opacity-85">{intro}</p>
           </Reveal>
@@ -108,6 +118,27 @@ export function PageShell({
       </main>
       <SiteFooter />
     </>
+  );
+}
+
+export function ComingSoonBadge({
+  label,
+  tone = "light",
+}: {
+  label: string;
+  tone?: "light" | "dark";
+}) {
+  return (
+    <span
+      className={`inline-flex items-center gap-2 rounded-full px-3 text-xs font-semibold uppercase tracking-wider ${
+        tone === "dark"
+          ? "py-1 bg-primary-foreground/10 text-primary-foreground ring-1 ring-primary-foreground/25"
+          : "py-px leading-4 bg-secondary text-primary ring-1 ring-primary/15"
+      }`}
+    >
+      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-accent" />
+      {label}
+    </span>
   );
 }
 
@@ -219,6 +250,7 @@ export function ProjectCard({
           <span aria-hidden="true">·</span>
           <span>{portfolio.categories[project.category]}</span>
           {live && <LiveBadge state="online" />}
+          {isComingSoon(project, live) && <ComingSoonBadge label={COMING_SOON} />}
         </div>
         <h3 className="mt-2 text-lg font-semibold text-primary">{project.title}</h3>
         {project.client && <p className="text-sm text-muted-foreground">{project.client}</p>}

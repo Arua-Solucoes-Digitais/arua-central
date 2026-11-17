@@ -681,11 +681,9 @@ function Strategy({ demo }: AreaProps) {
     <>
       <Card className="border-highlight/60">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Proposta
+          Situação da proposta
         </p>
-        <p className="mt-1 font-display text-4xl font-bold text-primary">{s.proposalValue}</p>
-        <p className="mt-2 max-w-2xl text-lg text-foreground">{s.proposalPurpose}</p>
-        <p className="mt-3 text-sm font-semibold text-foreground">{s.proposalStatus}</p>
+        <p className="mt-1 font-semibold text-foreground">{s.proposalStatus}</p>
       </Card>
 
       <AreaSection title="Posicionamento">

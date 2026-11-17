@@ -1,11 +1,10 @@
 // @vitest-environment node
 // Fidelidade e privacidade dos dados das demonstrações: o que aparece na tela
 // precisa ter fonte e data, e nada privado pode entrar no bundle público.
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { safeHttpUrl } from "@/lib/safe-url";
-import { encantoShowcase } from "./encanto-da-mata";
-import { arualContact, demoAreas, demos, getDemo, getOfferPlan } from "./index";
+import { demoAreas, demos, getDemo } from "./index";
 import { rogerinhoBurguers as rb } from "./rogerinho-burguers";
 
 const ALLOWED_HOSTS = ["pedido.anota.ai", "www.instagram.com"];
@@ -160,38 +159,17 @@ describe("Rogerinho demo data — privacy and links", () => {
   });
 });
 
-describe("propostas", () => {
-  it("Rogerinho: sem plano pago, a proposta é o piloto de graça", () => {
-    const s = demos["rogerinho-burguers"]!.strategy;
-    expect(s.proposalValue).toBe("De graça");
-    expect(s.proposalPurpose).toMatch(/aprender/);
-    expect(s.proposalStatus).toMatch(/aguardando aprovação/i);
-    expect(JSON.stringify(demos["rogerinho-burguers"])).not.toMatch(
-      /R\$ ?1\.799|Digital Performance/,
-    );
+describe("propostas e valores", () => {
+  it("Rogerinho: a proposta não fala de valor nem de plano pago", () => {
+    const text = JSON.stringify(demos["rogerinho-burguers"]);
+    expect(text).not.toMatch(/R\$|de graça|gratuit|Digital Performance/i);
+    expect(demos["rogerinho-burguers"]!.strategy.proposalStatus).toMatch(/aguardando aprovação/i);
   });
 
-  it("Encanto: plano existe e o teste é de 3 meses", () => {
-    const offer = encantoShowcase.offer;
-    const plan = getOfferPlan(offer);
-    expect(offer.trialMonths).toBe(3);
-    for (const item of offer.notInTrial) expect(plan.includes).toContain(item);
-    expect(offer.status).toMatch(/aguardando aprovação/);
-  });
-
-  it("Encanto: Digital Profissional, com arquivos que existem em public/", () => {
-    expect(getOfferPlan(encantoShowcase.offer).name).toBe("Digital Profissional");
-    const files = [
-      encantoShowcase.hero.src,
-      ...encantoShowcase.pieces.flatMap((p) => [p.href, p.image]),
-    ];
-    for (const f of files) expect(existsSync(`public${f}`), f).toBe(true);
-  });
-
-  it("o contato das propostas é o da Aruá, nunca o do proprietário", () => {
-    expect(arualContact.whatsapp).toBe("5538999636208");
+  it("o site do Encanto na demonstração usa o WhatsApp da Aruá, nunca o do proprietário", () => {
     const site = readFileSync("public/demos/encanto-da-mata/index.html", "utf8");
     expect(site).not.toContain("5531984721918");
     expect(site).toContain("whatsapp: '5538999636208'");
+    expect(site).toContain('<script src="arua-preview.js" defer></script>');
   });
 });

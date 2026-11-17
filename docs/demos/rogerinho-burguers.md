@@ -77,9 +77,8 @@ A visita guiada guarda apenas, em memória, se a orientação está aberta. O ro
 
 ## Proposta (17/11/2026)
 
-Área "Proposta e estratégia": **de graça**, um piloto de 60 dias "para aprender juntos e colher resultados"
-(`strategy.proposalValue` e `proposalPurpose` em `src/content/demos/rogerinho-burguers.ts`). Sem plano
-pago e sem preço, por decisão do responsável.
+Área "Proposta e estratégia": piloto de 60 dias para aprender juntos e colher resultados, aguardando
+aprovação. **Sem valores nem plano** (decisão do responsável: preços "Em breve" em todo o site).
 
 ## O que é funcional na demonstração
 

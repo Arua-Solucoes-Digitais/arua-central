@@ -6,11 +6,11 @@ import { FaqList, PageShell, PlanCards, Section } from "@/components/site/Sectio
 export const Route = createFileRoute("/planos")({
   head: () => ({
     meta: [
-      { title: "Planos e preços — Aruá Soluções Digitais" },
+      { title: "Planos — Aruá Soluções Digitais" },
       {
         name: "description",
         content:
-          "Planos mensais a partir de R$ 149: presença digital, social media, produção audiovisual e performance.",
+          "Planos mensais de presença digital, social media, produção audiovisual e performance. Valores em breve.",
       },
       { property: "og:title", content: "Planos — Aruá" },
     ],
