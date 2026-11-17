@@ -1,33 +1,29 @@
-// Contrato das demonstrações guiadas da Central de Presença Digital.
-// Cada cliente é um arquivo de dados neste diretório; as telas (src/components/demos)
-// e as rotas (/demonstracoes/$client) são as mesmas para todos.
-// Regra: tudo aqui é público. Nada de PIN, senha, token, telefone de consumidor,
-// conversa, dado de banco ou número que não tenha fonte e data.
+// Tlim © Aruá Soluções Digitais · desenvolvido por CjotaDEV7.
+// Contrato da demonstração do Tlim: central de pedidos com cardápio online e área do gestor
+// (pedidos, CRM, WhatsApp, Instagram, pesquisas, aprovações). Código próprio da Aruá.
+// Regra: tudo aqui é público e de exemplo. O restaurante tem nome fictício; clientes, pedidos e
+// valores são simulação. Nada de telefone, endereço real ou dado pessoal.
 
-/** Natureza de um dado. Nunca misture: cada valor exibido tem exatamente uma. */
+/** Natureza de um dado. Cada valor exibido tem exatamente uma. */
 export type DataNature = "real" | "estimativa" | "simulacao";
 
 /** Grau de certeza de uma informação do diagnóstico. */
 export type Certainty = "verificado" | "hipotese" | "pendente";
 
-/** Status de atividade, iguais aos do projeto original (sem "concluído" sem evidência). */
+/** Status de um material em aprovação (os mesmos da Central original). */
 export type ActivityStatus =
   "planejado" | "andamento" | "aguardando" | "aprovado" | "concluido" | "ajustes";
 
-/** Situação de uma próxima ação. "realizada" só com evidência registrada. */
-export type ActionState =
-  "proposta" | "aguardando-confirmacao" | "depende-acesso" | "depende-autorizacao" | "realizada";
-
 export type DemoArea =
   | "visao-geral"
-  | "diagnostico"
-  | "atividades"
-  | "presenca-digital"
-  | "publicacoes"
+  | "pedidos"
+  | "cardapio"
+  | "crm"
+  | "whatsapp"
+  | "instagram"
+  | "pesquisas"
   | "aprovacoes"
-  | "pesquisas-e-avaliacoes"
-  | "proximas-acoes"
-  | "proposta-e-estrategia";
+  | "ponto-de-partida";
 
 export type SourceLink = { label: string; url: string; note?: string };
 
@@ -36,45 +32,67 @@ export type Indicator = {
   channel: string;
   label: string;
   explain: string;
-  /** null = ainda não disponível (sem acesso ao painel, por exemplo). */
-  value: number | null;
+  value: number;
   decimals?: number;
-  /** Data de referência no formato AAAA-MM-DD; obrigatória quando há valor. */
-  referenceDate: string | null;
-  source: string;
-  /** null junto com value null: não há dado, então não há natureza. */
-  nature: DataNature | null;
-  /** Por que o valor não está disponível, quando value é null. */
-  unavailableReason?: string;
+  nature: DataNature;
 };
 
 export type Opportunity = {
   title: string;
   description: string;
   channel: string;
-  evidence: string;
   certainty: Certainty;
-  recommendation: string;
+  /** Módulo do Tlim que resolve. */
+  solvedBy: DemoArea;
 };
 
-export type Activity = {
-  month: 1 | 2;
+export type MenuItem = {
+  id: string;
   category: string;
-  title: string;
+  name: string;
   description: string;
-  objective: string;
-  status: ActivityStatus;
-  /** Evidências registradas. Atividade "concluido" sem evidência é recusada pelos testes. */
-  evidence: string[];
+  /** Valor de exemplo, em centavos. */
+  priceCents: number;
 };
 
-export type NextAction = {
-  title: string;
-  detail: string;
-  state: ActionState;
-  /** Obrigatório quando state = "realizada". */
-  evidence?: string;
+export type OrderStatus = "novo" | "preparo" | "saiu" | "concluido";
+export type OrderMode = "entrega" | "retirada";
+export type Payment = "pix" | "cartao" | "dinheiro";
+export type Channel = "cardapio" | "whatsapp" | "instagram";
+
+export type Customer = {
+  id: string;
+  name: string;
+  orders: number;
+  spentCents: number;
+  /** Dias desde o último pedido. */
+  lastOrderDays: number;
+  channel: Channel;
 };
+
+export type SeedOrder = {
+  id: number;
+  customerId: string;
+  items: { itemId: string; qty: number }[];
+  status: OrderStatus;
+  minutesAgo: number;
+  mode: OrderMode;
+  payment: Payment;
+  note?: string;
+};
+
+export type PostFormat = "Post" | "Reels" | "Stories";
+export type SeedPost = {
+  id: string;
+  format: PostFormat;
+  title: string;
+  caption: string;
+  /** 0 = hoje, 1 = amanhã… */
+  dayOffset: number;
+  time: string;
+};
+
+export type Template = { id: string; label: string; text: string };
 
 export type GuideStep = {
   represents: string;
@@ -83,75 +101,40 @@ export type GuideStep = {
   whatIsReal: string;
 };
 
-export type ConceptPost = {
-  title: string;
-  format: string;
-  channel: string;
-  goal: string;
-  caption: string;
-  nature: "simulacao";
-};
-
-export type ApprovalStep = { title: string; detail: string };
-
-export type ScriptItem = { heading: string; text: string };
-
 export type ClientDemo = {
   slug: string;
-  /** Classe CSS do tema do cliente em src/styles.css. */
+  /** Classe CSS do tema do restaurante em src/styles.css. */
   themeClass: string;
   business: {
     name: string;
-    nameVariants: { platform: string; name: string }[];
+    initials: string;
     segment: string;
-    location: string;
-    addressNote: string;
-    instagramHandle: string;
-    links: SourceLink[];
+    city: string;
+    tagline: string;
+    /** Por que o nome é fictício e de onde vêm os números. */
+    basis: string;
   };
-  diagnosis: {
-    date: string;
-    source: string;
-    summary: string;
-    projectStatus: string;
-    projectStatusDate: string;
-    strengths: { title: string; description: string; evidence: string }[];
-    opportunities: Opportunity[];
-    missingInfo: string[];
-    referenceLinks: SourceLink[];
+  presentation: {
+    headline: string;
+    lead: string;
+    problems: { title: string; text: string }[];
+    modules: { area: DemoArea; title: string; text: string }[];
   };
   indicators: Indicator[];
-  activities: Activity[];
-  activitiesNote: string;
-  publications: {
-    intro: string;
-    realPublications: { title: string; date: string; evidence: string }[];
-    noRealPublicationsNote: string;
-    concepts: ConceptPost[];
-    calendarPrinciples: string[];
-  };
+  indicatorsNote: string;
+  strengths: { title: string; description: string }[];
+  opportunities: Opportunity[];
+  menu: { categories: string[]; items: MenuItem[] };
+  customers: Customer[];
+  orders: SeedOrder[];
+  posts: SeedPost[];
+  templates: Template[];
+  survey: { questions: { question: string; options: string[] }[]; privacy: string };
+  reviewRules: string[];
   approvals: {
     intro: string;
-    steps: ApprovalStep[];
-    recordedApprovals: number;
-    recordedNote: string;
+    steps: { title: string; detail: string }[];
     sample: { title: string; channel: string; description: string };
-  };
-  relationship: {
-    rules: string[];
-    survey: { questions: { question: string; options: string[] }[]; privacy: string };
-    reviewScripts: ScriptItem[];
-    responsesNote: string;
-  };
-  nextActions: NextAction[];
-  strategy: {
-    positioning: string;
-    pillars: { title: string; items: string[] }[];
-    months: { title: string; description: string }[];
-    measurement: string[];
-    lasting: string[];
-    continuity: { title: string; description: string }[];
-    proposalStatus: string;
   };
   guide: Record<DemoArea, GuideStep>;
 };

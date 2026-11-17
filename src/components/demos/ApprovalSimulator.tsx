@@ -1,4 +1,4 @@
-// Motor de aprovação de materiais, igual ao da Central da loja (projetos/rogerinho-burguer/sistema/server.py):
+// Motor de aprovação de materiais, com as mesmas regras do sistema real da Aruá:
 // o proprietário aprova, pede ajustes (com descrição obrigatória) ou comenta; depois de um pedido de
 // ajustes, a Aruá reenvia. Cada passo entra no histórico com data, autor e origem.
 // Aqui tudo fica só na memória da página: nada é salvo nem enviado, e recarregar recomeça.
@@ -78,7 +78,7 @@ export function ApprovalSimulator({
   }
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
       <Card>
         <div className="flex flex-wrap items-center gap-2">
           <ConceptChip>{CONCEPT_LABEL}</ConceptChip>

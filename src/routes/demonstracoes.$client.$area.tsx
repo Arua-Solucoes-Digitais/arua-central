@@ -8,15 +8,10 @@ export const Route = createFileRoute("/demonstracoes/$client/$area")({
   },
   head: ({ params }) => {
     const label = demoAreas.find((a) => a.id === params.area)?.label;
-    const name = getDemo(params.client)?.business.name;
     return {
-      meta:
-        label && name
-          ? [
-              { title: `${label} · ${name} — Aruá` },
-              { name: "robots", content: "noindex, nofollow" },
-            ]
-          : [],
+      meta: label
+        ? [{ title: `${label} · Tlim — Aruá` }, { name: "robots", content: "noindex, nofollow" }]
+        : [],
     };
   },
   component: DemoAreaPage,

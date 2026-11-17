@@ -27,6 +27,7 @@ import { Route as MediaIdRouteImport } from './routes/media.$id'
 import { Route as ProjetosSlugRouteImport } from './routes/projetos.$slug'
 import { Route as DemonstracoesClientIndexRouteImport } from './routes/demonstracoes.$client.index'
 import { Route as DemonstracoesClientAreaRouteImport } from './routes/demonstracoes.$client.$area'
+import { Route as DemonstracoesClientLojaRouteImport } from './routes/demonstracoes.$client.loja'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -119,6 +120,11 @@ const DemonstracoesClientAreaRoute = DemonstracoesClientAreaRouteImport.update({
   path: '/$area',
   getParentRoute: () => DemonstracoesClientRoute,
 } as any)
+const DemonstracoesClientLojaRoute = DemonstracoesClientLojaRouteImport.update({
+  id: '/loja',
+  path: '/loja',
+  getParentRoute: () => DemonstracoesClientRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/projetos/$slug': typeof ProjetosSlugRoute
   '/demonstracoes/': typeof DemonstracoesIndexRoute
   '/demonstracoes/$client/$area': typeof DemonstracoesClientAreaRoute
+  '/demonstracoes/$client/loja': typeof DemonstracoesClientLojaRoute
   '/demonstracoes/$client/': typeof DemonstracoesClientIndexRoute
 }
 export interface FileRoutesByTo {
@@ -157,6 +164,7 @@ export interface FileRoutesByTo {
   '/projetos/$slug': typeof ProjetosSlugRoute
   '/demonstracoes': typeof DemonstracoesIndexRoute
   '/demonstracoes/$client/$area': typeof DemonstracoesClientAreaRoute
+  '/demonstracoes/$client/loja': typeof DemonstracoesClientLojaRoute
   '/demonstracoes/$client': typeof DemonstracoesClientIndexRoute
 }
 export interface FileRoutesById {
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/projetos/$slug': typeof ProjetosSlugRoute
   '/demonstracoes/': typeof DemonstracoesIndexRoute
   '/demonstracoes/$client/$area': typeof DemonstracoesClientAreaRoute
+  '/demonstracoes/$client/loja': typeof DemonstracoesClientLojaRoute
   '/demonstracoes/$client/': typeof DemonstracoesClientIndexRoute
 }
 export interface FileRouteTypes {
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/projetos/$slug'
     | '/demonstracoes/'
     | '/demonstracoes/$client/$area'
+    | '/demonstracoes/$client/loja'
     | '/demonstracoes/$client/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/projetos/$slug'
     | '/demonstracoes'
     | '/demonstracoes/$client/$area'
+    | '/demonstracoes/$client/loja'
     | '/demonstracoes/$client'
   id:
     | '__root__'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/projetos/$slug'
     | '/demonstracoes/'
     | '/demonstracoes/$client/$area'
+    | '/demonstracoes/$client/loja'
     | '/demonstracoes/$client/'
   fileRoutesById: FileRoutesById
 }
@@ -389,16 +401,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemonstracoesClientAreaRouteImport
       parentRoute: typeof DemonstracoesClientRoute
     }
+    '/demonstracoes/$client/loja': {
+      id: '/demonstracoes/$client/loja'
+      path: '/loja'
+      fullPath: '/demonstracoes/$client/loja'
+      preLoaderRoute: typeof DemonstracoesClientLojaRouteImport
+      parentRoute: typeof DemonstracoesClientRoute
+    }
   }
 }
 
 interface DemonstracoesClientRouteChildren {
   DemonstracoesClientAreaRoute: typeof DemonstracoesClientAreaRoute
+  DemonstracoesClientLojaRoute: typeof DemonstracoesClientLojaRoute
   DemonstracoesClientIndexRoute: typeof DemonstracoesClientIndexRoute
 }
 
 const DemonstracoesClientRouteChildren: DemonstracoesClientRouteChildren = {
   DemonstracoesClientAreaRoute: DemonstracoesClientAreaRoute,
+  DemonstracoesClientLojaRoute: DemonstracoesClientLojaRoute,
   DemonstracoesClientIndexRoute: DemonstracoesClientIndexRoute,
 }
 

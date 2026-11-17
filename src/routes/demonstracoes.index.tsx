@@ -17,14 +17,14 @@ export const Route = createFileRoute("/demonstracoes/")({
 function DemoIndexPage() {
   return (
     <PageShell title={demoCopy.indexTitle} intro={demoCopy.indexIntro}>
-      <Section id="clientes" title={demoCopy.product}>
+      <Section id="produtos" title="Produtos da Aruá">
         <ul className="grid gap-6 sm:grid-cols-2">
           {Object.values(demos).map((d) => (
             <li key={d.slug} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                {d.business.segment} · Belo Horizonte/MG
+                {demoCopy.productTagline}
               </p>
-              <h3 className="mt-1 text-xl font-semibold text-primary">{d.business.name}</h3>
+              <h3 className="mt-1 text-xl font-semibold text-primary">{demoCopy.product}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{demoCopy.entryNotice}</p>
               <Link
                 to="/demonstracoes/$client"
