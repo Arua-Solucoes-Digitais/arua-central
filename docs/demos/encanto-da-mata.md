@@ -1,6 +1,6 @@
 # Pousada Encanto da Mata — site modelo do Aruá Hospedagens
 
-Site modelo do **Aruá Hospedagens**. No portfólio, o "Ver demonstração" do produto Aruá Hospedagens e o do case Encanto da Mata abrem o site da pousada com o aviso da Aruá por cima.
+Site modelo do **Aruá Hospedagens**. No portfólio, o "Ver demonstração" do produto Aruá Hospedagens abre o site da pousada com o aviso da Aruá por cima. **Desde 19/11/2026 o Encanto da Mata não aparece mais como case separado**: é usado somente como exemplo do produto Aruá Hospedagens.
 
 | Item            | Situação                                                                                   |
 | --------------- | ------------------------------------------------------------------------------------------ |
@@ -12,7 +12,7 @@ Site modelo do **Aruá Hospedagens**. No portfólio, o "Ver demonstração" do p
 
 **Pendente:** guardar o comprovante da autorização por escrito (mensagem, e-mail ou termo) junto aos
 documentos do cliente e anotar aqui onde ele está. Se a autorização for retirada: apagar
-`public/demos/encanto-da-mata/`, despublicar o case no painel,
+`public/demos/encanto-da-mata/`, despublicar o case no painel (se ele existir no banco do servidor),
 rodar `npm run demo:export-projects` e `npm run demo:snapshot`, trocar o link de demonstração do Aruá Hospedagens no painel e republicar a demo.
 
 ## O que está no ar
@@ -25,7 +25,7 @@ rodar `npm run demo:export-projects` e `npm run demo:snapshot`, trocar o link de
 - O "Ver demonstração" do card **Aruá Hospedagens** abre o site da pousada (migração 4, 17/11/2026).
   As vitrines do produto no modelo padrão (a do Encanto e a fictícia "Sítio Recanto do Ipê") foram
   apagadas a pedido do responsável.
-- O case **Pousada Encanto da Mata** abre o mesmo site, com `?origem=portfolio` no link (o sistema não aceita dois projetos com o link idêntico). Sem preços nem proposta: valores "Em breve" (17/11/2026).
+- O case **Pousada Encanto da Mata** foi retirado do portfólio em 19/11/2026 (pedido do responsável): continua existindo só como demonstração do Aruá Hospedagens. Em servidor com banco próprio, o case é ocultado no painel (status Rascunho). Sem preços nem proposta: valores "Em breve".
 
 ### Diferenças da cópia em relação ao original
 
