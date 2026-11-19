@@ -13,16 +13,16 @@
     "sort_order": 10
   },
   {
-    "slug": "pousada-encanto-da-mata",
-    "title": "Pousada Encanto da Mata",
-    "description": "Site de hospedagem com simulador de reserva pelo WhatsApp e painel do proprietário para acompanhar contatos, reservas e a origem de cada cliente.",
-    "problem": "As reservas chegavam por mensagens soltas, sem datas, acomodação ou valor definidos, e não havia como saber de onde vinha cada cliente.",
-    "features": "Simulador de reserva por acomodação, datas e hóspedes, com promoções válidas no período\nMensagem pronta no WhatsApp com a origem do cliente\nPainel com contatos, reservas fechadas, valores e calendário\nLinks diretos com datas para anúncios e Instagram",
-    "demo_url": "/demos/encanto-da-mata/index.html?origem=portfolio",
-    "kind": "case",
+    "slug": "arua-ecommerce",
+    "title": "Aruá E-commerce",
+    "description": "Loja virtual própria com catálogo, sacola e compra finalizada pelo WhatsApp, e área restrita para o lojista controlar produtos, preços, clientes e vendas. Exemplo: STREET98.",
+    "problem": "Vender só por mensagem deixa os pedidos soltos: sem catálogo, sem preço claro, sem registro de quem comprou e sem controle de estoque.",
+    "features": "Vitrine responsiva com a identidade visual da marca\nSacola e finalização que envia o pedido pronto no WhatsApp, com número do pedido, itens, cliente, endereço e CEP\nFrete por bairro, sempre combinado com o cliente\nÁrea restrita com CRM simples: produtos, preços, estoque, clientes e vendas\nSugestão de preço de venda a partir do custo do fornecedor",
+    "demo_url": "https://arua-solucoes-digitais.github.io/street98pratas-vitrine-digital/",
+    "kind": "product",
     "category": "site",
-    "client": "Pousada Encanto da Mata",
+    "client": "",
     "results": "",
-    "sort_order": 30
+    "sort_order": 20
   }
 ]
