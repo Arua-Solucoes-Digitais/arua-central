@@ -39,7 +39,7 @@ export const baseProjectSchema = z.object({
       "Use um endereço https:// completo ou uma página deste site, começando com /",
     ),
   sort_order: z.coerce
-    .number({ invalid_type_error: "Informe um número" })
+    .number({ error: "Informe um número" })
     .int("Use um número inteiro")
     .min(0, "Use um número de 0 a 9999")
     .max(9999, "Use um número de 0 a 9999"),
@@ -87,7 +87,7 @@ export const testimonialSchema = z.object({
   authorized: z.boolean(),
   status: statusField,
   sort_order: z.coerce
-    .number({ invalid_type_error: "Informe um número" })
+    .number({ error: "Informe um número" })
     .int("Use um número inteiro")
     .min(0, "Use um número de 0 a 9999")
     .max(9999, "Use um número de 0 a 9999"),
@@ -139,7 +139,7 @@ export const staySchema = z.object({
   availability_note: z.string().trim().max(200, "Use até 200 caracteres"),
   allows_same_day: z.boolean(),
   sort_order: z.coerce
-    .number({ invalid_type_error: "Informe um número" })
+    .number({ error: "Informe um número" })
     .int("Use um número inteiro")
     .min(0, "Use um número de 0 a 9999")
     .max(9999, "Use um número de 0 a 9999"),
@@ -154,7 +154,7 @@ export const reservationSchema = z.object({
   check_in: dateField,
   check_out: dateField,
   guests: z.coerce
-    .number({ invalid_type_error: "Informe a quantidade" })
+    .number({ error: "Informe a quantidade" })
     .int("Use um número inteiro")
     .min(1, "Informe pelo menos 1 pessoa")
     .max(500, "Use até 500 pessoas"),

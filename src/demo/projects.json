@@ -31,7 +31,7 @@
     "description": "Loja virtual própria com catálogo, sacola e compra finalizada pelo WhatsApp, e área restrita para o lojista controlar produtos, preços, clientes e vendas. Exemplo: STREET98.",
     "problem": "Vender só por mensagem deixa os pedidos soltos: sem catálogo, sem preço claro, sem registro de quem comprou e sem controle de estoque.",
     "features": "Vitrine responsiva com a identidade visual da marca\nSacola e finalização que envia o pedido pronto no WhatsApp, com número do pedido, itens, cliente, endereço e CEP\nFrete por bairro, sempre combinado com o cliente\nÁrea restrita com CRM simples: produtos, preços, estoque, clientes e vendas\nSugestão de preço de venda a partir do custo do fornecedor",
-    "demo_url": "https://arua-solucoes-digitais.github.io/street98pratas-vitrine-digital/",
+    "demo_url": "https://street98pratas.com.br/",
     "kind": "product",
     "category": "site",
     "client": "",

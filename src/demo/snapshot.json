@@ -2,7 +2,7 @@
   "showcase": {
     "projects": [
       {
-        "id": "0c5e5b9b-a58a-41a2-a001-3230a59dae22",
+        "id": "ab23d5a6-68bb-4625-8f2f-a89f4361cbd0",
         "slug": "arua-hospedagens",
         "title": "Aruá Hospedagens",
         "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
@@ -13,7 +13,7 @@
         "image_id": null
       },
       {
-        "id": "6769ab23-c778-488b-854f-6dc17accb873",
+        "id": "3f14de55-4e77-49fb-9e48-54ae89eb6a7d",
         "slug": "tlim",
         "title": "Tlim",
         "description": "Central de pedidos com cardápio online e área do gestor para Instagram, WhatsApp e CRM de vendas.",
@@ -24,7 +24,7 @@
         "image_id": null
       },
       {
-        "id": "a6d5fae8-8b27-4497-a4e3-f0c95ce5e47e",
+        "id": "a6636d27-4735-409a-b87b-641122357142",
         "slug": "arua-site-restaurante",
         "title": "Aruá Site para restaurantes",
         "description": "Exemplo de página para restaurante, leve no celular, com cardápio e atalho para o pedido online.",
@@ -35,11 +35,11 @@
         "image_id": null
       },
       {
-        "id": "8f18e75e-e1d8-492b-9041-a05fdf7a2dab",
+        "id": "4c255496-b850-4d78-899f-cff879a40b35",
         "slug": "arua-ecommerce",
         "title": "Aruá E-commerce",
         "description": "Loja virtual própria com catálogo, sacola e compra finalizada pelo WhatsApp, e área restrita para o lojista controlar produtos, preços, clientes e vendas. Exemplo: STREET98.",
-        "demo_url": "https://arua-solucoes-digitais.github.io/street98pratas-vitrine-digital/",
+        "demo_url": "https://street98pratas.com.br/",
         "kind": "product",
         "category": "site",
         "client": "",
@@ -51,7 +51,7 @@
   },
   "projectPages": {
     "arua-hospedagens": {
-      "id": "0c5e5b9b-a58a-41a2-a001-3230a59dae22",
+      "id": "ab23d5a6-68bb-4625-8f2f-a89f4361cbd0",
       "slug": "arua-hospedagens",
       "title": "Aruá Hospedagens",
       "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
@@ -74,7 +74,7 @@
       "testimonials": []
     },
     "tlim": {
-      "id": "6769ab23-c778-488b-854f-6dc17accb873",
+      "id": "3f14de55-4e77-49fb-9e48-54ae89eb6a7d",
       "slug": "tlim",
       "title": "Tlim",
       "description": "Central de pedidos com cardápio online e área do gestor para Instagram, WhatsApp e CRM de vendas.",
@@ -98,7 +98,7 @@
       "testimonials": []
     },
     "arua-site-restaurante": {
-      "id": "a6d5fae8-8b27-4497-a4e3-f0c95ce5e47e",
+      "id": "a6636d27-4735-409a-b87b-641122357142",
       "slug": "arua-site-restaurante",
       "title": "Aruá Site para restaurantes",
       "description": "Exemplo de página para restaurante, leve no celular, com cardápio e atalho para o pedido online.",
@@ -119,7 +119,7 @@
       "testimonials": []
     },
     "arua-ecommerce": {
-      "id": "8f18e75e-e1d8-492b-9041-a05fdf7a2dab",
+      "id": "4c255496-b850-4d78-899f-cff879a40b35",
       "slug": "arua-ecommerce",
       "title": "Aruá E-commerce",
       "description": "Loja virtual própria com catálogo, sacola e compra finalizada pelo WhatsApp, e área restrita para o lojista controlar produtos, preços, clientes e vendas. Exemplo: STREET98.",
@@ -132,7 +132,7 @@
         "Sugestão de preço de venda a partir do custo do fornecedor"
       ],
       "results": [],
-      "demo_url": "https://arua-solucoes-digitais.github.io/street98pratas-vitrine-digital/",
+      "demo_url": "https://street98pratas.com.br/",
       "status": "published",
       "kind": "product",
       "category": "site",

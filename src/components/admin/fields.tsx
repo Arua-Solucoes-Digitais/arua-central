@@ -147,7 +147,7 @@ export function SelectField({
 
 export const STATUS_OPTIONS = Object.entries(STATUS_LABELS) as [string, string][];
 
-export function zodErrors(issues: { path: (string | number)[]; message: string }[]) {
+export function zodErrors(issues: { path: PropertyKey[]; message: string }[]) {
   const next: Record<string, string> = {};
   issues.forEach((issue) => (next[String(issue.path[0])] ??= issue.message));
   return next;
