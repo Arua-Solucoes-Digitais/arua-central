@@ -23,13 +23,13 @@ arquivos do Worker `arua-central`. Não há servidor nem banco: o contato abre o
   da Aruá. O comando recria os dados de exemplo, gera o site e envia.
 - A conta que tem o domínio e o Worker **não** é necessariamente a que está logada no computador. Se o
   deploy disser "Could not find zone", rode `npx wrangler@4.110.0 login` e escolha a conta do domínio.
-- Publicação automática (Workers Builds, no painel do Worker → Settings → Build): comando de build
-  `npm run demo:snapshot && npm run build:site`, comando de deploy
-  `npx wrangler deploy -c deploy/cloudflare/wrangler.jsonc`, variável `NODE_VERSION=22.18`.
+- Publicação automática (Workers Builds): a configuração é o `wrangler.jsonc` da raiz, que gera o site antes
+  de enviar. A versão do Node vem do `.nvmrc`. Um merge na `main` pode publicar no domínio: **fazer o merge
+  equivale a publicar**. Se a conta do deploy mudar, apague `node_modules/.cache/wrangler/`.
 - Gerar sem publicar: `npm run build:site` (saída em `dist/client`).
 - Diferenças para a demonstração: sem aviso de demonstração, sem link para a área restrita e para o status
   (`VITE_ARUA_PUBLIC_SITE=1`); cabeçalhos de segurança em `deploy/cloudflare/_headers`.
-- Voltar a uma versão anterior: `npx wrangler@4.110.0 rollback -c deploy/cloudflare/wrangler.jsonc`.
+- Voltar a uma versão anterior: `npx wrangler@4.110.0 rollback`.
 
 ## 1. Demonstração estática (GitHub Pages)
 

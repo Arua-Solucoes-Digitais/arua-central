@@ -12,7 +12,7 @@
     "build:dev": "vite build --mode development",
     "build:demo": "VITE_ARUA_STATIC_DEMO=1 vite build",
     "build:site": "VITE_ARUA_STATIC_DEMO=1 VITE_ARUA_PUBLIC_SITE=1 ARUA_DEMO_BASE=/ vite build && cp dist/client/index.html dist/client/404.html && cp deploy/cloudflare/_headers dist/client/_headers",
-    "deploy:site": "npm run demo:snapshot && npm run build:site && npx -y wrangler@4.110.0 deploy -c deploy/cloudflare/wrangler.jsonc",
+    "deploy:site": "npx -y wrangler@4.110.0 deploy",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",

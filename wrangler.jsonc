@@ -1,0 +1,22 @@
+// Site público da Aruá (aruasolucoes.com.br): só arquivos estáticos, sem servidor e sem banco.
+// Fica na raiz para valer também na publicação automática do Cloudflare (Workers Builds):
+// o "build.command" abaixo gera o site certo mesmo com os comandos padrão do painel.
+{
+  // Mesmo nome do Worker ligado ao repositório.
+  "name": "arua-central",
+  "compatibility_date": "2026-11-01",
+  "build": {
+    "command": "npm run demo:snapshot && npm run build:site",
+  },
+  "assets": {
+    "directory": "./dist/client",
+    "not_found_handling": "404-page",
+  },
+  "routes": [
+    { "pattern": "aruasolucoes.com.br", "custom_domain": true },
+    { "pattern": "www.aruasolucoes.com.br", "custom_domain": true },
+  ],
+  "workers_dev": false,
+  // Exigido pelo "wrangler preview", usado nas branches que não são a de produção.
+  "previews": {},
+}
