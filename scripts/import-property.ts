@@ -1,5 +1,5 @@
 // Importa um estabelecimento de uma pasta para o banco deste servidor:
-//   npm run property:import -- src/demo/properties/encanto-da-mata
+//   npm run property:import -- public/demos/minha-vitrine
 // Faz uma cópia do banco em data/backups antes e nunca substitui um estabelecimento que já existe.
 import { existsSync, mkdirSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";

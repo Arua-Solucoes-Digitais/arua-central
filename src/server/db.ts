@@ -6,6 +6,7 @@ import { DatabaseSync, type SQLInputValue } from "node:sqlite";
 import { migration2 } from "./migration-2.ts";
 import { migration3 } from "./migration-3.ts";
 import { migration4 } from "./migration-4.ts";
+import { migration5 } from "./migration-5.ts";
 
 const NOW = `(strftime('%Y-%m-%dT%H:%M:%fZ','now'))`;
 
@@ -78,6 +79,7 @@ export const MIGRATIONS: (string | ((database: DatabaseSync) => void))[] = [
   migration2,
   migration3,
   migration4,
+  migration5,
 ];
 
 let db: DatabaseSync | undefined;

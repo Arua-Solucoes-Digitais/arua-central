@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { randomUUID } from "node:crypto";
-import { copyFileSync, mkdirSync, mkdtempSync, readdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -298,14 +298,14 @@ const request = (slug: string, stayId: string) => ({
 });
 
 describe("Aruá Hospedagens", () => {
-  it("migração 4: a vitrine fictícia sai e a demonstração do produto é o site do Encanto", () => {
+  it("migrações 4 e 5: a vitrine fictícia sai e a demonstração do produto é a pousada de exemplo", () => {
     expect(hospedagens.getPropertyPage("demonstracao", true)).toBeNull();
     expect(get<{ n: number }>("select count(*) as n from stay_types")?.n).toBe(0);
     expect(
       get<{ demo_url: string }>(
         "select demo_url from base_projects where slug = 'arua-hospedagens'",
       )?.demo_url,
-    ).toBe("/demos/encanto-da-mata/index.html");
+    ).toBe("/exemplos/pousada");
   });
 
   it("estabelecimento real não é publicado sem WhatsApp", () => {
@@ -789,7 +789,8 @@ describe("migração 3", () => {
 });
 
 describe("importação de vitrine", () => {
-  const PHOTOS = "public/demos/encanto-da-mata/img";
+  // Só o começo de um JPEG: o servidor reconhece o tipo pelos primeiros bytes.
+  const JPEG = Buffer.from([0xff, 0xd8, 0xff, 0xe0, ...Array<number>(32).fill(0)]);
   beforeEach(() => {
     vi.stubEnv("ARUA_UPLOADS_DIR", mkdtempSync(join(tmpdir(), "arua-up-")));
   });
@@ -799,7 +800,7 @@ describe("importação de vitrine", () => {
     const dir = mkdtempSync(join(tmpdir(), "arua-seed-"));
     mkdirSync(join(dir, "img"));
     for (const f of ["deck-rede.jpg", "piscina.jpg", "suite-master.jpg"]) {
-      copyFileSync(join(PHOTOS, f), join(dir, "img", f));
+      writeFileSync(join(dir, "img", f), JPEG);
     }
     writeFileSync(
       join(dir, "property.json"),
@@ -845,7 +846,7 @@ describe("importação de vitrine", () => {
 
   it("um arquivo inválido desfaz a importação inteira", () => {
     const dir = mkdtempSync(join(tmpdir(), "arua-seed-"));
-    copyFileSync(join(PHOTOS, "deck-rede.jpg"), join(dir, "deck-rede.jpg"));
+    writeFileSync(join(dir, "deck-rede.jpg"), JPEG);
     writeFileSync(join(dir, "falso.jpg"), "<svg onload=alert(1)>");
     writeFileSync(
       join(dir, "property.json"),

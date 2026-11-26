@@ -13,6 +13,19 @@
     "sort_order": 10
   },
   {
+    "slug": "arua-site-restaurante",
+    "title": "Aruá Site para restaurantes",
+    "description": "Exemplo de página para restaurante, leve no celular, com cardápio e atalho para o pedido online.",
+    "problem": "O cliente não encontra o cardápio com facilidade e precisa perguntar antes de pedir.",
+    "features": "Cardápio em destaque\nAtalho para o pedido online da demonstração do Tlim\nAdaptada para celular, tablet e computador",
+    "demo_url": "/exemplos/restaurante",
+    "kind": "product",
+    "category": "site",
+    "client": "",
+    "results": "",
+    "sort_order": 20
+  },
+  {
     "slug": "arua-ecommerce",
     "title": "Aruá E-commerce",
     "description": "Loja virtual própria com catálogo, sacola e compra finalizada pelo WhatsApp, e área restrita para o lojista controlar produtos, preços, clientes e vendas. Exemplo: STREET98.",

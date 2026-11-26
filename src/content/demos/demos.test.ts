@@ -3,6 +3,7 @@
 // com fonte, nada que identifique o restaurante de origem, e a assinatura da Aruá.
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { examples } from "@/content/examples";
 import { demoAreas, demos, getDemo, isDemoArea, signature } from "./index";
 import { tlim } from "./tlim";
 
@@ -59,13 +60,26 @@ describe("Tlim demo data", () => {
   });
 });
 
-describe("site do Encanto na demonstração", () => {
-  it("usa o WhatsApp da Aruá e carrega a marca d'água com o botão de voltar", () => {
-    const site = readFileSync("public/demos/encanto-da-mata/index.html", "utf8");
-    expect(site).not.toContain("5531984721918");
-    expect(site).toContain("whatsapp: '5538999636208'");
-    expect(site).toContain('<script src="arua-preview.js" defer></script>');
-    const preview = readFileSync("public/demos/encanto-da-mata/arua-preview.js", "utf8");
+describe("páginas de exemplo", () => {
+  it.each(Object.keys(examples))("%s é fictícia, leve e leva a marca da Aruá", (slug) => {
+    const page = readFileSync(`public/demos/${slug}/index.html`, "utf8");
+    expect(page).toContain('<meta name="robots" content="noindex, nofollow">');
+    expect(page).toMatch(/fictíci/);
+    expect(page).toContain("CjotaDEV7");
+    expect(page).toContain('<script src="../arua-preview.js"');
+    expect(page).not.toMatch(/rogerinho|encanto da mata|jamal/i);
+    // Leve: um arquivo só, sem recursos de fora.
+    expect(page.length).toBeLessThan(20_000);
+    expect(page).not.toMatch(/<(img|link|script)[^>]+(src|href)="https?:/);
+    const preview = readFileSync("public/demos/arua-preview.js", "utf8");
     expect(preview).toContain("Voltar à Aruá");
+  });
+
+  it("o restaurante de exemplo repete os valores do cardápio do Tlim", () => {
+    const page = readFileSync("public/demos/restaurante/index.html", "utf8");
+    for (const id of ["x-burger", "x-bacon", "x-tudo", "espaguete-g"]) {
+      const item = tlim.menu.items.find((i) => i.id === id)!;
+      expect(page).toContain(`R$ ${(item.priceCents / 100).toFixed(2).replace(".", ",")}`);
+    }
   });
 });

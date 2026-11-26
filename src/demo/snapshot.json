@@ -2,18 +2,18 @@
   "showcase": {
     "projects": [
       {
-        "id": "b0259645-0167-4a5e-a6d9-b2126ccb36fa",
+        "id": "bf1427c4-ba21-4136-8139-b89d2bd93708",
         "slug": "arua-hospedagens",
         "title": "Aruá Hospedagens",
         "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
-        "demo_url": "/demos/encanto-da-mata/index.html",
+        "demo_url": "/exemplos/pousada",
         "kind": "product",
         "category": "sistema",
         "client": "",
         "image_id": null
       },
       {
-        "id": "89539d65-d37a-4a2d-a777-9d4e1ae8e2ed",
+        "id": "4f264c29-a7e2-4cea-a8c4-4aab3345caa9",
         "slug": "tlim",
         "title": "Tlim",
         "description": "Central de pedidos com cardápio online e área do gestor para Instagram, WhatsApp e CRM de vendas.",
@@ -24,7 +24,18 @@
         "image_id": null
       },
       {
-        "id": "441f920d-ac2d-4a6f-b736-97f053c543b6",
+        "id": "f7f15d5b-816b-4909-9935-7b81c4680e29",
+        "slug": "arua-site-restaurante",
+        "title": "Aruá Site para restaurantes",
+        "description": "Exemplo de página para restaurante, leve no celular, com cardápio e atalho para o pedido online.",
+        "demo_url": "/exemplos/restaurante",
+        "kind": "product",
+        "category": "site",
+        "client": "",
+        "image_id": null
+      },
+      {
+        "id": "6e9f00e7-d041-402c-91f6-0e3f2b28eee6",
         "slug": "arua-ecommerce",
         "title": "Aruá E-commerce",
         "description": "Loja virtual própria com catálogo, sacola e compra finalizada pelo WhatsApp, e área restrita para o lojista controlar produtos, preços, clientes e vendas. Exemplo: STREET98.",
@@ -40,7 +51,7 @@
   },
   "projectPages": {
     "arua-hospedagens": {
-      "id": "b0259645-0167-4a5e-a6d9-b2126ccb36fa",
+      "id": "bf1427c4-ba21-4136-8139-b89d2bd93708",
       "slug": "arua-hospedagens",
       "title": "Aruá Hospedagens",
       "description": "Vitrine e pedidos de reserva para sítios, pousadas, hotéis, chalés e casas de temporada, com atendimento pelo WhatsApp.",
@@ -53,7 +64,7 @@
         "Painel para editar tudo sem mexer no código"
       ],
       "results": [],
-      "demo_url": "/demos/encanto-da-mata/index.html",
+      "demo_url": "/exemplos/pousada",
       "status": "published",
       "kind": "product",
       "category": "sistema",
@@ -63,7 +74,7 @@
       "testimonials": []
     },
     "tlim": {
-      "id": "89539d65-d37a-4a2d-a777-9d4e1ae8e2ed",
+      "id": "4f264c29-a7e2-4cea-a8c4-4aab3345caa9",
       "slug": "tlim",
       "title": "Tlim",
       "description": "Central de pedidos com cardápio online e área do gestor para Instagram, WhatsApp e CRM de vendas.",
@@ -86,8 +97,29 @@
       "deployments": [],
       "testimonials": []
     },
+    "arua-site-restaurante": {
+      "id": "f7f15d5b-816b-4909-9935-7b81c4680e29",
+      "slug": "arua-site-restaurante",
+      "title": "Aruá Site para restaurantes",
+      "description": "Exemplo de página para restaurante, leve no celular, com cardápio e atalho para o pedido online.",
+      "problem": "O cliente não encontra o cardápio com facilidade e precisa perguntar antes de pedir.",
+      "features": [
+        "Cardápio em destaque",
+        "Atalho para o pedido online da demonstração do Tlim",
+        "Adaptada para celular, tablet e computador"
+      ],
+      "results": [],
+      "demo_url": "/exemplos/restaurante",
+      "status": "published",
+      "kind": "product",
+      "category": "site",
+      "client": "",
+      "image_id": null,
+      "deployments": [],
+      "testimonials": []
+    },
     "arua-ecommerce": {
-      "id": "441f920d-ac2d-4a6f-b736-97f053c543b6",
+      "id": "6e9f00e7-d041-402c-91f6-0e3f2b28eee6",
       "slug": "arua-ecommerce",
       "title": "Aruá E-commerce",
       "description": "Loja virtual própria com catálogo, sacola e compra finalizada pelo WhatsApp, e área restrita para o lojista controlar produtos, preços, clientes e vendas. Exemplo: STREET98.",

@@ -11,7 +11,7 @@ describe("static demo API", () => {
 
   it("has no storefront left and refuses reservations for unknown places", async () => {
     expect(await demo.getPropertyPage({ data: { slug: "demonstracao" } })).toBeNull();
-    expect(await demo.getPropertyPage({ data: { slug: "encanto-da-mata" } })).toBeNull();
+    expect(await demo.getPropertyPage({ data: { slug: "nao-existe" } })).toBeNull();
     const result = await demo.submitReservation({
       data: {
         id: "00000000-0000-4000-8000-000000000000",
