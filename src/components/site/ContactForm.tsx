@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { contact, contactInfo, plans } from "@/content/site";
 import { IS_PUBLIC_SITE } from "@/lib/demo-mode";
+import { CONTACT_STORAGE_ENABLED, contactProblem, saveContact } from "@/lib/contact-store";
 import { buildWhatsappUrl } from "@/lib/whatsapp";
 import { sendContactMessage } from "@/lib/api";
 import { contactSchema, contactTopicSchema, type ContactTopic } from "@/lib/schemas";
@@ -43,14 +44,38 @@ export function whatsappContactUrl(topic: ContactTopic, name: string, message: s
   return buildWhatsappUrl(contactInfo.whatsapp, lines.filter(Boolean).join("\n"));
 }
 
-// Nada é guardado no site: o botão abre o WhatsApp com a mensagem pronta para a pessoa enviar.
-export function WhatsappContact({ defaultTopic = "orcamento", prefix = "" }: Props) {
+// O botão abre o WhatsApp com a mensagem pronta. O site só guarda o contato se puder (canStore)
+// e se a pessoa marcar a autorização; uma falha ao guardar nunca atrapalha o WhatsApp.
+export function WhatsappContact({
+  defaultTopic = "orcamento",
+  prefix = "",
+  canStore = CONTACT_STORAGE_ENABLED,
+}: Props & { canStore?: boolean }) {
   const { topic, setTopic, message, setMessage } = useTopicAndMessage(defaultTopic);
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [website, setWebsite] = useState("");
+  const [problem, setProblem] = useState<"name" | "phone" | null>(null);
+  const lastSaved = useRef("");
   const id = (field: string) => `${prefix}${field}`;
 
+  function send(event: MouseEvent) {
+    if (!canStore || !consent) return;
+    const found = contactProblem({ name, phone });
+    setProblem(found);
+    if (found) return event.preventDefault();
+    const record = { topic, name, phone, message, website };
+    const signature = JSON.stringify(record);
+    if (signature === lastSaved.current) return;
+    lastSaved.current = signature;
+    void saveContact(record).then((saved) => {
+      if (!saved) lastSaved.current = "";
+    });
+  }
+
   return (
-    <div className="grid gap-4">
+    <div className="relative grid gap-4">
       <TopicField id={id("topic")} value={topic} onChange={setTopic} />
       <div className="grid gap-1.5">
         <Label htmlFor={id("name")}>Seu nome (opcional)</Label>
@@ -59,7 +84,10 @@ export function WhatsappContact({ defaultTopic = "orcamento", prefix = "" }: Pro
           autoComplete="name"
           maxLength={100}
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+            setProblem(null);
+          }}
         />
       </div>
       <div className="grid gap-1.5">
@@ -72,23 +100,83 @@ export function WhatsappContact({ defaultTopic = "orcamento", prefix = "" }: Pro
           onChange={(e) => setMessage(e.target.value)}
         />
       </div>
+      {canStore && (
+        <>
+          <div className="grid gap-1.5">
+            <Label htmlFor={id("phone")}>{contact.save.phoneLabel}</Label>
+            <Input
+              id={id("phone")}
+              type="tel"
+              autoComplete="tel"
+              inputMode="tel"
+              maxLength={30}
+              value={phone}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                setProblem(null);
+              }}
+            />
+          </div>
+          {/* Campo-armadilha contra robôs: invisível e fora da navegação por teclado. */}
+          <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+            <label htmlFor={id("website")}>Não preencha</label>
+            <input
+              id={id("website")}
+              tabIndex={-1}
+              autoComplete="off"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+          </div>
+          <div className="flex items-start gap-2">
+            <input
+              id={id("consent")}
+              type="checkbox"
+              className="mt-1 h-4 w-4 shrink-0 accent-primary"
+              checked={consent}
+              onChange={(e) => {
+                setConsent(e.target.checked);
+                setProblem(null);
+              }}
+            />
+            <Label
+              htmlFor={id("consent")}
+              className="font-normal leading-snug text-muted-foreground"
+            >
+              {contact.save.consent}{" "}
+              <Link to="/privacidade" className="text-primary underline">
+                Política de Privacidade
+              </Link>
+              . {contact.save.optional}
+            </Label>
+          </div>
+          {problem && (
+            <p role="alert" className="text-sm text-destructive">
+              {problem === "name" ? contact.save.nameError : contact.save.phoneError}
+            </p>
+          )}
+        </>
+      )}
       <Button asChild size="lg" className="w-full sm:w-auto">
         <a
           href={whatsappContactUrl(topic, name, message)}
           target="_blank"
           rel="noopener noreferrer"
           data-track="enviar-whatsapp"
+          onClick={send}
         >
           {contact.whatsappCta}
         </a>
       </Button>
-      <p className="text-sm text-muted-foreground">
-        {contact.whatsappNote}{" "}
-        <Link to="/privacidade" className="text-primary underline">
-          Política de Privacidade
-        </Link>
-        .
-      </p>
+      {!canStore && (
+        <p className="text-sm text-muted-foreground">
+          {contact.whatsappNote}{" "}
+          <Link to="/privacidade" className="text-primary underline">
+            Política de Privacidade
+          </Link>
+          .
+        </p>
+      )}
     </div>
   );
 }

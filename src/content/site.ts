@@ -493,6 +493,15 @@ export const contact = {
   whatsappCta: "Enviar pelo WhatsApp",
   whatsappNote:
     "O site não guarda esses dados: eles vão na mensagem que você envia pelo WhatsApp. Veja a",
+  // Aparece só quando o site pode guardar contatos (ver src/lib/contact-store.ts).
+  save: {
+    phoneLabel: "Seu WhatsApp, com DDD (para guardar o contato)",
+    consent:
+      "Autorizo a Aruá a guardar meu nome, WhatsApp e mensagem para retornar este contato. Veja a",
+    optional: "É opcional: sem marcar, a conversa no WhatsApp funciona do mesmo jeito.",
+    nameError: "Informe seu nome para guardar o contato, ou desmarque a autorização.",
+    phoneError: "Informe o WhatsApp com DDD, ou desmarque a autorização.",
+  },
   success: "Mensagem enviada. Obrigado pelo contato!",
   topicLabel: "Assunto",
   topics: {

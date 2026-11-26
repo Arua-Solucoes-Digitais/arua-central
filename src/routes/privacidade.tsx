@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { contactInfo } from "@/content/site";
 import { IS_PUBLIC_SITE } from "@/lib/demo-mode";
+import { CONTACT_STORAGE_ENABLED } from "@/lib/contact-store";
 import { SiteHeader, SiteFooter } from "@/components/site/SiteHeader";
 
 export const Route = createFileRoute("/privacidade")({
@@ -75,11 +76,28 @@ function PublicSiteSections() {
   return (
     <>
       <h2 className={heading}>Contato</h2>
-      <p>
-        Este site não guarda o que você digita. Nome e mensagem vão no texto que você mesmo envia
-        pelo WhatsApp, e a conversa passa a seguir as regras daquele serviço. Usamos o que você
-        enviar para responder ao seu contato. Não vendemos esses dados.
-      </p>
+      {CONTACT_STORAGE_ENABLED ? (
+        <>
+          <p>
+            Nome e mensagem vão no texto que você mesmo envia pelo WhatsApp, e a conversa passa a
+            seguir as regras daquele serviço. O site só guarda dados se você marcar a autorização no
+            formulário: assunto, nome, número de WhatsApp, mensagem e a data do envio.
+          </p>
+          <p>
+            Usamos esses dados apenas para retornar o seu contato e acompanhar o pedido, com base no
+            seu consentimento. Não vendemos esses dados. Eles ficam no banco de dados do serviço
+            Supabase, em servidores nos Estados Unidos, com acesso restrito à Aruá. Guardamos
+            enquanto o atendimento estiver em andamento ou até você pedir a exclusão. Você pode
+            retirar o consentimento quando quiser.
+          </p>
+        </>
+      ) : (
+        <p>
+          Este site não guarda o que você digita. Nome e mensagem vão no texto que você mesmo envia
+          pelo WhatsApp, e a conversa passa a seguir as regras daquele serviço. Usamos o que você
+          enviar para responder ao seu contato. Não vendemos esses dados.
+        </p>
+      )}
       <h2 className={heading}>Visitas</h2>
       <p>
         O site não usa cookies nem faz medição própria de visitas. A hospedagem (Cloudflare) trata
