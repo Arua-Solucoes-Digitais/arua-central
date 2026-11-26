@@ -9,6 +9,7 @@ import {
   Code2,
   Database,
   ExternalLink,
+  Facebook,
   Instagram,
   Mail,
   MapPin,
@@ -435,6 +436,12 @@ export function ContactDetails() {
       label: "Instagram",
       href: instagram,
       text: `@${contactInfo.instagram.replace(/^@/, "")}`,
+    },
+    contactInfo.facebook && {
+      icon: Facebook,
+      label: "Facebook",
+      href: contactInfo.facebook,
+      text: "Aruá no Facebook",
     },
     contactInfo.address && { icon: MapPin, label: "Endereço", href: "", text: contactInfo.address },
   ].filter(Boolean) as { icon: typeof Mail; label: string; href: string; text: string }[];

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Activity, ExternalLink } from "lucide-react";
 import { faq, support } from "@/content/site";
+import { IS_PUBLIC_SITE } from "@/lib/demo-mode";
 import { ContactForm } from "@/components/site/ContactForm";
 import {
   ContactDetails,
@@ -51,26 +52,31 @@ function SupportPage() {
         </Section>
       )}
 
-      <section aria-labelledby="status-title" className="bg-primary py-14 text-primary-foreground">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-6 px-4">
-          <div className="flex items-start gap-4">
-            <Activity aria-hidden="true" className="mt-1 h-8 w-8 text-highlight" />
-            <div>
-              <h2 id="status-title" className="text-2xl font-bold">
-                {support.statusTitle}
-              </h2>
-              <p className="mt-1 opacity-85">{support.statusText}</p>
+      {!IS_PUBLIC_SITE && (
+        <section
+          aria-labelledby="status-title"
+          className="bg-primary py-14 text-primary-foreground"
+        >
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-6 px-4">
+            <div className="flex items-start gap-4">
+              <Activity aria-hidden="true" className="mt-1 h-8 w-8 text-highlight" />
+              <div>
+                <h2 id="status-title" className="text-2xl font-bold">
+                  {support.statusTitle}
+                </h2>
+                <p className="mt-1 opacity-85">{support.statusText}</p>
+              </div>
             </div>
+            <Link
+              to="/status"
+              data-track="suporte-status"
+              className="rounded-full bg-primary-foreground px-6 py-3 font-semibold text-primary transition-opacity hover:opacity-90"
+            >
+              {support.statusCta}
+            </Link>
           </div>
-          <Link
-            to="/status"
-            data-track="suporte-status"
-            className="rounded-full bg-primary-foreground px-6 py-3 font-semibold text-primary transition-opacity hover:opacity-90"
-          >
-            {support.statusCta}
-          </Link>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section id="solicitar" aria-labelledby="solicitar-title" className="py-16 md:py-20">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-[1.5fr_1fr]">

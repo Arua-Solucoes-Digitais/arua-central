@@ -43,10 +43,11 @@ export const brand = {
 
 // Contato direto. Campos vazios não aparecem no site.
 export const contactInfo = {
-  whatsapp: "", // A DEFINIR: só números, com DDI e DDD. Exemplo: 5511912345678
+  whatsapp: "5538999636208", // WhatsApp comercial da Aruá (confirmado em 26/11/2026)
   email: "", // A DEFINIR: exemplo contato@arua.com.br
   address: "", // A DEFINIR: cidade/UF ou endereço comercial
-  instagram: "", // A DEFINIR: usuário sem @
+  instagram: "arua.digital", // usuário sem @
+  facebook: "https://www.facebook.com/profile.php?id=61596624517496",
   hours: "", // A DEFINIR: exemplo "Segunda a sexta, das 9h às 18h"
 };
 
@@ -65,11 +66,21 @@ export const values = {
 
 export const hero = {
   eyebrow: "Aruá Soluções Digitais",
-  title: "Sua presença digital completa, do site ao sistema sob medida.",
+  title: "Seu negócio fácil de encontrar e fácil de comprar.",
   subtitle:
-    "Sites, aplicações, social media e produção audiovisual com hospedagem, manutenção e suporte em um só lugar.",
-  primaryCta: "Solicitar orçamento",
-  secondaryCta: "Ver projetos ao vivo",
+    "Sites, catálogos com pedido pelo WhatsApp e redes sociais para o comércio local. Você fala direto com quem desenvolve.",
+  primaryCta: "Falar com a Aruá",
+  secondaryCta: "Ver demonstrações",
+};
+
+export const pains = {
+  title: "Reconhece alguma dessas?",
+  items: [
+    "O cliente pergunta o preço e espera pela resposta.",
+    "O pedido chega pela metade e vira uma conversa longa.",
+    "O perfil fica semanas parado.",
+    "Quem comprou uma vez nunca mais é lembrado.",
+  ],
 };
 
 export type Item = { title: string; description: string };
@@ -182,7 +193,7 @@ export const plans: {
         "Site no ar com hospedagem",
         "Certificado de segurança (SSL) e cópias de segurança",
         "Atualizações e correções",
-        "Suporte por WhatsApp e e-mail",
+        "Suporte por WhatsApp",
       ],
     },
     {
@@ -225,7 +236,7 @@ export const plans: {
     rows: [
       { label: "Site no ar com hospedagem e SSL", plans: [true, true, true, true] },
       { label: "Atualizações, correções e monitoramento", plans: [true, true, true, true] },
-      { label: "Suporte por WhatsApp e e-mail", plans: [true, true, true, true] },
+      { label: "Suporte por WhatsApp", plans: [true, true, true, true] },
       { label: "Gestão das redes sociais", plans: [false, true, true, true] },
       { label: "Produção de conteúdo", plans: [false, true, true, true] },
       { label: "Fotos, vídeos e reels", plans: [false, false, true, true] },
@@ -270,7 +281,19 @@ export const faq: { title: string; items: { q: string; a: string }[] } = {
   items: [
     {
       q: "Quanto tempo leva para meu site ficar pronto?",
-      a: "Em média, de 2 a 4 semanas depois da aprovação da proposta. Sistemas sob medida têm o prazo definido na proposta, conforme o tamanho.",
+      a: "Depende do tamanho do projeto. O prazo vai por escrito na proposta, antes de você aprovar.",
+    },
+    {
+      q: "Emite nota fiscal ou substitui meu caixa?",
+      a: "Não. As soluções cuidam da divulgação e do pedido. Seu sistema fiscal continua o mesmo.",
+    },
+    {
+      q: "Recebe pagamento pelo site?",
+      a: "Hoje não. O pagamento é combinado direto entre você e seu cliente.",
+    },
+    {
+      q: "O Tlim já está disponível?",
+      a: "Ainda não. O que está no site é uma demonstração, com restaurante fictício e dados simulados.",
     },
     {
       q: "O valor do plano inclui a criação do site?",
@@ -282,11 +305,11 @@ export const faq: { title: string; items: { q: string; a: string }[] } = {
     },
     {
       q: "Meus dados e os dos meus clientes ficam seguros?",
-      a: "Sim. Usamos conexão segura (SSL), cópias de segurança e seguimos a Lei Geral de Proteção de Dados (LGPD).",
+      a: "O site usa conexão segura (HTTPS). A proposta informa onde os dados ficam, quem tem acesso e como são feitas as cópias, de acordo com a LGPD.",
     },
     {
       q: "Posso ver um sistema da Aruá funcionando antes de contratar?",
-      a: "Pode. No portfólio há projetos com demonstração ou sistema ao vivo, e a página de status mostra se eles estão no ar.",
+      a: "Pode. No portfólio há demonstrações que você abre no celular, no tablet ou no computador.",
     },
   ],
 };
@@ -344,7 +367,7 @@ export const customApps = {
 export const process: { title: string; intro: string; deadline: string; steps: Item[] } = {
   title: "Processo de implantação",
   intro: "Um caminho simples e transparente, da proposta aprovada ao sistema no ar.",
-  deadline: "Prazo médio para sites: 2 a 4 semanas. Sistemas sob medida têm prazo na proposta.",
+  deadline: "O prazo de cada projeto vai por escrito na proposta.",
   steps: [
     {
       title: "Aprovação da proposta",
@@ -373,12 +396,12 @@ export const technical = {
     {
       icon: "shield",
       title: "Segurança",
-      description: "Conexão segura (SSL), cópias de segurança, acesso restrito e LGPD.",
+      description: "Conexão segura (HTTPS), acesso restrito e cuidado com dados conforme a LGPD.",
     },
     {
       icon: "server",
       title: "Hospedagem",
-      description: "Servidor em nuvem com monitoramento contínuo.",
+      description: "Em nuvem, escolhida conforme o tamanho de cada projeto.",
     },
     {
       icon: "trending",
@@ -477,7 +500,10 @@ export const testimonials = {
 
 export const contact = {
   title: "Contato",
-  intro: "Conte o que você precisa. Respondemos pelo e-mail informado.",
+  intro: "Conte o que você precisa.",
+  whatsappCta: "Enviar pelo WhatsApp",
+  whatsappNote:
+    "O site não guarda esses dados: eles vão na mensagem que você envia pelo WhatsApp. Veja a",
   success: "Mensagem enviada. Obrigado pelo contato!",
   topicLabel: "Assunto",
   topics: {

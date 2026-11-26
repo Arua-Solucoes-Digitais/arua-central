@@ -14,6 +14,18 @@ O site tem **duas formas de publicação**, com objetivos diferentes:
 | Custo                  | Grátis                                                              | VPS + domínio (abaixo)                                             |
 | Situação               | Gerada e conferida; **não publicada** (repo privado, ver abaixo)    | Scripts prontos e testados em simulação; **falta contratar a VPS** |
 
+## 0. Site público no domínio (Cloudflare)
+
+`aruasolucoes.com.br` (DNS na Cloudflare desde 26/11/2026) recebe a versão **estática** do site, como
+arquivos de um Worker chamado `arua-site`. Não há servidor nem banco: o contato abre o WhatsApp.
+
+- Publicar (só com aprovação do responsável): `npm run deploy:site`. Precisa de `wrangler login` na conta
+  da Aruá. O comando recria os dados de exemplo, gera o site e envia.
+- Gerar sem publicar: `npm run build:site` (saída em `dist/client`).
+- Diferenças para a demonstração: sem aviso de demonstração, sem link para a área restrita e para o status
+  (`VITE_ARUA_PUBLIC_SITE=1`); cabeçalhos de segurança em `deploy/cloudflare/_headers`.
+- Voltar a uma versão anterior: `npx wrangler@4.110.0 rollback -c deploy/cloudflare/wrangler.jsonc`.
+
 ## 1. Demonstração estática (GitHub Pages)
 
 `npm run build:demo` gera páginas HTML pré-renderizadas em `dist/client/`:

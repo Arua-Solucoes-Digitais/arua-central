@@ -7,6 +7,7 @@ import { RevealItem, RevealList } from "./Motion";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { navigation } from "@/content/site";
 import { withBase } from "@/lib/paths";
+import { IS_PUBLIC_SITE } from "@/lib/demo-mode";
 
 const QUOTE_HREF = "/?assunto=orcamento#contato";
 
@@ -107,15 +108,17 @@ export function SiteHeader() {
                     {navigation.cta}
                   </a>
                 </SheetClose>
-                <SheetClose asChild>
-                  <Link
-                    to="/admin"
-                    data-track="menu-area-restrita"
-                    className="mt-3 block py-2 text-center text-sm text-muted-foreground transition-colors hover:text-primary"
-                  >
-                    {navigation.restricted}
-                  </Link>
-                </SheetClose>
+                {!IS_PUBLIC_SITE && (
+                  <SheetClose asChild>
+                    <Link
+                      to="/admin"
+                      data-track="menu-area-restrita"
+                      className="mt-3 block py-2 text-center text-sm text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {navigation.restricted}
+                    </Link>
+                  </SheetClose>
+                )}
               </div>
             </SheetContent>
           </Sheet>
@@ -134,9 +137,11 @@ export function SiteFooter() {
             © {new Date().getFullYear()} Aruá. Inovação com harmonia, soluções com propósito.
           </span>
           <nav aria-label="Rodapé" className="flex flex-wrap gap-x-5 gap-y-1">
-            <Link to="/status" className="py-2 hover:text-primary">
-              Status dos sistemas
-            </Link>
+            {!IS_PUBLIC_SITE && (
+              <Link to="/status" className="py-2 hover:text-primary">
+                Status dos sistemas
+              </Link>
+            )}
             <Link to="/suporte" className="py-2 hover:text-primary">
               Suporte
             </Link>

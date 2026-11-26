@@ -5,6 +5,7 @@ import {
   baseProjects,
   contact,
   hero,
+  pains,
   plans,
   process,
   services,
@@ -118,6 +119,20 @@ function Index() {
             </Reveal>
           </div>
         </section>
+
+        {/* PROBLEMAS */}
+        <Section id="problemas" title={pains.title} tone="muted">
+          <RevealList as="ul" className="grid gap-3 sm:grid-cols-2">
+            {pains.items.map((item) => (
+              <RevealItem
+                key={item}
+                className="rounded-2xl border border-border bg-card p-5 text-lg text-primary shadow-soft"
+              >
+                {item}
+              </RevealItem>
+            ))}
+          </RevealList>
+        </Section>
 
         {/* VALORES */}
         <section
