@@ -17,10 +17,15 @@ O site tem **duas formas de publicação**, com objetivos diferentes:
 ## 0. Site público no domínio (Cloudflare)
 
 `aruasolucoes.com.br` (DNS na Cloudflare desde 26/11/2026) recebe a versão **estática** do site, como
-arquivos de um Worker chamado `arua-site`. Não há servidor nem banco: o contato abre o WhatsApp.
+arquivos do Worker `arua-central`. Não há servidor nem banco: o contato abre o WhatsApp.
 
 - Publicar (só com aprovação do responsável): `npm run deploy:site`. Precisa de `wrangler login` na conta
   da Aruá. O comando recria os dados de exemplo, gera o site e envia.
+- A conta que tem o domínio e o Worker **não** é necessariamente a que está logada no computador. Se o
+  deploy disser "Could not find zone", rode `npx wrangler@4.110.0 login` e escolha a conta do domínio.
+- Publicação automática (Workers Builds, no painel do Worker → Settings → Build): comando de build
+  `npm run demo:snapshot && npm run build:site`, comando de deploy
+  `npx wrangler deploy -c deploy/cloudflare/wrangler.jsonc`, variável `NODE_VERSION=22.18`.
 - Gerar sem publicar: `npm run build:site` (saída em `dist/client`).
 - Diferenças para a demonstração: sem aviso de demonstração, sem link para a área restrita e para o status
   (`VITE_ARUA_PUBLIC_SITE=1`); cabeçalhos de segurança em `deploy/cloudflare/_headers`.

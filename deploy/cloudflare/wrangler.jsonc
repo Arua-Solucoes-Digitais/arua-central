@@ -1,7 +1,8 @@
 // Site público da Aruá (aruasolucoes.com.br): só arquivos estáticos, sem servidor e sem banco.
 // Publicar: npm run deploy:site (exige aprovação do responsável).
 {
-  "name": "arua-site",
+  // Mesmo nome do Worker ligado ao repositório no Cloudflare (Workers Builds).
+  "name": "arua-central",
   "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "../../dist/client",
