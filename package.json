@@ -11,6 +11,8 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "build:demo": "VITE_ARUA_STATIC_DEMO=1 vite build",
+    "build:site": "VITE_ARUA_STATIC_DEMO=1 VITE_ARUA_PUBLIC_SITE=1 ARUA_DEMO_BASE=/ vite build && cp dist/client/index.html dist/client/404.html && cp deploy/cloudflare/_headers dist/client/_headers",
+    "deploy:site": "npx -y wrangler@4.110.0 deploy",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -80,7 +82,7 @@
     "tw-animate-css": "^1.3.4",
     "vaul": "^1.1.2",
     "vite-tsconfig-paths": "^6.0.2",
-    "zod": "^3.25.76"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
@@ -100,7 +102,7 @@
     "nitro": "3.0.260603-beta",
     "prettier": "^3.7.3",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.56.1",
+    "typescript-eslint": "^8.74.0",
     "vite": "8.3.5",
     "vitest": "^4.1.10"
   }

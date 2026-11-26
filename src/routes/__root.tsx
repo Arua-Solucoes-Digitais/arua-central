@@ -11,7 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 import { useLocation } from "@tanstack/react-router";
 import { track, installClickTracking } from "../lib/analytics";
-import { DEMO_NOTICE, DEMO_NOTICE_SHORT, IS_STATIC_DEMO } from "../lib/demo-mode";
+import { DEMO_NOTICE, DEMO_NOTICE_SHORT, IS_PUBLIC_SITE, IS_STATIC_DEMO } from "../lib/demo-mode";
 import { withBase } from "../lib/paths";
 import { MotionProvider } from "../components/site/Motion";
 
@@ -115,7 +115,7 @@ function RootShell({ children }: { children: ReactNode }) {
         </noscript>
       </head>
       <body className="font-sans antialiased">
-        {IS_STATIC_DEMO && (
+        {IS_STATIC_DEMO && !IS_PUBLIC_SITE && (
           <p
             role="note"
             className="bg-primary px-4 py-1.5 text-center text-xs text-primary-foreground sm:py-2 sm:text-sm"

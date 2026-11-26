@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#17110d">
+<title>Burger do Bairro — exemplo da Aruá</title>
+<style>
+:root{--bg:#17110d;--card:#241a13;--ink:#fff4e4;--soft:#d8c4a8;--mustard:#ffbe2e;--tomato:#e5482d}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:16px;padding-bottom:16px}
+.logo{font-weight:900;font-size:1.05rem;text-transform:uppercase;letter-spacing:-.01em}
+.logo span{color:var(--mustard)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:12px;font-weight:800;text-decoration:none;background:var(--mustard);color:#1d1304}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid #5a4636}
+a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.hero{display:grid;gap:28px;align-items:center;padding-top:20px;padding-bottom:48px}
+h1{font-size:clamp(2.4rem,9vw,4.6rem);line-height:.98;font-weight:900;text-transform:uppercase;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--mustard)}
+.hero p{color:var(--soft);margin:16px 0 24px;max-width:34ch;font-size:1.1rem}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+.art{width:100%;max-width:380px;margin:0 auto;display:block}
+@media(min-width:820px){.hero{grid-template-columns:1.2fr 1fr;padding-top:48px;padding-bottom:80px}}
+section{padding-top:40px;padding-bottom:40px}
+h2{font-size:clamp(1.6rem,5vw,2.4rem);text-transform:uppercase;font-weight:900;margin-bottom:6px}
+.note{color:var(--soft);font-size:.9rem;margin-bottom:20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));list-style:none;padding:0}
+.item{background:var(--card);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:6px}
+.item p{color:var(--soft);font-size:.93rem;flex:1}
+.price{color:var(--mustard);font-weight:800;font-size:1.15rem}
+.steps{counter-reset:s}
+.steps li{counter-increment:s;background:var(--card);border-radius:16px;padding:18px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--tomato);font-weight:900;margin-bottom:10px}
+.final{background:var(--tomato);border-radius:22px;padding:32px 22px;text-align:center}
+.final p{margin:6px 0 18px}
+footer{color:var(--soft);font-size:.85rem;text-align:center;padding-top:24px}
+.art .float{animation:float 5s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.art .float{animation:none}}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <p class="logo">Burger <span>do Bairro</span></p>
+  <a class="btn" href="../../demonstracoes/tlim/loja" target="_top">Pedir online</a>
+</header>
+<main>
+  <div class="wrap hero">
+    <div>
+      <h1>Lanche de chapa, <em>do bairro</em> para o bairro.</h1>
+      <p>Escolha no cardápio, monte o pedido e receba em casa ou retire no balcão.</p>
+      <div class="actions">
+        <a class="btn" href="../../demonstracoes/tlim/loja" target="_top">Fazer meu pedido</a>
+        <a class="btn ghost" href="#cardapio">Ver cardápio</a>
+      </div>
+    </div>
+    <svg class="art" viewBox="0 0 320 280" role="img" aria-label="Ilustração de um hambúrguer">
+      <g class="float">
+        <path d="M40 112C40 52 94 24 160 24s120 28 120 88z" fill="#e79a35"/>
+        <g fill="#ffe3b0"><ellipse cx="112" cy="62" rx="7" ry="4"/><ellipse cx="168" cy="48" rx="7" ry="4"/><ellipse cx="214" cy="72" rx="7" ry="4"/><ellipse cx="150" cy="86" rx="7" ry="4"/></g>
+        <path d="M30 124q22-16 43 0t43 0 44 0 43 0 43 0 44 0v14H30z" fill="#7fb548"/>
+        <rect x="38" y="138" width="244" height="18" rx="9" fill="#e5482d"/>
+        <path d="M36 158h248l-40 30-24-22H36z" fill="#ffbe2e"/>
+        <rect x="34" y="176" width="252" height="40" rx="20" fill="#5b2f1b"/>
+        <path d="M42 224h236v10c0 18-14 28-34 28H76c-20 0-34-10-34-28z" fill="#d9882c"/>
+      </g>
+    </svg>
+  </div>
+
+  <section id="cardapio" class="wrap">
+    <h2>Os mais pedidos</h2>
+    <p class="note">Cardápio e valores de exemplo.</p>
+    <ul class="grid">
+      <li class="item"><h3>X-Burger</h3><p>Pão, hambúrguer 120 g, queijo, alface e tomate.</p><span class="price">R$ 22,00</span></li>
+      <li class="item"><h3>X-Bacon</h3><p>Pão, hambúrguer 120 g, queijo, bacon crocante e molho da casa.</p><span class="price">R$ 28,00</span></li>
+      <li class="item"><h3>X-Tudo</h3><p>Dois hambúrgueres, ovo, bacon, presunto, queijo, salada e batata palha.</p><span class="price">R$ 34,00</span></li>
+      <li class="item"><h3>Espaguete na chapa · grande</h3><p>A porção grande, para dividir.</p><span class="price">R$ 38,00</span></li>
+    </ul>
+  </section>
+
+  <section class="wrap">
+    <h2>Pedir é rápido</h2>
+    <p class="note">No celular, sem instalar aplicativo.</p>
+    <ol class="grid steps">
+      <li><h3>Escolha</h3><p>Abra o cardápio e coloque os itens no carrinho.</p></li>
+      <li><h3>Confirme</h3><p>Informe seu nome, entrega ou retirada e a forma de pagamento.</p></li>
+      <li><h3>Receba</h3><p>O pedido entra na central do restaurante.</p></li>
+    </ol>
+  </section>
+
+  <section class="wrap">
+    <div class="final">
+      <h2>Bateu a fome?</h2>
+      <p>Experimente fazer um pedido de teste.</p>
+      <a class="btn" href="../../demonstracoes/tlim/loja" target="_top">Abrir cardápio online</a>
+    </div>
+  </section>
+</main>
+<footer class="wrap">Burger do Bairro é um restaurante fictício.<br>Página de exemplo © Aruá Soluções Digitais · desenvolvido por CjotaDEV7</footer>
+<script src="../arua-preview.js" data-business="Burger do Bairro" defer></script>
+</body>
+</html>

@@ -22,6 +22,7 @@ import { Route as SuporteRouteImport } from './routes/suporte'
 import { Route as ApiUploadRouteImport } from './routes/api.upload'
 import { Route as DemonstracoesIndexRouteImport } from './routes/demonstracoes.index'
 import { Route as DemonstracoesClientRouteImport } from './routes/demonstracoes.$client'
+import { Route as ExemplosSlugRouteImport } from './routes/exemplos.$slug'
 import { Route as HospedagensSlugRouteImport } from './routes/hospedagens.$slug'
 import { Route as MediaIdRouteImport } from './routes/media.$id'
 import { Route as ProjetosSlugRouteImport } from './routes/projetos.$slug'
@@ -94,6 +95,11 @@ const DemonstracoesClientRoute = DemonstracoesClientRouteImport.update({
   path: '/demonstracoes/$client',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExemplosSlugRoute = ExemplosSlugRouteImport.update({
+  id: '/exemplos/$slug',
+  path: '/exemplos/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HospedagensSlugRoute = HospedagensSlugRouteImport.update({
   id: '/hospedagens/$slug',
   path: '/hospedagens/$slug',
@@ -139,6 +145,7 @@ export interface FileRoutesByFullPath {
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
   '/demonstracoes/$client': typeof DemonstracoesClientRouteWithChildren
+  '/exemplos/$slug': typeof ExemplosSlugRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/status': typeof StatusRoute
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
+  '/exemplos/$slug': typeof ExemplosSlugRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/suporte': typeof SuporteRoute
   '/api/upload': typeof ApiUploadRoute
   '/demonstracoes/$client': typeof DemonstracoesClientRouteWithChildren
+  '/exemplos/$slug': typeof ExemplosSlugRoute
   '/hospedagens/$slug': typeof HospedagensSlugRoute
   '/media/$id': typeof MediaIdRoute
   '/projetos/$slug': typeof ProjetosSlugRoute
@@ -204,6 +213,7 @@ export interface FileRouteTypes {
     | '/suporte'
     | '/api/upload'
     | '/demonstracoes/$client'
+    | '/exemplos/$slug'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
@@ -224,6 +234,7 @@ export interface FileRouteTypes {
     | '/status'
     | '/suporte'
     | '/api/upload'
+    | '/exemplos/$slug'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/suporte'
     | '/api/upload'
     | '/demonstracoes/$client'
+    | '/exemplos/$slug'
     | '/hospedagens/$slug'
     | '/media/$id'
     | '/projetos/$slug'
@@ -267,6 +279,7 @@ export interface RootRouteChildren {
   SuporteRoute: typeof SuporteRoute
   ApiUploadRoute: typeof ApiUploadRoute
   DemonstracoesClientRoute: typeof DemonstracoesClientRouteWithChildren
+  ExemplosSlugRoute: typeof ExemplosSlugRoute
   HospedagensSlugRoute: typeof HospedagensSlugRoute
   MediaIdRoute: typeof MediaIdRoute
   ProjetosSlugRoute: typeof ProjetosSlugRoute
@@ -366,6 +379,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemonstracoesClientRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/exemplos/$slug': {
+      id: '/exemplos/$slug'
+      path: '/exemplos/$slug'
+      fullPath: '/exemplos/$slug'
+      preLoaderRoute: typeof ExemplosSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hospedagens/$slug': {
       id: '/hospedagens/$slug'
       path: '/hospedagens/$slug'
@@ -439,6 +459,7 @@ const rootRouteChildren: RootRouteChildren = {
   SuporteRoute: SuporteRoute,
   ApiUploadRoute: ApiUploadRoute,
   DemonstracoesClientRoute: DemonstracoesClientRouteWithChildren,
+  ExemplosSlugRoute: ExemplosSlugRoute,
   HospedagensSlugRoute: HospedagensSlugRoute,
   MediaIdRoute: MediaIdRoute,
   ProjetosSlugRoute: ProjetosSlugRoute,

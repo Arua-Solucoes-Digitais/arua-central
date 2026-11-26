@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1e3a2f">
+<title>Pousada Serra Clara — exemplo da Aruá</title>
+<style>
+:root{--forest:#1e3a2f;--sand:#f4eee2;--paper:#fffdf8;--ink:#22302a;--soft:#55655d;--clay:#a4512b;--line:#ded3bf}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--sand);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip}
+h1,h2,h3,.logo{font-family:Georgia,"Times New Roman",serif;font-weight:400}
+.wrap{max-width:1040px;margin:0 auto;padding-left:20px;padding-right:20px}
+.top{background:var(--forest);color:#fff}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:16px;padding-bottom:16px}
+.logo{font-size:1.25rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:999px;border:0;font:600 1rem system-ui,sans-serif;text-decoration:none;background:var(--clay);color:#fff;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e0a43b;outline-offset:2px}
+.intro{padding-top:36px;padding-bottom:20px}
+h1{font-size:clamp(2.3rem,8vw,4.2rem);line-height:1.08;max-width:16ch}
+.intro p{margin:14px 0 22px;max-width:44ch;color:#d9e5dd;font-size:1.1rem}
+.hills{display:block;width:100%;height:auto;margin-bottom:-1px}
+section{padding-top:44px;padding-bottom:20px}
+h2{font-size:clamp(1.7rem,5vw,2.4rem);color:var(--forest);margin-bottom:6px}
+.note{color:var(--soft);margin-bottom:20px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));list-style:none;padding:0}
+.room{background:var(--paper);border:1px solid var(--line);border-radius:140px 140px 18px 18px;padding:46px 22px 24px;text-align:center}
+.room h3{font-size:1.35rem;color:var(--forest)}
+.room p{color:var(--soft)}
+form{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:22px;display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+label{display:grid;gap:5px;font-weight:600;font-size:.9rem}
+input,select{min-height:48px;width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:0 12px;font:1rem system-ui,sans-serif}
+.full{grid-column:1/-1}
+#error{color:#9b2915;font-weight:600}
+#summary{background:var(--sand);border-radius:14px;padding:16px;white-space:pre-line}
+.tags{display:flex;flex-wrap:wrap;gap:10px;list-style:none;padding:0}
+.tags li{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:9px 16px}
+footer{color:var(--soft);font-size:.85rem;text-align:center;padding-top:40px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="top">
+  <header class="wrap">
+    <p class="logo">Pousada Serra Clara</p>
+    <a class="btn" href="#reservar">Reservar</a>
+  </header>
+  <div class="wrap intro">
+    <h1>Dias calmos, com a serra na janela.</h1>
+    <p>Escolha a acomodação, as datas e quantas pessoas vão. O pedido chega completo no WhatsApp.</p>
+    <a class="btn" href="#reservar">Consultar datas</a>
+  </div>
+  <svg class="hills" viewBox="0 0 1200 220" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    <circle cx="930" cy="70" r="38" fill="#f0c36a"/>
+    <path d="M0 220V130L190 55l170 95 190-120 210 140 160-80 280 110v20z" fill="#3d6350"/>
+    <path d="M0 220v-45c180-60 330 10 520-15s280-75 440-30 180 20 240 5v85z" fill="#6f8f6a"/>
+    <path d="M0 220v-18c240-40 420 22 650-4s400-28 550-6v28z" fill="#f4eee2"/>
+  </svg>
+</div>
+<main>
+  <section class="wrap">
+    <h2>Acomodações</h2>
+    <p class="note">Três jeitos de ficar.</p>
+    <ul class="grid">
+      <li class="room"><h3>Suíte Varanda</h3><p>Até 2 pessoas. Varanda com rede e vista para o vale.</p></li>
+      <li class="room"><h3>Chalé da Mata</h3><p>Até 4 pessoas. Chalé reservado, com cozinha pequena.</p></li>
+      <li class="room"><h3>Quarto Família</h3><p>Até 5 pessoas. Perto da área comum e do café da manhã.</p></li>
+    </ul>
+  </section>
+
+  <section id="reservar" class="wrap">
+    <h2>Monte seu pedido de reserva</h2>
+    <p class="note">O pedido não confirma a reserva. A pousada responde com a disponibilidade e o valor.</p>
+    <form id="booking" novalidate>
+      <label>Acomodação
+        <select name="room">
+          <option data-max="2">Suíte Varanda</option>
+          <option data-max="4">Chalé da Mata</option>
+          <option data-max="5">Quarto Família</option>
+        </select>
+      </label>
+      <label>Entrada<input type="date" name="checkin"></label>
+      <label>Saída<input type="date" name="checkout"></label>
+      <label>Hóspedes<input type="number" name="guests" min="1" max="5" value="2" inputmode="numeric"></label>
+      <label class="full">Seu nome<input type="text" name="name" maxlength="60" autocomplete="name"></label>
+      <button class="btn full" type="submit">Ver resumo do pedido</button>
+      <p id="error" class="full" role="alert"></p>
+      <div id="result" class="full" hidden>
+        <p id="summary" role="status"></p>
+        <p style="margin-top:12px"><a id="send" class="btn" target="_blank" rel="noopener noreferrer">Enviar pelo WhatsApp (demonstração)</a></p>
+        <p class="note" style="margin:8px 0 0">Nesta demonstração, a mensagem vai para a Aruá.</p>
+      </div>
+    </form>
+  </section>
+
+  <section class="wrap">
+    <h2>Na pousada</h2>
+    <ul class="tags"><li>Café da manhã</li><li>Piscina natural</li><li>Trilhas curtas</li><li>Fogueira à noite</li><li>Estacionamento</li></ul>
+  </section>
+</main>
+<footer class="wrap">Pousada Serra Clara é uma hospedagem fictícia.<br>Página de exemplo © Aruá Soluções Digitais · desenvolvido por CjotaDEV7</footer>
+<script>
+(function () {
+  "use strict";
+  var form = document.getElementById("booking");
+  var error = document.getElementById("error");
+  var result = document.getElementById("result");
+  var f = form.elements;
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  var now = new Date();
+  f.checkin.min = f.checkout.min = now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-" + pad(now.getDate());
+  function br(iso) { return iso.split("-").reverse().join("/"); }
+
+  form.addEventListener("input", function () { result.hidden = true; error.textContent = ""; });
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var option = f.room.options[f.room.selectedIndex];
+    var guests = Number(f.guests.value);
+    var max = Number(option.getAttribute("data-max"));
+    var name = f.name.value.trim();
+    var problem = "";
+    if (!f.checkin.value || !f.checkout.value) problem = "Escolha as datas de entrada e saída.";
+    else if (f.checkin.value < f.checkin.min) problem = "A entrada não pode ser em uma data que já passou.";
+    else if (f.checkout.value <= f.checkin.value) problem = "A saída precisa ser depois da entrada.";
+    else if (!Number.isInteger(guests) || guests < 1) problem = "Informe quantas pessoas vão.";
+    else if (guests > max) problem = option.value + " recebe até " + max + " pessoas.";
+    else if (!name) problem = "Informe seu nome.";
+    error.textContent = problem;
+    result.hidden = !!problem;
+    if (problem) return;
+    var nights = Math.round((Date.parse(f.checkout.value) - Date.parse(f.checkin.value)) / 86400000);
+    var text = [
+      "Nome: " + name,
+      "Acomodação: " + option.value,
+      "Entrada: " + br(f.checkin.value),
+      "Saída: " + br(f.checkout.value) + " (" + nights + (nights === 1 ? " noite)" : " noites)"),
+      "Hóspedes: " + guests
+    ].join("\n");
+    document.getElementById("summary").textContent = text;
+    document.getElementById("send").href = "https://wa.me/5538999636208?text=" +
+      encodeURIComponent("[Demonstração Aruá] Pedido de reserva na Pousada Serra Clara (fictícia)\n" + text);
+  });
+})();
+</script>
+<script src="../arua-preview.js" data-business="Pousada Serra Clara" defer></script>
+</body>
+</html>

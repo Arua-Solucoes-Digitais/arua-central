@@ -6,7 +6,8 @@
 // Projetos, sistemas no ar e depoimentos vêm do banco (Área restrita), não daqui.
 // =====================================================================
 
-// Valores ainda não divulgados (decisão de 17/11/2026): no lugar de qualquer preço, "Em breve".
+// "Em breve": usado no que ainda não está disponível (produtos e Área do cliente).
+// Os planos têm preço público desde 26/11/2026; fora deles, o site não mostra valores.
 export const COMING_SOON = "Em breve";
 
 export const navigation = {
@@ -43,10 +44,11 @@ export const brand = {
 
 // Contato direto. Campos vazios não aparecem no site.
 export const contactInfo = {
-  whatsapp: "", // A DEFINIR: só números, com DDI e DDD. Exemplo: 5511912345678
+  whatsapp: "5538999636208", // WhatsApp comercial da Aruá (confirmado em 26/11/2026)
   email: "", // A DEFINIR: exemplo contato@arua.com.br
   address: "", // A DEFINIR: cidade/UF ou endereço comercial
-  instagram: "", // A DEFINIR: usuário sem @
+  instagram: "arua.digital", // usuário sem @
+  facebook: "https://www.facebook.com/profile.php?id=61596624517496",
   hours: "", // A DEFINIR: exemplo "Segunda a sexta, das 9h às 18h"
 };
 
@@ -65,11 +67,21 @@ export const values = {
 
 export const hero = {
   eyebrow: "Aruá Soluções Digitais",
-  title: "Sua presença digital completa, do site ao sistema sob medida.",
+  title: "Seu negócio fácil de encontrar e fácil de comprar.",
   subtitle:
-    "Sites, aplicações, social media e produção audiovisual com hospedagem, manutenção e suporte em um só lugar.",
-  primaryCta: "Solicitar orçamento",
-  secondaryCta: "Ver projetos ao vivo",
+    "Sites, catálogos com pedido pelo WhatsApp e redes sociais para o comércio local. Você fala direto com quem desenvolve.",
+  primaryCta: "Falar com a Aruá",
+  secondaryCta: "Ver demonstrações",
+};
+
+export const pains = {
+  title: "Reconhece alguma dessas?",
+  items: [
+    "O cliente pergunta o preço e espera pela resposta.",
+    "O pedido chega pela metade e vira uma conversa longa.",
+    "O perfil fica semanas parado.",
+    "Quem comprou uma vez nunca mais é lembrado.",
+  ],
 };
 
 export type Item = { title: string; description: string };
@@ -149,6 +161,7 @@ export const baseProjects = {
 export type Plan = {
   id: string;
   name: string;
+  setup: string;
   price: string;
   period: string;
   summary: string;
@@ -167,71 +180,63 @@ export const plans: {
   title: "Planos",
   intro:
     "Escolha o tamanho certo para o momento da sua empresa. Você pode mudar de plano quando precisar.", // A CONFERIR: troca de plano a qualquer momento
-  note: "Valores em breve. A criação de site ou aplicação sob medida é orçada à parte.",
+  note: "A implantação é paga uma vez. Verba de anúncios, domínio e integrações são à parte. A quantidade de publicações e de sessões é definida na proposta.",
   more: "Comparar planos",
   cta: "Quero este plano",
-  // A CONFERIR: o que cada plano inclui foi montado a partir dos nomes do mapa mental.
   items: [
     {
-      id: "presenca",
-      name: "Presença Digital",
-      price: COMING_SOON,
-      period: "",
-      summary: "Para estar na internet com um site profissional, seguro e sempre no ar.",
+      id: "essencial",
+      name: "Essencial",
+      setup: "Implantação: R$ 490",
+      price: "R$ 149",
+      period: "/mês",
+      summary: "Para organizar o pedido e estar na internet com um caminho direto para o WhatsApp.",
       includes: [
-        "Site no ar com hospedagem",
-        "Certificado de segurança (SSL) e cópias de segurança",
+        "Página própria com botão de pedido pelo WhatsApp",
+        "Hospedagem com conexão segura (HTTPS)",
         "Atualizações e correções",
-        "Suporte por WhatsApp e e-mail",
+        "Suporte por WhatsApp",
       ],
     },
     {
-      id: "social",
-      name: "Digital + Social",
-      price: COMING_SOON,
-      period: "",
-      summary: "O site mais as redes sociais cuidadas por quem entende.",
-      includes: ["Tudo do Presença Digital", "Gestão das redes sociais", "Produção de conteúdo"],
+      id: "negocio-redes",
+      name: "Negócio + Redes",
+      setup: "Implantação: R$ 690",
+      price: "R$ 649",
+      period: "/mês",
+      summary: "Para quem, além de receber pedidos, precisa aparecer.",
+      includes: [
+        "Tudo do Essencial",
+        "Gestão das redes sociais",
+        "Produção de conteúdo",
+        "Resumo mensal",
+      ],
     },
     {
       id: "profissional",
       name: "Digital Profissional",
-      price: COMING_SOON,
-      period: "",
-      summary: "Conteúdo com fotos e vídeos próprios e relatórios para acompanhar.",
+      setup: "Implantação: sob proposta",
+      price: "R$ 1.149",
+      period: "/mês",
+      summary: "Conteúdo com fotos e vídeos próprios e relatório para acompanhar.",
       includes: [
-        "Tudo do Digital + Social",
+        "Tudo do Negócio + Redes",
         "Fotos e vídeos do seu negócio",
         "Reels e edição",
-        "Relatório mensal de resultados",
-      ],
-    },
-    {
-      id: "performance",
-      name: "Digital Performance",
-      price: COMING_SOON,
-      period: "",
-      summary: "Para crescer com anúncios, métricas e acompanhamento estratégico.",
-      includes: [
-        "Tudo do Digital Profissional",
-        "Gestão de campanhas de anúncios",
-        "Acompanhamento de performance",
-        "Reunião estratégica trimestral",
+        "Relatório mensal",
       ],
     },
   ],
   comparison: {
     title: "Comparativo de planos",
     rows: [
-      { label: "Site no ar com hospedagem e SSL", plans: [true, true, true, true] },
-      { label: "Atualizações, correções e monitoramento", plans: [true, true, true, true] },
-      { label: "Suporte por WhatsApp e e-mail", plans: [true, true, true, true] },
-      { label: "Gestão das redes sociais", plans: [false, true, true, true] },
-      { label: "Produção de conteúdo", plans: [false, true, true, true] },
-      { label: "Fotos, vídeos e reels", plans: [false, false, true, true] },
-      { label: "Relatório mensal de resultados", plans: [false, false, true, true] },
-      { label: "Gestão de campanhas de anúncios", plans: [false, false, false, true] },
-      { label: "Reunião estratégica trimestral", plans: [false, false, false, true] },
+      { label: "Página própria com pedido pelo WhatsApp", plans: [true, true, true] },
+      { label: "Hospedagem, atualizações e correções", plans: [true, true, true] },
+      { label: "Suporte por WhatsApp", plans: [true, true, true] },
+      { label: "Gestão das redes sociais e conteúdo", plans: [false, true, true] },
+      { label: "Resumo mensal", plans: [false, true, true] },
+      { label: "Fotos, vídeos e reels", plans: [false, false, true] },
+      { label: "Relatório mensal", plans: [false, false, true] },
     ],
   },
 };
@@ -239,7 +244,7 @@ export const plans: {
 export const pricing = {
   title: "Modelo comercial",
   intro:
-    "Transparente desde o primeiro contato: um valor para criar e um valor mensal para manter e crescer. Os valores serão divulgados em breve.",
+    "Transparente desde o primeiro contato: um valor para implantar e um valor mensal para manter e crescer.",
   groups: [
     {
       title: "Desenvolvimento inicial",
@@ -247,12 +252,7 @@ export const pricing = {
     },
     {
       title: "Planos mensais",
-      items: [
-        "Presença digital",
-        "Manutenção de sistemas sob medida",
-        "Social media",
-        "Planos completos, com conteúdo próprio e anúncios",
-      ],
+      items: ["Essencial", "Negócio + Redes", "Digital Profissional"],
     },
     {
       title: "Serviços extras (orçados à parte)",
@@ -270,7 +270,19 @@ export const faq: { title: string; items: { q: string; a: string }[] } = {
   items: [
     {
       q: "Quanto tempo leva para meu site ficar pronto?",
-      a: "Em média, de 2 a 4 semanas depois da aprovação da proposta. Sistemas sob medida têm o prazo definido na proposta, conforme o tamanho.",
+      a: "Depende do tamanho do projeto. O prazo vai por escrito na proposta, antes de você aprovar.",
+    },
+    {
+      q: "Emite nota fiscal ou substitui meu caixa?",
+      a: "Não. As soluções cuidam da divulgação e do pedido. Seu sistema fiscal continua o mesmo.",
+    },
+    {
+      q: "Recebe pagamento pelo site?",
+      a: "Hoje não. O pagamento é combinado direto entre você e seu cliente.",
+    },
+    {
+      q: "O Tlim já está disponível?",
+      a: "Ainda não. O que está no site é uma demonstração, com restaurante fictício e dados simulados.",
     },
     {
       q: "O valor do plano inclui a criação do site?",
@@ -282,11 +294,11 @@ export const faq: { title: string; items: { q: string; a: string }[] } = {
     },
     {
       q: "Meus dados e os dos meus clientes ficam seguros?",
-      a: "Sim. Usamos conexão segura (SSL), cópias de segurança e seguimos a Lei Geral de Proteção de Dados (LGPD).",
+      a: "O site usa conexão segura (HTTPS). A proposta informa onde os dados ficam, quem tem acesso e como são feitas as cópias, de acordo com a LGPD.",
     },
     {
       q: "Posso ver um sistema da Aruá funcionando antes de contratar?",
-      a: "Pode. No portfólio há projetos com demonstração ou sistema ao vivo, e a página de status mostra se eles estão no ar.",
+      a: "Pode. No portfólio há demonstrações que você abre no celular, no tablet ou no computador.",
     },
   ],
 };
@@ -344,7 +356,7 @@ export const customApps = {
 export const process: { title: string; intro: string; deadline: string; steps: Item[] } = {
   title: "Processo de implantação",
   intro: "Um caminho simples e transparente, da proposta aprovada ao sistema no ar.",
-  deadline: "Prazo médio para sites: 2 a 4 semanas. Sistemas sob medida têm prazo na proposta.",
+  deadline: "O prazo de cada projeto vai por escrito na proposta.",
   steps: [
     {
       title: "Aprovação da proposta",
@@ -373,12 +385,12 @@ export const technical = {
     {
       icon: "shield",
       title: "Segurança",
-      description: "Conexão segura (SSL), cópias de segurança, acesso restrito e LGPD.",
+      description: "Conexão segura (HTTPS), acesso restrito e cuidado com dados conforme a LGPD.",
     },
     {
       icon: "server",
       title: "Hospedagem",
-      description: "Servidor em nuvem com monitoramento contínuo.",
+      description: "Em nuvem, escolhida conforme o tamanho de cada projeto.",
     },
     {
       icon: "trending",
@@ -477,7 +489,10 @@ export const testimonials = {
 
 export const contact = {
   title: "Contato",
-  intro: "Conte o que você precisa. Respondemos pelo e-mail informado.",
+  intro: "Conte o que você precisa.",
+  whatsappCta: "Enviar pelo WhatsApp",
+  whatsappNote:
+    "O site não guarda esses dados: eles vão na mensagem que você envia pelo WhatsApp. Veja a",
   success: "Mensagem enviada. Obrigado pelo contato!",
   topicLabel: "Assunto",
   topics: {

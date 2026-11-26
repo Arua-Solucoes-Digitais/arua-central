@@ -3,6 +3,8 @@ import { customApps, evolution, process } from "@/content/site";
 import { CheckList, Icon, PageShell, Section } from "@/components/site/Sections";
 import { withBase } from "@/lib/paths";
 
+import { RevealItem, RevealList } from "@/components/site/Motion";
+
 export const Route = createFileRoute("/aplicacoes")({
   head: () => ({
     meta: [
@@ -22,17 +24,20 @@ function CustomAppsPage() {
   return (
     <PageShell title={customApps.title} intro={customApps.intro}>
       <Section id="exemplos" title={customApps.examplesTitle}>
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealList className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {customApps.examples.map((e) => (
-            <li key={e.title} className="rounded-2xl border border-border bg-card p-6 shadow-soft">
+            <RevealItem
+              key={e.title}
+              className="rounded-2xl border border-border bg-card p-6 shadow-soft"
+            >
               <span className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-brand-gradient text-primary-foreground">
                 <Icon name={e.icon} />
               </span>
               <h3 className="font-semibold text-primary">{e.title}</h3>
               <p className="mt-2 text-sm text-muted-foreground">{e.description}</p>
-            </li>
+            </RevealItem>
           ))}
-        </ul>
+        </RevealList>
         <Link
           to="/portfolio"
           data-track="aplicacoes-portfolio"
@@ -54,17 +59,17 @@ function CustomAppsPage() {
       </Section>
 
       <Section id="processo-de-venda" title={customApps.salesTitle}>
-        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealList as="ol" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {customApps.sales.map((s, i) => (
-            <li key={s.title} className="rounded-2xl border border-border bg-card p-5">
+            <RevealItem key={s.title} className="rounded-2xl border border-border bg-card p-5">
               <span className="font-display text-2xl font-bold text-accent">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="mt-2 font-semibold text-primary">{s.title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{s.description}</p>
-            </li>
+            </RevealItem>
           ))}
-        </ol>
+        </RevealList>
       </Section>
 
       <Section

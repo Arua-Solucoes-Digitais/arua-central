@@ -14,6 +14,23 @@ O site tem **duas formas de publicação**, com objetivos diferentes:
 | Custo                  | Grátis                                                              | VPS + domínio (abaixo)                                             |
 | Situação               | Gerada e conferida; **não publicada** (repo privado, ver abaixo)    | Scripts prontos e testados em simulação; **falta contratar a VPS** |
 
+## 0. Site público no domínio (Cloudflare)
+
+`aruasolucoes.com.br` (DNS na Cloudflare desde 26/11/2026) recebe a versão **estática** do site, como
+arquivos do Worker `arua-central`. Não há servidor nem banco: o contato abre o WhatsApp.
+
+- Publicar (só com aprovação do responsável): `npm run deploy:site`. Precisa de `wrangler login` na conta
+  da Aruá. O comando recria os dados de exemplo, gera o site e envia.
+- A conta que tem o domínio e o Worker **não** é necessariamente a que está logada no computador. Se o
+  deploy disser "Could not find zone", rode `npx wrangler@4.110.0 login` e escolha a conta do domínio.
+- Publicação automática (Workers Builds): a configuração é o `wrangler.jsonc` da raiz, que gera o site antes
+  de enviar. A versão do Node vem do `.nvmrc`. Um merge na `main` pode publicar no domínio: **fazer o merge
+  equivale a publicar**. Se a conta do deploy mudar, apague `node_modules/.cache/wrangler/`.
+- Gerar sem publicar: `npm run build:site` (saída em `dist/client`).
+- Diferenças para a demonstração: sem aviso de demonstração, sem link para a área restrita e para o status
+  (`VITE_ARUA_PUBLIC_SITE=1`); cabeçalhos de segurança em `deploy/cloudflare/_headers`.
+- Voltar a uma versão anterior: `npx wrangler@4.110.0 rollback`.
+
 ## 1. Demonstração estática (GitHub Pages)
 
 `npm run build:demo` gera páginas HTML pré-renderizadas em `dist/client/`:

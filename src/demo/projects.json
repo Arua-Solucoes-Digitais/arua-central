@@ -13,12 +13,25 @@
     "sort_order": 10
   },
   {
+    "slug": "arua-site-restaurante",
+    "title": "Aruá Site para restaurantes",
+    "description": "Exemplo de página para restaurante, leve no celular, com cardápio e atalho para o pedido online.",
+    "problem": "O cliente não encontra o cardápio com facilidade e precisa perguntar antes de pedir.",
+    "features": "Cardápio em destaque\nAtalho para o pedido online da demonstração do Tlim\nAdaptada para celular, tablet e computador",
+    "demo_url": "/exemplos/restaurante",
+    "kind": "product",
+    "category": "site",
+    "client": "",
+    "results": "",
+    "sort_order": 20
+  },
+  {
     "slug": "arua-ecommerce",
     "title": "Aruá E-commerce",
     "description": "Loja virtual própria com catálogo, sacola e compra finalizada pelo WhatsApp, e área restrita para o lojista controlar produtos, preços, clientes e vendas. Exemplo: STREET98.",
     "problem": "Vender só por mensagem deixa os pedidos soltos: sem catálogo, sem preço claro, sem registro de quem comprou e sem controle de estoque.",
     "features": "Vitrine responsiva com a identidade visual da marca\nSacola e finalização que envia o pedido pronto no WhatsApp, com número do pedido, itens, cliente, endereço e CEP\nFrete por bairro, sempre combinado com o cliente\nÁrea restrita com CRM simples: produtos, preços, estoque, clientes e vendas\nSugestão de preço de venda a partir do custo do fornecedor",
-    "demo_url": "https://arua-solucoes-digitais.github.io/street98pratas-vitrine-digital/",
+    "demo_url": "https://street98pratas.com.br/",
     "kind": "product",
     "category": "site",
     "client": "",

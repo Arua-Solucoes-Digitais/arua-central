@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { contactInfo } from "@/content/site";
+import { IS_PUBLIC_SITE } from "@/lib/demo-mode";
 import { SiteHeader, SiteFooter } from "@/components/site/SiteHeader";
 
 export const Route = createFileRoute("/privacidade")({
@@ -31,31 +33,74 @@ function Privacy() {
           Esta página explica, de forma simples, como tratamos os dados enviados por este site,
           seguindo a Lei Geral de Proteção de Dados (LGPD).
         </p>
-        <h2 className="text-xl font-semibold text-primary">Formulário de contato</h2>
-        <p>
-          Guardamos nome, e-mail, telefone (se informado) e a mensagem, apenas para responder ao seu
-          contato. Não vendemos nem compartilhamos esses dados.
-        </p>
-        <h2 className="text-xl font-semibold text-primary">Pedidos de reserva</h2>
-        <p>
-          Nas páginas de hospedagem, guardamos nome, telefone, e-mail (se informado), datas,
-          quantidade de pessoas e observações, para o estabelecimento responder ao seu pedido. Ao
-          enviar pelo WhatsApp, a mensagem também passa a seguir as regras daquele serviço. O pedido
-          não confirma a reserva: quem confirma é o estabelecimento.
-        </p>
-        <h2 className="text-xl font-semibold text-primary">Medição de visitas</h2>
-        <p>
-          Contamos visitas e cliques de forma anônima: sem cookies, sem endereço IP e sem
-          identificar você. Registramos apenas a página, o botão clicado e se o acesso foi por
-          celular ou computador. Se o seu navegador pede "não rastrear", nada é registrado.
-        </p>
-        <h2 className="text-xl font-semibold text-primary">Seus direitos</h2>
-        <p>
-          Você pode pedir acesso, correção ou exclusão dos seus dados respondendo ao e-mail que
-          receber da Aruá. (A DEFINIR: e-mail oficial de contato para privacidade.)
-        </p>
+        {IS_PUBLIC_SITE ? (
+          <PublicSiteSections />
+        ) : (
+          <>
+            <h2 className="text-xl font-semibold text-primary">Formulário de contato</h2>
+            <p>
+              Guardamos nome, e-mail, telefone (se informado) e a mensagem, apenas para responder ao
+              seu contato. Não vendemos nem compartilhamos esses dados.
+            </p>
+            <h2 className="text-xl font-semibold text-primary">Pedidos de reserva</h2>
+            <p>
+              Nas páginas de hospedagem, guardamos nome, telefone, e-mail (se informado), datas,
+              quantidade de pessoas e observações, para o estabelecimento responder ao seu pedido.
+              Ao enviar pelo WhatsApp, a mensagem também passa a seguir as regras daquele serviço. O
+              pedido não confirma a reserva: quem confirma é o estabelecimento.
+            </p>
+            <h2 className="text-xl font-semibold text-primary">Medição de visitas</h2>
+            <p>
+              Contamos visitas e cliques de forma anônima: sem cookies, sem endereço IP e sem
+              identificar você. Registramos apenas a página, o botão clicado e se o acesso foi por
+              celular ou computador. Se o seu navegador pede "não rastrear", nada é registrado.
+            </p>
+            <h2 className="text-xl font-semibold text-primary">Seus direitos</h2>
+            <p>
+              Você pode pedir acesso, correção ou exclusão dos seus dados respondendo ao e-mail que
+              receber da Aruá. (A DEFINIR: e-mail oficial de contato para privacidade.)
+            </p>
+          </>
+        )}
       </main>
       <SiteFooter />
+    </>
+  );
+}
+
+const heading = "text-xl font-semibold text-primary";
+
+// Site do domínio: estático, sem formulário que grave dados, sem cookies e sem medição própria.
+function PublicSiteSections() {
+  return (
+    <>
+      <h2 className={heading}>Contato</h2>
+      <p>
+        Este site não guarda o que você digita. Nome e mensagem vão no texto que você mesmo envia
+        pelo WhatsApp, e a conversa passa a seguir as regras daquele serviço. Usamos o que você
+        enviar para responder ao seu contato. Não vendemos esses dados.
+      </p>
+      <h2 className={heading}>Visitas</h2>
+      <p>
+        O site não usa cookies nem faz medição própria de visitas. A hospedagem (Cloudflare) trata
+        dados técnicos de acesso, como o endereço IP, para entregar e proteger as páginas. As fontes
+        do texto são carregadas do Google Fonts.
+      </p>
+      <h2 className={heading}>Demonstrações</h2>
+      <p>As demonstrações usam negócios fictícios e não salvam o que você preenche.</p>
+      <h2 className={heading}>Seus direitos</h2>
+      <p>
+        Para pedir acesso, correção ou exclusão dos seus dados, fale com a Aruá pelo{" "}
+        <a
+          className="text-primary underline"
+          href={`https://wa.me/${contactInfo.whatsapp}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          WhatsApp
+        </a>
+        .
+      </p>
     </>
   );
 }

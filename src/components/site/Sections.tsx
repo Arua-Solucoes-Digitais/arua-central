@@ -9,6 +9,7 @@ import {
   Code2,
   Database,
   ExternalLink,
+  Facebook,
   Instagram,
   Mail,
   MapPin,
@@ -326,7 +327,7 @@ export function TestimonialList({ items }: { items: PublicTestimonial[] }) {
 
 export function PlanCards({ compact = false }: { compact?: boolean }) {
   return (
-    <SwipeRow label={plans.title} desktop="md:grid-cols-2 lg:grid-cols-4">
+    <SwipeRow label={plans.title} desktop="md:grid-cols-3">
       {plans.items.map((plan) => (
         <SwipeItem
           key={plan.id}
@@ -337,6 +338,7 @@ export function PlanCards({ compact = false }: { compact?: boolean }) {
             <span className="font-display text-3xl font-bold text-primary">{plan.price}</span>
             <span className="text-muted-foreground">{plan.period}</span>
           </p>
+          <p className="mt-1 text-sm font-medium text-primary">{plan.setup}</p>
           <p className="mt-3 text-sm text-muted-foreground">{plan.summary}</p>
           {!compact && (
             <ul className="mt-4 flex-1 space-y-2 text-sm">
@@ -435,6 +437,12 @@ export function ContactDetails() {
       label: "Instagram",
       href: instagram,
       text: `@${contactInfo.instagram.replace(/^@/, "")}`,
+    },
+    contactInfo.facebook && {
+      icon: Facebook,
+      label: "Facebook",
+      href: contactInfo.facebook,
+      text: "Aruá no Facebook",
     },
     contactInfo.address && { icon: MapPin, label: "Endereço", href: "", text: contactInfo.address },
   ].filter(Boolean) as { icon: typeof Mail; label: string; href: string; text: string }[];
