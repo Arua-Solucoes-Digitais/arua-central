@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Reveal, RevealItem, RevealList } from "@/components/site/Motion";
 import { Check, Minus } from "lucide-react";
 import { faq, plans, pricing } from "@/content/site";
 import { FaqList, PageShell, PlanCards, Section } from "@/components/site/Sections";
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/planos")({
       {
         name: "description",
         content:
-          "Planos mensais de presença digital, social media, produção audiovisual e performance. Valores em breve.",
+          "Planos Essencial, Negócio + Redes e Digital Profissional, com valores de implantação e mensalidade.",
       },
       { property: "og:title", content: "Planos — Aruá" },
     ],
@@ -29,7 +30,7 @@ function PlansPage() {
       </section>
 
       <Section id="comparativo" title={plans.comparison.title} tone="muted">
-        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+        <Reveal className="overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[640px] text-sm">
             <caption className="sr-only">{plans.comparison.title}</caption>
             <thead>
@@ -45,6 +46,8 @@ function PlansPage() {
                       {p.price}
                       {p.period}
                     </span>
+                    <br />
+                    <span className="text-xs font-normal text-muted-foreground">{p.setup}</span>
                   </th>
                 ))}
               </tr>
@@ -71,22 +74,26 @@ function PlansPage() {
               ))}
             </tbody>
           </table>
-        </div>
+        </Reveal>
       </Section>
 
       <Section id="modelo-comercial" title={pricing.title} intro={pricing.intro}>
-        <div className="grid gap-6 md:grid-cols-3">
+        <RevealList as="div" className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {pricing.groups.map((g) => (
-            <div key={g.title} className="rounded-2xl border border-border bg-card p-6">
+            <RevealItem
+              as="div"
+              key={g.title}
+              className="rounded-2xl border border-border bg-card p-6"
+            >
               <h3 className="text-lg font-semibold text-primary">{g.title}</h3>
               <ul className="mt-3 list-disc space-y-2 pl-5 text-muted-foreground">
                 {g.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealList>
       </Section>
 
       <Section id="faq" title={faq.title} tone="muted">

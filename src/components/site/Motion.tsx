@@ -82,14 +82,16 @@ export function RevealItem({
   as = "li",
   children,
   className,
+  id,
 }: {
   as?: "li" | "div";
   children: ReactNode;
   className?: string;
+  id?: string;
 }) {
   const Tag = as === "div" ? m.div : m.li;
   return (
-    <Tag data-reveal className={className} variants={rise}>
+    <Tag data-reveal id={id} className={className} variants={rise}>
       {children}
     </Tag>
   );
