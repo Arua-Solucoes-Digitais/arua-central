@@ -10,6 +10,9 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { WhatsappContact, whatsappContactUrl } from "./ContactForm";
 
+// O formulário com servidor não é testado aqui; sem isto o teste carregaria o banco (node:sqlite).
+vi.mock("@/lib/api", () => ({ sendContactMessage: vi.fn() }));
+
 afterEach(() => {
   cleanup();
   vi.restoreAllMocks();
