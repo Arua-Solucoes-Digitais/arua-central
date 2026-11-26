@@ -26,6 +26,14 @@ arquivos do Worker `arua-central`. Não há servidor nem banco: o contato abre o
 - Publicação automática (Workers Builds): a configuração é o `wrangler.jsonc` da raiz, que gera o site antes
   de enviar. A versão do Node vem do `.nvmrc`. Um merge na `main` pode publicar no domínio: **fazer o merge
   equivale a publicar**. Se a conta do deploy mudar, apague `node_modules/.cache/wrangler/`.
+- **Contatos do site:** o build precisa de `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY`. No
+  computador, no `.env.local` (fora do Git). Na publicação automática, em Worker → Settings → Build →
+  *Variables and secrets*. **Sem elas o site sai sem a opção de guardar o contato** (o WhatsApp continua).
+  Nunca use a chave secreta (`sb_secret_…` ou `service_role`).
+- **Ver os contatos:** painel do Supabase → Table Editor → `contact_requests` (coluna `status` para
+  acompanhar). Para excluir os dados de alguém que pediu, apague a linha.
+- Limites contra spam: 3 por telefone e 30 no total por hora, 150 por dia. Quem enviar muitos pedidos falsos
+  pode esgotar o limite geral por um tempo; o WhatsApp não é afetado.
 - Gerar sem publicar: `npm run build:site` (saída em `dist/client`).
 - Diferenças para a demonstração: sem aviso de demonstração, sem link para a área restrita e para o status
   (`VITE_ARUA_PUBLIC_SITE=1`); cabeçalhos de segurança em `deploy/cloudflare/_headers`.
