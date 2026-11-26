@@ -104,10 +104,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const HTTPS_REDIRECT =
+  'if(location.protocol==="http:"&&/(^|\\.)aruasolucoes\\.com\\.br$/.test(location.hostname))location.replace("https:"+location.href.slice(5))';
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
       <head>
+        {/* Reforço no site do domínio: quem chega por http:// vai para https://. O certo é também
+            ligar "Always Use HTTPS" na Cloudflare, que redireciona antes de a página sair do servidor. */}
+        {IS_PUBLIC_SITE && <script dangerouslySetInnerHTML={{ __html: HTTPS_REDIRECT }} />}
         <HeadContent />
         {/* Sem JavaScript, nada fica escondido esperando a animação. */}
         <noscript>
