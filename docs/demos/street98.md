@@ -1,20 +1,22 @@
 # STREET98 — exemplo do produto Aruá E-commerce
 
-No portfólio, o produto **Aruá E-commerce** usa a loja da STREET98 (prata 925) como exemplo.
+No portfólio, o produto **Aruá E-commerce** abre uma **demonstração** da vitrine da STREET98.
 
 | Item | Situação |
 |---|---|
-| Cliente | STREET98 (Instagram @street_98pratas) |
+| Cliente | STREET98 (prata 925) |
 | Desenvolvimento | Aruá Soluções Digitais |
-| Autorização | Em 26/11/2026 o responsável da Aruá informou que o cliente autorizou o link da loja no portfólio. **Guardar o comprovante por escrito e anotar aqui onde está** |
-| Endereço no card | https://street98pratas.com.br/ (loja real do cliente, abre em nova aba) |
-| Código | Repositório privado `Arua-Solucoes-Digitais/street98pratas-vitrine-digital` |
+| Autorização | Em 26/11/2026 o responsável da Aruá informou que o cliente autorizou o uso no portfólio. **Guardar o comprovante por escrito e anotar aqui onde está** |
+| Endereço no card | https://arua-street98-demo.aruasolucoes.workers.dev/ (abre em nova aba) |
+| Como é gerada | Repositório privado `street98pratas-vitrine-digital`, `npm run deploy:demo` (ver `docs/DEMO.md` lá) |
 
-## Atenção
+## A demonstração
 
-- O link leva à **loja de verdade**: o WhatsApp é o do cliente e um pedido feito ali chega a ele. Em
-  apresentações, não envie pedidos de teste.
-- A loja não leva a faixa "Modo demonstração" nem o botão "Voltar à Aruá".
-- O endereço antigo no GitHub Pages saiu do ar quando o repositório virou privado.
-- Se a autorização for retirada: tirar o link no `/admin`, rodar `npm run demo:export-projects` e
-  `npm run demo:snapshot`, e publicar o site.
+- Selo "Demonstração STREET98 · feita por Aruá" e botão **Voltar à Aruá** na vitrine.
+- Produtos e preços de exemplo. Os contatos da loja não entram no código; WhatsApp e Instagram são os da Aruá.
+- Não há pedido real, pagamento, banco, consulta de CEP nem frete; o navegador bloqueia conexões com outros sites.
+- O JavaScript é ofuscado. Isso dificulta a cópia, mas **não é criptografia**.
+- Não se atualiza sozinha: depois de mudar a vitrine, publicar de novo.
+
+Se a autorização for retirada: tirar o link no `/admin`, rodar `npm run demo:export-projects` e
+`npm run demo:snapshot`, publicar o site e apagar o Worker `arua-street98-demo`.
